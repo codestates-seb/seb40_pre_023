@@ -3,6 +3,7 @@ package com.seb40pre023.domain.answer.entity;
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.vote.entity.Vote;
+import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,11 +19,10 @@ import java.util.List;
 @Getter
 @Setter
 //@Entity
-public class Answer {
+public class Answer extends BaseTime {
     private long answerId;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+}
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private long answerId;
@@ -49,5 +49,3 @@ public class Answer {
 //
 //    @OneToMany(mappedBy = "member")
 //    private List<Vote> votes = new ArrayList<>();
-
-}
