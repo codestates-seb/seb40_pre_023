@@ -49,5 +49,3 @@ public class Answer extends BaseTime {
 //
 //    @OneToMany(mappedBy = "member")
 //    private List<Vote> votes = new ArrayList<>();
-
-}
