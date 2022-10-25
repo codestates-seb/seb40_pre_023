@@ -9,8 +9,8 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      {/* <Header />
-      <Footer /> */}
+      <Header />
+      <Footer />
       <button onClick={() => setCount(count + 1)}>누르면 Recoil 증가</button>
       <button onClick={() => setCount(count - 1)}>누르면 Recoil 감소</button>
     </>
