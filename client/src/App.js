@@ -1,8 +1,12 @@
 import GlobalStyle from './styles/GlobalStyle';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import Main from './pages/Main';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import recoilCounterState from './states/recoilCounterState';
 import recoilDataState from './states/recoilDataState';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getData } from './api/api';
 import { useEffect } from "react";
@@ -21,11 +25,18 @@ function App() {
 
   return (
     <>
-      <GlobalStyle />
-      <Header />
-      <Footer />
-      <button onClick={() => setCount(count + 1)}>누르면 Recoil 증가</button>
-      <button onClick={() => setCount(count - 1)}>누르면 Recoil 감소</button>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Header />
+        <Link to="/members/login">gogo</Link>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/members/login" element={<Login />} />
+          <Route path="/members/signup" element={<Signup />} />
+        </Routes>
+
+        <Footer />
+      </BrowserRouter>
     </>
   );
 }
