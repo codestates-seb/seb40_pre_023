@@ -22,7 +22,7 @@ import java.util.List;
 public class Answer extends BaseTime {
     private long answerId;
     private String content;
-
+}
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private long answerId;
