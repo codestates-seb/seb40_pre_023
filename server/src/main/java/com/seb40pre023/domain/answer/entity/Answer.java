@@ -4,6 +4,7 @@ import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.vote.entity.Vote;
 import com.seb40pre023.global.common.auditing.BaseTime;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 //@Entity
