@@ -42,6 +42,7 @@ public class MemberController {
 
     @GetMapping("/members/login")
     public ResponseEntity loginMember() {
+
         Member member = new Member(1L, "kkkk2@gmail.com", "kkkk2");
 
         return new ResponseEntity<>("success login", HttpStatus.OK);
@@ -50,8 +51,8 @@ public class MemberController {
 
     @GetMapping("/members/logout")
     public ResponseEntity logoutMember() {
-        Member member = new Member(1L, "kkkk2@gmail.com","kkkk2");
 
+        Member member = new Member(1L, "kkkk2@gmail.com","kkkk2");
 
         return new ResponseEntity<>("success logout", HttpStatus.NO_CONTENT);
     }
