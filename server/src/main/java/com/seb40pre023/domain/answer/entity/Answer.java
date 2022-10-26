@@ -1,21 +1,13 @@
 package com.seb40pre023.domain.answer.entity;
 
-import com.seb40pre023.domain.member.entity.Member;
-import com.seb40pre023.domain.question.entity.Question;
-import com.seb40pre023.domain.vote.entity.Vote;
 import com.seb40pre023.global.common.auditing.BaseTime;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 //@Entity

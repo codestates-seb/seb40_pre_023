@@ -18,23 +18,30 @@ import static com.seb40pre023.domain.member.entity.Member.Roles.MEMBER_NOT_FOUND
 public class MemberController {
     @PostMapping("/members/signup")
     public ResponseEntity postMember() {
-        Member member = new Member("kkkk@gmail.com", "123", "kkkk");
+        Member member = new Member("kkkk@gmail.com", "kkkk");
 
         return new ResponseEntity<>(member, HttpStatus.CREATED);
     }
 
+    // 메서드 역할
     @PatchMapping("/members/edit/{memberId}")
     public ResponseEntity patchMember(@PathVariable Long memberId) {
-        Member member = new Member("kkkk1@gmail.com", "1234", "kkkk1");
+
+        Member member = new Member(memberId, "kk@gmail.com", "kk", "hello, my name is kk", "img");
 
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
 
+    @GetMapping("/members/{memberId}")
+    public ResponseEntity getMember(@PathVariable Long memberId) {
+        Member member = new Member(memberId, "kk@gmail.com", "kk", "hello, my name is kk", "img");
+
+        return new ResponseEntity(member, HttpStatus.OK);
+    }
+
     @GetMapping("/members/login")
     public ResponseEntity loginMember() {
-        Member member = new Member("kkkk2@gmail.com", "12345", "kkkk2");
-
-        member.setRoles(MEMBER_ADMIN);
+        Member member = new Member("kkkk2@gmail.com", "kkkk2");
 
         return new ResponseEntity<>("success login", HttpStatus.OK);
 
@@ -42,9 +49,8 @@ public class MemberController {
 
     @GetMapping("/members/logout")
     public ResponseEntity logoutMember() {
-        Member member = new Member("kkkk2@gmail.com", "12345", "kkkk2");
+        Member member = new Member("kkkk2@gmail.com","kkkk2");
 
-        member.setRoles(MEMBER_NOT_FOUND);
 
         return new ResponseEntity<>("success logout", HttpStatus.NO_CONTENT);
     }
