@@ -21,6 +21,7 @@ public class QuestionController {
     @PostMapping("/questions/ask")
     public ResponseEntity postQuestion(@RequestBody PostQuestionDto postQuestionDto) {
 
+        Question question = postQuestionDto.toQuestion();
 
         return new ResponseEntity<>(question, HttpStatus.CREATED);
     }

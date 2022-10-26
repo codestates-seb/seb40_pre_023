@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class Question extends BaseTime {
     @Id
     @GeneratedValue
@@ -28,6 +29,10 @@ public class Question extends BaseTime {
     private String title;
     private String content;
     private String status;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<Answer> answerList;
-    private List<Tag> tags;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+    private List<QuestionTag> tags;
 }
