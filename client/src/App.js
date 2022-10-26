@@ -4,6 +4,7 @@ import Footer from './components/Footer/Footer';
 import Main from './pages/Main';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup';
+import NotFound from './pages/NotFound/NotFound';
 import recoilCounterState from './states/recoilCounterState';
 import recoilDataState from './states/recoilDataState';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
@@ -32,8 +33,8 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/members/login" element={<Login />} />
           <Route path="/members/signup" element={<Signup />} />
+          <Route path="*" element={<NotFound/>} />
         </Routes>
-
         <Footer />
       </BrowserRouter>
     </>
