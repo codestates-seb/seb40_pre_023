@@ -65,7 +65,7 @@ export const MobileMenuBtn = styled.div`
     }
 `
 
-export const Logo = styled.a`
+export const Logo = styled.div`
     display: inline-flex;
     align-items: center;
     height: 100%;
