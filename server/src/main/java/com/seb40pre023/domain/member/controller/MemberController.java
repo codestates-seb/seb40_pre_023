@@ -13,12 +13,13 @@ import static com.seb40pre023.domain.member.entity.Member.Roles.MEMBER_NOT_FOUND
 
 
 @RestController
+@CrossOrigin
 @Validated
 @Slf4j
 public class MemberController {
     @PostMapping("/members/signup")
     public ResponseEntity postMember() {
-        Member member = new Member("kkkk@gmail.com", "kkkk");
+        Member member = new Member(1L, "kkkk@gmail.com", "kkkk");
 
         return new ResponseEntity<>(member, HttpStatus.CREATED);
     }
@@ -41,7 +42,7 @@ public class MemberController {
 
     @GetMapping("/members/login")
     public ResponseEntity loginMember() {
-        Member member = new Member("kkkk2@gmail.com", "kkkk2");
+        Member member = new Member(1L, "kkkk2@gmail.com", "kkkk2");
 
         return new ResponseEntity<>("success login", HttpStatus.OK);
 
@@ -49,7 +50,7 @@ public class MemberController {
 
     @GetMapping("/members/logout")
     public ResponseEntity logoutMember() {
-        Member member = new Member("kkkk2@gmail.com","kkkk2");
+        Member member = new Member(1L, "kkkk2@gmail.com","kkkk2");
 
 
         return new ResponseEntity<>("success logout", HttpStatus.NO_CONTENT);
