@@ -23,7 +23,6 @@ const Header = () => {
   })
 
   useEffect(() => {
-    console.log(needSidebar)
     if(location.pathname === '/members/login'||
       location.pathname === '/members/signup'){
       setNeedSidebar(false)
