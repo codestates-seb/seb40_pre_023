@@ -26,6 +26,7 @@ BE|[김아리](https://github.com/lielocks), [박민우](https://github.com/paqu
 * [노션 페이지](https://www.notion.so/Pre-Project-3d380dd015e54a7b8ce2a30d03a9af27?p=871197baab2c4951a8456c87a0aed09e&pm=c)
 * [사용자요구사항정의서](https://docs.google.com/spreadsheets/d/1mGzlctagpQ1Y2T-EpAflq0wy2ADPD5odPYtfYGk8GIw/edit?usp=sharing)
 * [API 명세서](https://www.notion.so/Pre-Project-3d380dd015e54a7b8ce2a30d03a9af27?p=32552331f46945a388a9767630add332&pm=s)
+* [Github Convention](https://github.com/codestates-seb/seb40_pre_023/discussions/1)
 
 <br/>
 
