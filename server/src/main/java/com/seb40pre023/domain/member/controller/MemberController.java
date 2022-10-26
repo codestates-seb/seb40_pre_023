@@ -23,9 +23,11 @@ public class MemberController {
         return new ResponseEntity<>(member, HttpStatus.CREATED);
     }
 
+    // 메서드 역할
     @PatchMapping("/members/edit/{memberId}")
     public ResponseEntity patchMember(@PathVariable Long memberId) {
-        Member member = new Member("kkkk1@gmail.com", "kkkk1");
+
+        Member member = new Member(memberId, "kk@gmail.com", "kk", "hello, my name is kk", "img");
 
         return new ResponseEntity<>(member, HttpStatus.OK);
     }

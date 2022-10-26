@@ -16,20 +16,20 @@ import java.util.Map;
 @RequestMapping("/answers")
 public class AnswerController {
     @PostMapping
-    public ResponseEntity postAnswer(@RequestBody String content) {
+    public ResponseEntity postAnswer(@RequestBody Answer answer) {
 
-        Answer answer = new Answer(1L, content);
+        Answer answer1 = new Answer(1L, answer.getContent());
 
-        return new ResponseEntity<>(answer, HttpStatus.CREATED);
+        return new ResponseEntity<>(answer1, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{answerId}/edit")
     public ResponseEntity patchAnswer(@PathVariable Long answerId,
-                                      @RequestBody String content) {
+                                      @RequestBody Answer answer) {
 
-        Answer answer = new Answer(answerId, content);
+        Answer ans = new Answer(answerId, answer.getContent());
 
-        return new ResponseEntity<>(answer, HttpStatus.OK);
+        return new ResponseEntity<>(ans, HttpStatus.OK);
     }
 
     @GetMapping("/{answerId}")
