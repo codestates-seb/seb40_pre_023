@@ -251,11 +251,20 @@ export const SideMenu = styled.div`
     box-shadow: 0 1px 2px hsla(0,0%,0%,0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05), 0 2px 8px hsla(0, 0%, 0%, 0.05);
     padding-top: 60px;
     padding-bottom: 10px;
+    background-color: #fff;
 
     @media screen and (min-width: 641px) {
         display: block;
         width: 164px;
         height: 100vh;
+    }
+
+    &.remove{
+        @media screen and (min-width: 641px) {
+            display: none !important;
+            width: 164px;
+            height: 100vh;
+        }
     }
 
     p{
