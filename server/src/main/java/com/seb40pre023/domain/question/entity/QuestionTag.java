@@ -2,6 +2,7 @@ package com.seb40pre023.domain.question.entity;
 
 import com.seb40pre023.domain.tag.entity.Tag;
 import com.seb40pre023.global.common.auditing.BaseTime;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class QuestionTag extends BaseTime {
 
     @Id @GeneratedValue
@@ -28,6 +30,6 @@ public class QuestionTag extends BaseTime {
         this.question = question;
         this.tag = tag;
 
-        question.getTags().add(this);
+        question.getTagList().add(this);
     }
 }

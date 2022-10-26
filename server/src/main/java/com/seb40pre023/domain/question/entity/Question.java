@@ -34,5 +34,5 @@ public class Question extends BaseTime {
     private List<Answer> answerList;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
-    private List<QuestionTag> tags;
+    private List<QuestionTag> tagList;
 }
