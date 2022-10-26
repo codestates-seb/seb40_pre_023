@@ -1,6 +1,5 @@
 package com.seb40pre023.domain.question.dto;
 
-import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.tag.entity.Tag;
 import com.seb40pre023.global.common.auditing.BaseTime;
@@ -15,7 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResQuestion extends BaseTime{
+public class QuestionRes extends BaseTime{
 
     private Long questionId;
     private Member member;

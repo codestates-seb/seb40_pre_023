@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -16,8 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Question extends BaseTime {
+    @Id
+    @GeneratedValue
     private Long questionId;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
+
     private String title;
     private String content;
     private String status;
