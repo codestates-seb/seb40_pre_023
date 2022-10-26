@@ -14,8 +14,9 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTime {
     @CreatedDate // 객체 생성 시간
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @LastModifiedDate // 객체 수정될 때마다 시간 갱신
-    private LocalDateTime modifiedAt;
+    private LocalDateTime modifiedAt = LocalDateTime.now();
 }
+
