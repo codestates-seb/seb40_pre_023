@@ -65,6 +65,7 @@ export const QTitle = styled.h2`
   line-height: 18px;
   font-weight: 500;
   letter-spacing: 0.4px;
+  cursor: pointer;
 
   color: #0075cc;
   &:hover {
