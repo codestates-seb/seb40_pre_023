@@ -15,6 +15,8 @@ import {
   QRightDetail,
 } from './style';
 import { displayCreatedAt } from '../../utils/displayCreatedAt';
+import { Link } from 'react-router-dom';
+
 const QuestionList = () => {
   const data = [
     {
@@ -92,7 +94,9 @@ const QuestionList = () => {
             <p>{item.views ? item.views : 0} views</p>
           </QHead>
           <QRightDetail key={item.questionId}>
-            <QTitle>{item.title}</QTitle>
+            <Link to={`/questions/${item.questionId}`}>
+              <QTitle>{item.title}</QTitle>
+            </Link>
             <QContent>{item.content}</QContent>
             <QUser>
               <QTagList>
