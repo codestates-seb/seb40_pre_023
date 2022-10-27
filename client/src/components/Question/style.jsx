@@ -2,10 +2,9 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   box-sizing: border-box;
-  padding-top: 60px;
-  padding-left: 180px;
+  padding-top: 10px;
   display: flex;
-  background-color: grey;
+
   width: 100%;
   height: 1000px;
 `;

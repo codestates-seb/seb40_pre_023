@@ -5,6 +5,7 @@ import PageContainer from '../components/PageContainer/PageContainer';
 import Aside from '../components/Aside/Aside';
 import Rside from '../components/Rside/Rside';
 import LayoutContainer from '../components/LayoutContainer/LayoutContainer';
+import QuestionList from '../components/Question/QuestionList';
 
 const Main = () => {
   return (
@@ -14,7 +15,7 @@ const Main = () => {
           <main>
             <PageTitle title="All Questions" />
             <Filter></Filter>
-            {/* 경준님 여기서 부터 */}
+            <QuestionList />
           </main>
           <Aside>
             <Rside />
