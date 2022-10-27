@@ -3,6 +3,7 @@ import Filter from '../components/Filter/Filter';
 import PageTitle from '../components/PageTitle/PageTitle';
 import PageContainer from '../components/PageContainer/PageContainer';
 import Aside from '../components/Aside/Aside';
+import Rside from '../components/Rside/Rside';
 import LayoutContainer from '../components/LayoutContainer/LayoutContainer';
 
 const Main = () => {
@@ -16,7 +17,7 @@ const Main = () => {
             {/* 경준님 여기서 부터 */}
           </main>
           <Aside>
-            aside
+            <Rside />
             {/* 다혜님 여기서 부터 */}
           </Aside>
         </PageContainer>
