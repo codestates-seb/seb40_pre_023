@@ -13,6 +13,7 @@ import {
   SignUpContainer,
   UserInputContainer,
 } from './style';
+import Rside from '../../components/Rside/Rside';
 
 const Signup = () => {
   return (
@@ -78,6 +79,7 @@ const Signup = () => {
           </div>
         </Footer2>
       </SignUpContainer>
+      <Rside />
     </Container>
   );
 };
