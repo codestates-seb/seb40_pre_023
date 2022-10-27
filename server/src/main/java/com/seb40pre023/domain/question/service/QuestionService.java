@@ -1,6 +1,8 @@
 package com.seb40pre023.domain.question.service;
 
 import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.domain.member.repository.MemberRepository;
+import com.seb40pre023.domain.member.service.MemberService;
 import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +15,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final MemberService memberService;
 
     // 질문 생성
-    public Question createQuestion(Question question) {
+    public Question createQuestion(Long memberId, Question question) {
 
-//        Member member = memberRepository.findById(memberId);
-//        question.setMember(member);
+        Member member = memberService.findVerifiedMember(memberId);
+        question.setMember(member);
 
         return questionRepository.save(question);
     }

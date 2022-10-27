@@ -24,11 +24,12 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
 
-    @PostMapping("/questions/ask")
-    public ResponseEntity postQuestion(@RequestBody PostQuestionDto postQuestionDto) {
+    @PostMapping("/questions/ask/{memberId}")
+    public ResponseEntity postQuestion(@PathVariable Long memberId,
+            @RequestBody PostQuestionDto postQuestionDto) {
 
         Question question = postQuestionDto.toQuestion();
-        Question response = questionService.createQuestion(question);
+        Question response = questionService.createQuestion(memberId, question);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
