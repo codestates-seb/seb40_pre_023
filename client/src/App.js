@@ -5,6 +5,7 @@ import Main from './pages/Main';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import NotFound from './pages/NotFound/NotFound';
+import QuestionList from './components/Question/QuestionList';
 import recoilCounterState from './states/recoilCounterState';
 import recoilDataState from './states/recoilDataState';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
@@ -31,6 +32,7 @@ function App() {
         {/* <Link to="/members/login">gogo</Link> */}
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/main" element={<QuestionList />} />
           <Route path="/members/login" element={<Login />} />
           <Route path="/members/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
