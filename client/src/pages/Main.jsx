@@ -13,7 +13,7 @@ const Main = () => {
       <LayoutContainer>
         <PageContainer>
           <main>
-            <PageTitle title="All Questions" />
+            <PageTitle title="All Questions" button="Ask Question" />
             <Filter></Filter>
             <QuestionList />
           </main>

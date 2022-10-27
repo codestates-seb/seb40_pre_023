@@ -1,53 +1,44 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  box-sizing: border-box;
-  padding-top: 10px;
-  display: flex;
-
-  width: 100%;
-  height: 1000px;
-`;
-
 export const QList = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 750px;
-  height: 1000px;
-  justify-content: baseline;
+  width: 100%;
 `;
 
-export const QRightDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  word-break: break-all;
-`;
-export const QDetail = styled.ul`
+export const QRightDetail = styled.div``;
+
+export const QDetail = styled.div`
+  padding: 16px;
   box-sizing: border-box;
-  display: flex;
-  padding: 0.5em;
-  padding-top: 0.5em;
   background-color: white;
   border-bottom: 1px solid #e3e6e8;
-  width: 750px;
   overflow: hidden;
   height: auto;
+  @media screen and (min-width: 981px) {
+    display: flex;
+  }
 `;
 
 export const QHead = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-top: 0.4em;
-  padding-bottom: 0.3em;
-  padding-right: 0.6em;
-  min-width: 110px;
+  @media screen and (min-width: 981px) {
+    display: flex;
+    flex-direction: column;
+    min-width: 110px;
+    box-sizing: border-box;
+    width: 108px;
+    gap: 8px;
+    padding-right: 16px;
+  }
+
   > p {
+    display: inline-block;
     color: #2a4255;
     font-size: 0.8em;
-    margin-left: auto;
-    padding: 0.3em 0.5em 0.7em 0.5em;
+    margin-right: 6px;
+
+    @media screen and (min-width: 981px) {
+      margin-right: 0;
+      margin-left: auto;
+    }
   }
   > p:first-child {
     color: #000000;
@@ -55,44 +46,53 @@ export const QHead = styled.div`
 `;
 
 export const QUser = styled.div`
-  width: 100%;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `;
 
 export const QTitle = styled.h2`
-  font-size: 1.1em;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  line-height: 1.3em;
-  padding-top: 0.3em;
-  margin-bottom: 0.3em;
+  word-wrap: break-word;
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  margin-bottom: 4.2px;
+  font-size: 14.4px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
 
   color: #0075cc;
   &:hover {
     color: #0a95ff;
   }
+
+  @media screen and (min-width: 641px) {
+    font-size: 17px;
+    line-height: 22px;
+  }
 `;
+
 export const QContent = styled.p`
-  box-sizing: border-box;
-  width: 590px;
-  height: 30px;
+  word-wrap: break-word;
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  font-size: 0.9em;
+  font-size: 11px;
   color: #3b4045;
   letter-spacing: 0.4px;
-  line-height: 1.1em;
+  line-height: 16px;
+
+  @media screen and (min-width: 641px) {
+    font-size: 11px;
+  }
 `;
 export const Avatar = styled.div`
   box-sizing: border-box;
@@ -132,12 +132,14 @@ export const Nickname = styled.p`
     color: #0a95ff;
   }
 `;
+
 export const QTagList = styled.div`
   display: flex;
   box-sizing: border-box;
   margin-top: 0.4em;
   margin-bottom: auto;
 `;
+
 export const QTag = styled.div`
   box-sizing: border-box;
   padding: 0.4em;
@@ -150,6 +152,7 @@ export const QTag = styled.div`
   font-size: 13px;
   border-radius: 5px;
   height: 23px;
+  cursor: pointer;
   &:hover {
     background-color: #d0e3f1;
   }

@@ -1,7 +1,20 @@
 import React from 'react';
-import { Title } from './style';
-const PageTitle = ({ title }) => {
-  return <Title>{title}</Title>;
+import { Header, Button } from './style';
+import { Link } from 'react-router-dom';
+
+const PageTitle = ({ title, button }) => {
+  return (
+    <Header>
+      {title}
+      {button ? (
+        <Link to="/">
+          <Button>{button}</Button>
+        </Link>
+      ) : (
+        ''
+      )}
+    </Header>
+  );
 };
 
 export default PageTitle;

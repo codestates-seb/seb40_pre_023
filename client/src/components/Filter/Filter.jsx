@@ -10,7 +10,7 @@ import {
 const Filter = () => {
   return (
     <Section>
-      <h3>23,148,869 questions with bounties</h3>
+      <h3>23,148,869 questions</h3>
       <BtnGroup>
         <FilterOptions>
           <p className="active">Newest</p>
@@ -21,7 +21,7 @@ const Filter = () => {
           <p className="disappear-mobile">Unanswered</p>
           <p className="toggle">More</p>
         </FilterOptions>
-        <label for="filterToggler">
+        <label htmlFor="filterToggler">
           <FilterCheck type="checkbox" id="filterToggler" />
           <FilterBtn>
             <svg width="18" height="18" viewBox="0 0 18 18">

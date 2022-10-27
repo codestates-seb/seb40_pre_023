@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Container,
   QList,
   QDetail,
   QHead,
@@ -84,37 +83,35 @@ const QuestionList = () => {
     },
   ];
   return (
-    <Container>
-      <QList>
-        {data.map((item) => (
-          <QDetail>
-            <QHead>
-              <p>{item.vote ? item.vote : 0} votes</p>
-              <p>{item.answers ? item.answers : 0} answers</p>
-              <p>{item.views ? item.views : 0} views</p>
-            </QHead>
-            <QRightDetail key={item.questionId}>
-              <QTitle>{item.title}</QTitle>
-              <QContent>{item.content}</QContent>
-              <QUser>
-                <QTagList>
-                  {item.tags.map((tag) => (
-                    <QTag>{tag.content}</QTag>
-                  ))}
-                </QTagList>
-                <QInfo>
-                  <Avatar>
-                    {item.member.img === '사진' ? null : item.member.img}
-                  </Avatar>
-                  <Nickname>{item.member.nickname}</Nickname>
-                  <Time>{displayCreatedAt(item.createdAt)}</Time>
-                </QInfo>
-              </QUser>
-            </QRightDetail>
-          </QDetail>
-        ))}
-      </QList>
-    </Container>
+    <QList>
+      {data.map((item) => (
+        <QDetail>
+          <QHead>
+            <p>{item.vote ? item.vote : 0} votes</p>
+            <p>{item.answers ? item.answers : 0} answers</p>
+            <p>{item.views ? item.views : 0} views</p>
+          </QHead>
+          <QRightDetail key={item.questionId}>
+            <QTitle>{item.title}</QTitle>
+            <QContent>{item.content}</QContent>
+            <QUser>
+              <QTagList>
+                {item.tags.map((tag) => (
+                  <QTag>{tag.content}</QTag>
+                ))}
+              </QTagList>
+              <QInfo>
+                <Avatar>
+                  {item.member.img === '사진' ? null : item.member.img}
+                </Avatar>
+                <Nickname>{item.member.nickname}</Nickname>
+                <Time>{displayCreatedAt(item.createdAt)}</Time>
+              </QInfo>
+            </QUser>
+          </QRightDetail>
+        </QDetail>
+      ))}
+    </QList>
   );
 };
 
