@@ -23,20 +23,20 @@ public class Answer extends BaseTime {
 //    @Enumerated(EnumType.STRING)
 //    private AnswerStatus answerStatus = AnswerStatus.ANSWER_COMPLETE;
 
-    // 다른 클래스 임시 에러 방지용
-    public Answer(long answerId, String content) {
-        this.answerId = answerId;
-        this.content = content;
-    }
-
     // 회원과 답변 1:N관계 매핑
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-//    public void addMember(Member member) {
-//        this.member = member;
-//    }
+    // 질문과 답변 1:N관계 매핑
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "QUESTION_ID")
+    private Question question;
+
+
+    // 답변과 답변투표 매핑
+    //    @OneToMany(mappedBy = "answer")
+//    private List<Vote> votes = new ArrayList<>();
 
     // 질문과 답변 1:N관계 매핑
     @ManyToOne(cascade = CascadeType.ALL)
@@ -63,5 +63,4 @@ public class Answer extends BaseTime {
             this.stepDescription = stepDescription;
         }
     }
-
 }

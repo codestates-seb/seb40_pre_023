@@ -13,15 +13,5 @@ import org.springframework.stereotype.Service;
 @Setter
 public class AnswerResponseDto {
     private Long answerId;
-    private Long memberId;
-    private Long questionId;
     private String content;
-
-    public void setMember(Member member) {
-        this.memberId = member.getMemberId();
-    }
-
-    public void setQuestion(Question question) {
-        this.questionId = question.getQuestionId();
-    }
 }
