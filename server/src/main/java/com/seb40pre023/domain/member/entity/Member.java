@@ -1,14 +1,9 @@
 package com.seb40pre023.domain.member.entity;
 
 import com.seb40pre023.global.common.auditing.BaseTime;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -19,28 +14,42 @@ import java.time.LocalDateTime;
 @Table(name = "MEMBER")
 public class Member extends BaseTime {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
+    @Column(nullable = false, updatable = false)
     private String email;
+    @Column(nullable = false)
     private String nickname;
+
+    @Column(nullable = true)
     private String about;
-//    private String password;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = true)
     private String img;
-//    private Roles roles = Roles.MEMBER_ADMIN;
+
+    @Column(nullable = false)
+    private Roles roles = Roles.MEMBER_ACTIVE;
 
     public enum Roles {
-        MEMBER_ADMIN("로그인한 회원"),
-        MEMBER_NOT_FOUND("로그인하지 않은 회원");
+        MEMBER_ACTIVE("존재하는 회원"),
+        MEMBER_NOT_EXISTS("존재하지 않는 회원");
 
         @Getter
         private String roles;
+
         Roles(String roles) {
             this.roles = roles;
         }
     }
 
-    public Member(String email, String nickname) {
+    public Member(Long memberId, String email, String nickname, String about, String img) {
+        this.memberId = memberId;
         this.email = email;
-//        this.password = password;
         this.nickname = nickname;
+        this.about = about;
+        this.img = img;
     }
 }

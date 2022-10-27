@@ -2,7 +2,6 @@ package com.seb40pre023.domain.answer.entity;
 
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.question.entity.Question;
-import com.seb40pre023.domain.vote.entity.Vote;
 import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
