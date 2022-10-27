@@ -67,11 +67,11 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    public Member findMember(long memberId) {
+    public Member findMember(Long memberId) {
         return findVerifiedMember(memberId);
     }
 
-    public Member findVerifiedMember(long memberId) {
+    public Member findVerifiedMember(Long memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);
 
         Member findMember = optionalMember.orElseThrow(() ->
@@ -85,7 +85,7 @@ public class MemberService {
     }
 
     //멤버 탈퇴
-    public void deleteMember(long memberId) {
+    public void deleteMember(Long memberId) {
         Member findMember = findVerifiedMember(memberId);
 
         memberRepository.delete(findMember);

@@ -34,10 +34,8 @@ public class AnswerMapper {
 
     public AnswerResponseDto answerToAnswerResponseDto(Answer answer) {
         AnswerResponseDto response =
-                new AnswerResponseDto(answer.getAnswerId(), answer.getMember().getMemberId(), answer.getQuestion().getQuestionId(), answer.getContent());
+                new AnswerResponseDto(answer.getAnswerId(),answer.getContent());
 
-//        AnswerResponseDto response =
-//                new AnswerResponseDto(answer.getAnswerId(), answer.getMember().getMemberId(), answer.getContent());
         return response;
     }
 }
