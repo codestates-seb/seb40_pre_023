@@ -33,7 +33,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/members/login" element={<Login />} />
           <Route path="/members/signup" element={<Signup />} />
-          <Route path="*" element={<NotFound/>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>
