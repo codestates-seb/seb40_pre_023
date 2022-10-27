@@ -133,14 +133,12 @@ export const Nickname = styled.p`
     color: #0a95ff;
   }
 `;
-
 export const QTagList = styled.div`
   display: flex;
   box-sizing: border-box;
   margin-top: 0.4em;
   margin-bottom: auto;
 `;
-
 export const QTag = styled.div`
   box-sizing: border-box;
   padding: 0.4em;
