@@ -19,10 +19,9 @@ export const Container = styled.footer`
 
   @media screen and (min-width: 880px) {
     padding: 28px 12px;
-    display: flex;
   }
 
-  > a {
+  a {
     display: inline-block;
   }
 
@@ -32,6 +31,23 @@ export const Container = styled.footer`
     @media screen and (min-width: 641px) {
       display: block;
     }
+  }
+
+  > div {
+    @media screen and (min-width: 981px) {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+`;
+
+export const MediumContainer = styled.div`
+  @media screen and (min-width: 641px) {
+    display: flex;
+    gap: 30px;
+  }
+  @media screen and (min-width: 981px) {
+    width: 100%;
   }
 `;
 
@@ -45,6 +61,7 @@ export const Categories = styled.ul`
     width: calc(100% - 37px);
   }
 `;
+
 export const Categoriy = styled.li`
   padding: 0 12px 24px 0;
 
@@ -52,6 +69,11 @@ export const Categoriy = styled.li`
     width: 100%;
     margin-left: 30px;
   }
+
+  @media screen and (min-width: 981px) {
+    width: 25%;
+  }
+
   > p {
     font-weight: 800;
     margin-bottom: 8px;
@@ -99,6 +121,10 @@ export const SocialsAndCopy = styled.ul`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  @media screen and (min-width: 981px) {
+    width: 347px;
   }
 
   ul {
