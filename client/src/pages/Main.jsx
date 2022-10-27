@@ -6,6 +6,7 @@ import Aside from '../components/Aside/Aside';
 import Rside from '../components/Rside/Rside';
 import LayoutContainer from '../components/LayoutContainer/LayoutContainer';
 import QuestionList from '../components/Question/QuestionList';
+import PaginationGroup from '../components/PaginationGroup/PaginationGroup';
 
 const Main = () => {
   return (
@@ -16,6 +17,7 @@ const Main = () => {
             <PageTitle title="All Questions" button="Ask Question" />
             <Filter></Filter>
             <QuestionList />
+            <PaginationGroup></PaginationGroup>
           </main>
           <Aside>
             <Rside />

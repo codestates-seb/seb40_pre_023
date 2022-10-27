@@ -31,7 +31,7 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener('click', handleCloseToggle);
-  });
+  }, []);
 
   useEffect(() => {
     if (
