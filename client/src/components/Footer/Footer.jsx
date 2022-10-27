@@ -8,12 +8,13 @@ const Footer = () => {
 
   useEffect(() => {
     if (
-      location.pathname === '/members/login' ||
-      location.pathname === '/members/signup'
+      location.pathname === '/' ||
+      location.pathname.indexOf('questions') !== -1 ||
+      location.pathname.indexOf('answers') !== -1
     ) {
-      setNeedFooter(false);
-    } else {
       setNeedFooter(true);
+    } else {
+      setNeedFooter(false);
     }
   }, [location, needFooter]);
 

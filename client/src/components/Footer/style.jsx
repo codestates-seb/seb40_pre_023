@@ -5,6 +5,8 @@ export const Container = styled.footer`
   background-color: hsl(210, 8%, 15%);
   color: hsl(210, 8%, 75%);
   font-size: 11px;
+  position: relative;
+  z-index: 2;
 
   &.remove {
     display: none;

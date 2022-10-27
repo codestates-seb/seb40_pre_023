@@ -34,12 +34,13 @@ const Header = () => {
 
   useEffect(() => {
     if (
-      location.pathname === '/members/login' ||
-      location.pathname === '/members/signup'
+      location.pathname === '/' ||
+      location.pathname.indexOf('questions') !== -1 ||
+      location.pathname.indexOf('answers') !== -1
     ) {
-      setNeedSidebar(false);
-    } else {
       setNeedSidebar(true);
+    } else {
+      setNeedSidebar(false);
     }
   }, [location, needSidebar]);
 
