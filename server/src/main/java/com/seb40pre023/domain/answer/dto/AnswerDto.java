@@ -17,7 +17,7 @@ public class AnswerDto {
     @Setter
     @AllArgsConstructor
     public static class Patch {
-        private long answerId;
+        private Long answerId;
         @NotNull
         private String content;
     }
@@ -25,7 +25,7 @@ public class AnswerDto {
     @Getter
     @AllArgsConstructor
     public static class response {
-        private long answerId;
+        private Long answerId;
         private String content;
     }
 }
