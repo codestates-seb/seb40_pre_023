@@ -29,10 +29,8 @@ public class AnswerService {
         return answerRepository.save(findAnswer);
     }
 
-    public Answer findAnswer(long answerId) {
+    public Answer findAnswer(Long answerId) {
         Answer findAnswer = findVerifiedAnswer(answerId);
-//        Answer answer = new Answer(answerId, "service test code");
-//        Answer answer = new Answer(answerId, "service test code", new Member());
         return findAnswer;
     }
 
@@ -40,17 +38,16 @@ public class AnswerService {
         List<Answer> answers = List.of(
                 new Answer(1, "test answers 1..."),
                 new Answer(2, "test answers 2...")
-//        new Answer(1, "test answers 1...", new Member()),
-//                new Answer(2, "test answers 2...", new Member())
         );
         return answers;
     }
 
-    public void deleteAnswer(long answerId) {
+    public void deleteAnswer(Long answerId) {
         System.out.println("success delete answer" + answerId);
+        answerRepository.deleteById(answerId);
     }
 
-    private Answer findVerifiedAnswer(long answerId) {
+    private Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer =
                 answerRepository.findById(answerId);
         Answer findAnswer =
