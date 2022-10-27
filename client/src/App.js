@@ -3,7 +3,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Main from './pages/Main';
 import Login from './pages/Login/Login';
-import Signup from './pages/Signup';
+import Signup from './pages/Signup/Signup';
 import NotFound from './pages/NotFound/NotFound';
 import recoilCounterState from './states/recoilCounterState';
 import recoilDataState from './states/recoilDataState';
