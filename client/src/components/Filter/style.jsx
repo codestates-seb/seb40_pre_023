@@ -18,6 +18,7 @@ export const Section = styled.section`
       margin-bottom: 0;
       margin-right: 16px;
       font-size: 17px;
+      line-height: 20px;
     }
   }
 `;
