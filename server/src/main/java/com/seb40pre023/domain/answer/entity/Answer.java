@@ -1,10 +1,7 @@
 package com.seb40pre023.domain.answer.entity;
 
-<<<<<<< HEAD
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.question.entity.Question;
-=======
->>>>>>> back-dev
 import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.*;
 
