@@ -6,17 +6,12 @@ import com.seb40pre023.domain.answer.dto.AnswerResponseDto;
 import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.answer.mapper.AnswerMapper;
 import com.seb40pre023.domain.answer.service.AnswerService;
-import com.seb40pre023.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,52 +21,33 @@ public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper mapper;
 
+    //질문글에 답변을 쓸 때 답변 생성
     @PostMapping
     public ResponseEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
-
         Answer response = answerService.createAnswer(mapper.answerPostDtoToAnswer(answerPostDto));
+
         return new ResponseEntity(mapper.answerToAnswerResponseDto(response), HttpStatus.CREATED);
-
-//        Answer answer = new Answer();
-//        answer.setContent(answerPostDto.getContent());
-//        Answer response = answerService.createAnswer(answer);
-//        return new ResponseEntity<>(response, HttpStatus.CREATED);
-
-//        Map<String, String> answer = new HashMap<>();
-//        answer.put("content", content);
-//        return new ResponseEntity<>(answer, HttpStatus.CREATED);
     }
 
+    // 질문글에 작성한 답변 내용 수정하기
     @PatchMapping("/{answer-id}/edit")
-    public ResponseEntity patchAnswer(@PathVariable("answer-id") long answerId,
+    public ResponseEntity patchAnswer(@PathVariable("answer-id") Long answerId,
                                       @RequestBody AnswerPatchDto answerPatchDto) {
         answerPatchDto.setAnswerId(answerId);
         Answer response = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto));
+
         return new ResponseEntity(mapper.answerToAnswerResponseDto(response), HttpStatus.OK);
-
-//        answerPatchDto.setAnswerId(answerId);
-//        Answer answer = new Answer();
-//        answer.setAnswerId(answerPatchDto.getAnswerId());
-//        answer.setContent(answerPatchDto.getContent());
-//        Answer response = answerService.updateAnswer(answer);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-
-//        Map<String, String> answer = new HashMap<>();
-//        answer.put("content", content);
-//        return new ResponseEntity<>(answer, HttpStatus.OK);
     }
 
+    // 답변 하나 조회
     @GetMapping("/{answer-id}")
-    public ResponseEntity getAnswer(@PathVariable("answer-id") long answerId) {
+    public ResponseEntity getAnswer(@PathVariable("answer-id") Long answerId) {
         Answer response = answerService.findAnswer(answerId);
 
         return new ResponseEntity<>(mapper.answerToAnswerResponseDto(response), HttpStatus.OK);
-//        Answer answer = new Answer();
-//        answer.setAnswerId(answerId);
-//        answer.setContent("hello seb40 pre-project");
-//        return new ResponseEntity<>(answer, HttpStatus.OK);
     }
 
+    // 여러 답변 조회
     @GetMapping
     public ResponseEntity getAnswers() {
         List<Answer> answers = answerService.findAnswers();
@@ -79,21 +55,15 @@ public class AnswerController {
                 answers.stream()
                         .map(answer -> mapper.answerToAnswerResponseDto(answer))
                         .collect(Collectors.toList());
+
         return new ResponseEntity<>(response, HttpStatus.OK);
-//        Answer answer = new Answer();
-//        answer.setAnswerId(1L);
-//        answer.setContent("hello seb40 pre-project");
-//
-//        Answer answer2 = new Answer();
-//        answer2.setAnswerId(2L);
-//        answer2.setContent("2nd Answer");
-//        List<Answer> response = List.of(answer, answer2);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // 답변 삭제
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id") long answerId) {
+    public ResponseEntity deleteAnswer(@PathVariable("answer-id") Long answerId) {
         answerService.deleteAnswer(answerId);
+
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
