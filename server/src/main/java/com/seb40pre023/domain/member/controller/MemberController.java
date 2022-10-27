@@ -1,58 +1,94 @@
 package com.seb40pre023.domain.member.controller;
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.seb40pre023.domain.member.dto.MemberDto;
+import com.seb40pre023.domain.member.dto.MemberLoginDto;
 import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.domain.member.mapper.MemberMapper;
+import com.seb40pre023.domain.member.service.MemberService;
+import com.seb40pre023.global.common.dto.SingleResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.seb40pre023.domain.member.entity.Member.Roles.MEMBER_ADMIN;
-import static com.seb40pre023.domain.member.entity.Member.Roles.MEMBER_NOT_FOUND;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import java.io.IOException;
 
 
 @RestController
 @Validated
-@Slf4j
 public class MemberController {
+
+    private MemberService memberService;
+    private MemberMapper mapper;
+
+    public MemberController(MemberService memberService, MemberMapper mapper) {
+        this.memberService = memberService;
+        this.mapper = mapper;
+    }
+
+    //회원가입
     @PostMapping("/members/signup")
-    public ResponseEntity postMember() {
-        Member member = new Member("kkkk@gmail.com", "kkkk");
+    public ResponseEntity postMember(@Valid @RequestBody MemberDto.Post requestBody) {
+        Member member = mapper.memberPostToMember(requestBody);
+        Member createdMember = memberService.createMember(member);
+        MemberDto.Response response = mapper.memberToMemberResponse(createdMember);
 
-        return new ResponseEntity<>(member, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
-    // 메서드 역할
+
+    //회원 정보 수정
     @PatchMapping("/members/edit/{memberId}")
-    public ResponseEntity patchMember(@PathVariable Long memberId) {
+    public ResponseEntity patchMember(@PathVariable("memberId") Long memberId, @Valid @RequestBody MemberDto.Patch requestBody) {
 
-        Member member = new Member(memberId, "kk@gmail.com", "kk", "hello, my name is kk", "img");
+        requestBody.setMemberId(memberId);
 
-        return new ResponseEntity<>(member, HttpStatus.OK);
+
+        Member member =
+                memberService.updateMember(mapper.memberPatchToMember(requestBody));
+
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
 
+    //특정 회원 정보 조회
     @GetMapping("/members/{memberId}")
     public ResponseEntity getMember(@PathVariable Long memberId) {
-        Member member = new Member(memberId, "kk@gmail.com", "kk", "hello, my name is kk", "img");
+        Member member = memberService.findMember(memberId);
 
-        return new ResponseEntity(member, HttpStatus.OK);
+        return new ResponseEntity(new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
 
+    //로그인
     @GetMapping("/members/login")
-    public ResponseEntity loginMember() {
-        Member member = new Member("kkkk2@gmail.com", "kkkk2");
+    public ResponseEntity login(@Valid @RequestBody MemberDto.Login loginDto, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Member loginMember = memberService.login(loginDto);
 
-        return new ResponseEntity<>("success login", HttpStatus.OK);
-
+        HttpSession session = request.getSession(true);
+        session.setAttribute("LOGIN_MEMBER", loginMember);
+        return new ResponseEntity(new SingleResponseDto<>(mapper.memberLoginToMember(loginDto)), HttpStatus.OK);
     }
 
+    //로그아웃
     @GetMapping("/members/logout")
-    public ResponseEntity logoutMember() {
-        Member member = new Member("kkkk2@gmail.com","kkkk2");
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "success logout";
+    }
 
+    //회원 탈퇴
+    @DeleteMapping("/members/{memberId}")
+    public ResponseEntity deleteMember(@PathVariable Long memberId) {
+        memberService.deleteMember(memberId);
 
-        return new ResponseEntity<>("success logout", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
