@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/votes")
 @RequiredArgsConstructor
@@ -20,18 +23,18 @@ public class AnswerVoteController {
 
     @PostMapping
     public ResponseEntity postVote(@RequestBody AnswerVoteDto.Post requestBody) {
-        AnswerVote response = answerVoteService.createAnswerVote(mapper.answerVotePostToAnswerVote(requestBody));
-
-        return new ResponseEntity(mapper.answerVoteToAnswerVoteResponse(response), HttpStatus.CREATED);
+        Long memberId = requestBody.getMemberId();
+        Long answerId = requestBody.getAnswerId();
+        boolean findAnswerVote = answerVoteService.findAnswerVote(memberId, answerId);
+        AnswerVote response;
+        int changeValue = requestBody.getVoteValue();
+        if (findAnswerVote) {
+            response = answerVoteService.updateAnswerVote(memberId, answerId, changeValue);
+            return new ResponseEntity(mapper.answerVoteToAnswerVoteResponse(response), HttpStatus.OK);
+        }
+        else {
+            response = answerVoteService.createAnswerVote(mapper.answerVotePostToAnswerVote(requestBody));
+            return new ResponseEntity(mapper.answerVoteToAnswerVoteResponse(response), HttpStatus.CREATED);
+        }
     }
-
-//    @PatchMapping("/{answer-id}")
-//    public ResponseEntity patchVote(@PathVariable("answer-id") long answerId,
-//                                    @RequestBody AnswerVoteDto.Patch requestBody) {
-//        requestBody.setAnswerId(answerId);
-//        AnswerVote response = answerVoteService.updateAnswerVote(mapper.answerVotePatchToAnswerVote(requestBody));
-//
-//        return new ResponseEntity(mapper.answerVoteToAnswerVoteResponse(response), HttpStatus.OK);
-//    }
-
 }

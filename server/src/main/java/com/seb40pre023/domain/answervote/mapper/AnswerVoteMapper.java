@@ -6,38 +6,21 @@ import com.seb40pre023.domain.answervote.dto.AnswerVoteDto;
 import com.seb40pre023.domain.answervote.dto.AnswerVotePostDto;
 import com.seb40pre023.domain.answervote.dto.AnswerVoteResponseDto;
 import com.seb40pre023.domain.answervote.entity.AnswerVote;
+import com.seb40pre023.domain.member.entity.Member;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AnswerVoteMapper {
-//    public AnswerVote answerVotePostDtoToAnswerVote(AnswerVotePostDto answerVotePostDto) {
-//        Answer answer = new Answer();
-//        answer.setAnswerId(answerVotePostDto.getAnswerId());
-//
-//        AnswerVote answerVote = new AnswerVote();
-//        answerVote.setVoteState(answerVote.getVoteState());
-//        answerVote.setAnswer(answer);
-//
-//        return answerVote;
-//    }
-
     public AnswerVote answerVotePostToAnswerVote(AnswerVoteDto.Post requestBody) {
+        Member member = new Member();
+        member.setMemberId(requestBody.getMemberId());
+
         Answer answer = new Answer();
         answer.setAnswerId(requestBody.getAnswerId());
 
         AnswerVote answerVote = new AnswerVote();
         answerVote.setVoteValue(requestBody.getVoteValue());
-        answerVote.setAnswer(answer);
-
-        return answerVote;
-    }
-
-    public AnswerVote answerVotePatchToAnswerVote(AnswerVoteDto.Patch requestBody) {
-        Answer answer = new Answer();
-        answer.setAnswerId(requestBody.getAnswerId());
-
-        AnswerVote answerVote = new AnswerVote();
-        answerVote.setVoteId(requestBody.getVoteId());
+        answerVote.setMember(member);
         answerVote.setAnswer(answer);
 
         return answerVote;
@@ -45,16 +28,8 @@ public class AnswerVoteMapper {
 
     public AnswerVoteDto.response answerVoteToAnswerVoteResponse(AnswerVote answerVote) {
         AnswerVoteDto.response response =
-                new AnswerVoteDto.response(answerVote.getVoteId(), answerVote.getAnswer().getAnswerId(), answerVote.getVoteValue());
+                new AnswerVoteDto.response(answerVote.getVoteId(), answerVote.getVoteValue(), answerVote.getCreatedAt(), answerVote.getModifiedAt());
 
         return response;
     }
-
-//    public AnswerVoteResponseDto answerVoteToAnswerVoteResponseDto(AnswerVote answerVote) {
-//        AnswerVoteResponseDto response =
-//                new AnswerVoteResponseDto(answerVote.getVoteId(), answerVote.getAnswer().getAnswerId(), answerVote.getVoteState());
-//
-//        return response;
-//    }
-
 }
