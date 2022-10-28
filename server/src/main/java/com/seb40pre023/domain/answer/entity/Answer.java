@@ -38,14 +38,6 @@ public class Answer extends BaseTime {
     //    @OneToMany(mappedBy = "answer")
 //    private List<Vote> votes = new ArrayList<>();
 
-//    public void addQuestion(Question question) {
-//        this.question = question;
-//    }
-
-    // 답변과 답변투표 매핑
-    //    @OneToMany(mappedBy = "answer")
-//    private List<Vote> votes = new ArrayList<>();
-
     public enum AnswerStatus {
         ANSWER_COMPLETE("답변 완료"),
         ANSWER_DELETING("답변 삭제중"),

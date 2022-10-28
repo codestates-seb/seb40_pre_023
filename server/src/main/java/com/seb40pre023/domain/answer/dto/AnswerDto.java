@@ -5,11 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 public class AnswerDto {
     @Getter
     @AllArgsConstructor // TODO 테스트용?
     public static class Post {
-        @NotNull
+        private Long memberId;
+        private Long questionId;
+        private String nickname;
         private String content;
     }
 
@@ -18,7 +22,6 @@ public class AnswerDto {
     @AllArgsConstructor
     public static class Patch {
         private Long answerId;
-        @NotNull
         private String content;
     }
 
@@ -27,5 +30,7 @@ public class AnswerDto {
     public static class response {
         private Long answerId;
         private String content;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
     }
 }

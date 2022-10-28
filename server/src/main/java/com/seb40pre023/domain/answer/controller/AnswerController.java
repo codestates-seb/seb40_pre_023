@@ -1,5 +1,6 @@
 package com.seb40pre023.domain.answer.controller;
 
+import com.seb40pre023.domain.answer.dto.AnswerDto;
 import com.seb40pre023.domain.answer.dto.AnswerPatchDto;
 import com.seb40pre023.domain.answer.dto.AnswerPostDto;
 import com.seb40pre023.domain.answer.dto.AnswerResponseDto;
@@ -23,20 +24,20 @@ public class AnswerController {
 
     //질문글에 답변을 쓸 때 답변 생성
     @PostMapping
-    public ResponseEntity postAnswer(@RequestBody AnswerPostDto answerPostDto) {
-        Answer response = answerService.createAnswer(mapper.answerPostDtoToAnswer(answerPostDto));
+    public ResponseEntity postAnswer(@RequestBody AnswerDto.Post requestBody) {
+        Answer response = answerService.createAnswer(mapper.answerPostToAnswer(requestBody));
 
-        return new ResponseEntity(mapper.answerToAnswerResponseDto(response), HttpStatus.CREATED);
+        return new ResponseEntity(mapper.answerToAnswerResponse(response), HttpStatus.CREATED);
     }
 
     // 질문글에 작성한 답변 내용 수정하기
     @PatchMapping("/{answer-id}/edit")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") Long answerId,
-                                      @RequestBody AnswerPatchDto answerPatchDto) {
-        answerPatchDto.setAnswerId(answerId);
-        Answer response = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto));
+                                      @RequestBody AnswerDto.Patch requestBody) {
+        requestBody.setAnswerId(answerId);
+        Answer response = answerService.updateAnswer(mapper.answerPatchToAnswer(requestBody));
 
-        return new ResponseEntity(mapper.answerToAnswerResponseDto(response), HttpStatus.OK);
+        return new ResponseEntity(mapper.answerToAnswerResponse(response), HttpStatus.OK);
     }
 
     // 답변 하나 조회
@@ -44,16 +45,16 @@ public class AnswerController {
     public ResponseEntity getAnswer(@PathVariable("answer-id") Long answerId) {
         Answer response = answerService.findAnswer(answerId);
 
-        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(response), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.answerToAnswerResponse(response), HttpStatus.OK);
     }
 
     // 여러 답변 조회
     @GetMapping
     public ResponseEntity getAnswers() {
         List<Answer> answers = answerService.findAnswers();
-        List<AnswerResponseDto> response =
+        List<AnswerDto.response> response =
                 answers.stream()
-                        .map(answer -> mapper.answerToAnswerResponseDto(answer))
+                        .map(answer -> mapper.answerToAnswerResponse(answer))
                         .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);

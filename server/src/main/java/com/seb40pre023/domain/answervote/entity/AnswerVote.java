@@ -21,9 +21,9 @@ public class AnswerVote extends BaseTime {
     @Column(nullable = false)
     private int voteValue;
 
-//    @Column(length = 20, nullable = false)
+    //    @Column(length = 20, nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private AnswerVoteState answerVoteStatus = AnswerVoteState.ANSWER_VOTE_UP;
+    private AnswerVoteState answerVoteStatus = AnswerVoteState.ANSWER_VOTE_DO;
 
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
@@ -33,14 +33,11 @@ public class AnswerVote extends BaseTime {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-//    public void setAnswer(Answer answer) {
-//        this.answer = answer;
-//    }
-
     public enum AnswerVoteState {
-        ANSWER_VOTE_UP(1, "UP 투표 함"),
-        ANSWER_VOTE_DOWN(2, "DOWN 투표 함"),
-        ANSWER_VOTE_CANCEL(3, "투표 취소 함");
+        ANSWER_VOTE_DO(1, "투표 한 상태"),
+        ANSWER_VOTE_UP(2, "UP 투표 함"),
+        ANSWER_VOTE_DOWN(3, "DOWN 투표 함"),
+        ANSWER_VOTE_NOTHING(4, "투표 안 한 상태");
 
         @Getter
         private int stepNumber;

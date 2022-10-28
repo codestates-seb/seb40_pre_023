@@ -1,16 +1,20 @@
 package com.seb40pre023.domain.answervote.dto;
 
-import com.seb40pre023.domain.answer.entity.Answer;
+import com.seb40pre023.domain.answervote.entity.AnswerVote;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AnswerVoteDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
-        //    private long memberId;
-        private long answerId;
+        private Long memberId;
+        private Long answerId;
+        // UP은 +1을 DOWN은 -1을 넘겨준다고 했을 때
         private int voteValue;
     }
 
@@ -18,22 +22,18 @@ public class AnswerVoteDto {
     @Setter
     @AllArgsConstructor
     public static class Patch {
-        private long answerId;
-        private long voteId;
+        private Long voteId;
+        private Long answerId;
         private int voteValue;
-
-//        public void setAnswer(Answer answer) {
-//            this.answerId = answer.getAnswerId();
-//        }
     }
 
     @Getter
     @AllArgsConstructor
     public static class response {
-        private long voteId;
-        //    private long memberId;
-        private long answerId;
+        private Long voteId;
         private int voteValue;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
     }
 
 }
