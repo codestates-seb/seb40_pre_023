@@ -34,6 +34,7 @@ export const Modified = styled.div`
   color: #0074cc;
   flex-grow: 1;
   margin-bottom: 12px;
+  padding: 4px 14px 0 8px;
   span {
     margin-left: 3px;
   }

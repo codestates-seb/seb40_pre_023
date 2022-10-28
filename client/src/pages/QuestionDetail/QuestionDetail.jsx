@@ -1,87 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import Aside from '../../components/Aside/Aside';
 import Rside from '../../components/Rside/Rside';
 import QaFooter from '../../components/QaFooter/QaFooter';
+import { displayCreatedAt } from '../../utils/displayCreatedAt';
 import {
   VerticalBtns,
   DetailPageContainer,
   DetailContainer,
+  Stamps,
   DetailContents,
   Article,
   Vote,
-  EditorContainer,
   AnswerTitle,
   PostAnswerBtn,
 } from './style';
+
+//작성한 컨텐츠 보기 위한 스타일
+import { QlViewer } from '../../styles/QlVeiwer';
+
+//에디터 필요모듈
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { editorModules } from '../../utils/quillSettings';
+import { EditorContainer } from '../../styles/EditorContainer';
+import 'highlight.js/styles/stackoverflow-light.css';
 
-const qdetail = {
-  questionId: 1,
-  member: {
-    nickname: 'hong',
-    img: '',
-  },
-  title: '~~',
-  content: '~~',
-  createdAt: '22.10.28',
-  modifiedAt: '22.10.28',
-  questionVote: '~~',
-  tags: ['react', '~~~'],
-  answerList: [
-    {
-      answerId: 1,
-      member: {
-        nickname: 'dd',
-        img: '~~~',
-      },
-      content: '~~',
-      createAt: 'YYMMDD',
-      modifiedAt: 'YYMMDD',
-      answerVote: 10,
-    },
-  ],
-};
+// TODO: 테스트용 더미 데이터 연결후 지워야함
+import { qArticle, qdetail } from './dummy';
+
+//TODO: postAnswer로 answerpost 보내야함
+import { postAnswer } from '../../api/api';
 
 const QuestionDetail = () => {
-  const modules = {
-    toolbar: [
-      ['bold', 'italic'],
-      ['link', ('underline', 'strike', 'blockquote'), 'code', 'code-block'],
-      [
-        { list: 'ordered' },
-        { list: 'bullet' },
-        { indent: '-1' },
-        { indent: '+1' },
-      ],
-    ],
-  };
-
-  const formats = [
-    'bold',
-    'italic',
-    'underline',
-    'strike',
-    'blockquote',
-    'list',
-    'bullet',
-    'indent',
-    'link',
-    'code-block',
-    'code',
-  ];
-
   //TODO: 질문 작성자 아이디와 비교해서 해당 글을 수정할 수 있는지 여부 체크 필요
   const [editable, setEditable] = useState(true);
+  const [data, setData] = useState(qArticle);
+  const [answer, setAnswer] = useState('');
+  const editorRef = useRef();
+  const questionRef = useRef();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const description = editorRef.current.editor.root.innerHTML;
+    console.log(description);
+    // postAnswer();
+  };
 
   return (
     <>
       <LayoutContainer>
         <DetailPageContainer>
-          <PageTitle title="All Questions" button="Ask Question"></PageTitle>
-          {/* <main></main> */}
+          <PageTitle title={qdetail.title} button="Ask Question"></PageTitle>
+          <Stamps>
+            <ul>
+              <li>
+                Asked <strong>{displayCreatedAt(qdetail.createdAt)}</strong>
+              </li>
+              <li>
+                Modified <strong>{displayCreatedAt(qdetail.modifiedAt)}</strong>
+              </li>
+              <li>
+                Viewed <strong>3 times</strong>
+              </li>
+            </ul>
+          </Stamps>
           <DetailContainer>
             <DetailContents>
               <VerticalBtns>
@@ -100,30 +84,30 @@ const QuestionDetail = () => {
                 </Vote>
               </VerticalBtns>
               <Article>
-                <pre>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Excepturi doloribus minima maxime nihil vero sapiente porro,
-                  perferendis explicabo repellat maiores natus ad suscipit.
-                  Doloribus quam est ad exercitationem quisquam ipsam ipsa, sed
-                  quidem ullam! Distinctio tempore exercitationem totam dolorum
-                  in eius amet quaerat,
-                </pre>
+                <div className="ql-snow">
+                  <QlViewer
+                    ref={questionRef}
+                    dangerouslySetInnerHTML={{ __html: data }}
+                  />
+                </div>
                 <QaFooter
                   type="question"
-                  createAt={qdetail.createdAt}
-                  modifiedAt={qdetail.modifiedAt}
+                  createAt={displayCreatedAt(qdetail.createdAt)}
+                  modifiedAt={displayCreatedAt(qdetail.modifiedAt)}
                   name={qdetail.member.nickname}
                   editable={editable}
                   avatar={qdetail.member.img}
                 ></QaFooter>
-                <form action="submit">
+                <form action="submit" onSubmit={onSubmit}>
                   <EditorContainer>
                     <AnswerTitle>Your Answer</AnswerTitle>
                     <ReactQuill
-                      style={{ height: '600px' }}
                       theme="snow"
-                      modules={modules}
-                      formats={formats}
+                      modules={editorModules}
+                      ref={editorRef}
+                      onChange={(content, delta, source, editor) =>
+                        setAnswer(editor.getHTML())
+                      }
                     />
                   </EditorContainer>
                   <PostAnswerBtn>Post Your Answer</PostAnswerBtn>
