@@ -2,7 +2,6 @@ package com.seb40pre023.domain.question.entity;
 
 import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.member.entity.Member;
-import com.seb40pre023.domain.tag.entity.Tag;
 import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +23,7 @@ public class Question extends BaseTime {
     private Long questionId;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     private String title;
@@ -36,6 +35,5 @@ public class Question extends BaseTime {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<QuestionTag> tagList;
-
 }
 

@@ -29,6 +29,8 @@ public class QuestionService {
     // 질문 수정
     public Question updateQuestion(Question question) {
 
+        Optional<Question> findQuestion = questionRepository.findById(question.getQuestionId());
+//        findQuestion.ifPresent();
 
         return question;
     }
