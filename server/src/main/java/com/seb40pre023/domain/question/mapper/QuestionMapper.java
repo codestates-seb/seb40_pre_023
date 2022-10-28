@@ -2,6 +2,7 @@ package com.seb40pre023.domain.question.mapper;
 
 import com.seb40pre023.domain.answer.mapper.AnswerMapper;
 import com.seb40pre023.domain.member.mapper.MemberMapper;
+import com.seb40pre023.domain.question.dto.QuestionDto;
 import com.seb40pre023.domain.question.dto.QuestionPatchDto;
 import com.seb40pre023.domain.question.dto.QuestionPostDto;
 import com.seb40pre023.domain.question.dto.QuestionResDto;
@@ -42,26 +43,28 @@ public class QuestionMapper {
         return question;
     }
 
-    public QuestionResDto questionToQuestionResDto(Question question) {
+    public QuestionDto.Response questionToQuestionRes(Question question) {
 
-        QuestionResDto questionResDto = new QuestionResDto(
+        QuestionDto.Response questionResDto = new QuestionDto.Response(
                 question.getQuestionId(),
                 memberMapper.memberToMemberResponse(question.getMember()),
                 question.getTitle(),
                 question.getContent(),
                 question.getStatus(),
                 question.getAnswerList().stream()
-                        .map(answerMapper::answerToAnswerResponseDto)
+                        .map(answerMapper::answerToAnswerResponse)
                         .collect(Collectors.toList()),
-                question.getTagList());
+                question.getTagList(),
+                question.getCreatedAt(),
+                question.getModifiedAt());
 
         return questionResDto;
     }
 
-    public List<QuestionResDto> questionsToQuestionsResDtoList(List<Question> questions) {
+    public List<QuestionDto.Response> questionsToQuestionsResList(List<Question> questions) {
 
-        List<QuestionResDto> questionResDtoList = questions.stream()
-                .map(question -> questionToQuestionResDto(question))
+        List<QuestionDto.Response> questionResDtoList = questions.stream()
+                .map(question -> questionToQuestionRes(question))
                 .collect(Collectors.toList());
 
         return questionResDtoList;
