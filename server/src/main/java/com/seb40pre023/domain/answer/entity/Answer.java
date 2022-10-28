@@ -38,11 +38,6 @@ public class Answer extends BaseTime {
     //    @OneToMany(mappedBy = "answer")
 //    private List<Vote> votes = new ArrayList<>();
 
-    // 질문과 답변 1:N관계 매핑
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "QUESTION_ID")
-    private Question question;
-
 //    public void addQuestion(Question question) {
 //        this.question = question;
 //    }
