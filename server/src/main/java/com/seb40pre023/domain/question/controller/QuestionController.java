@@ -47,7 +47,7 @@ public class QuestionController {
         Question question = mapper.questionPatchDtoToQuestion(questionPatchDto);
         Question response = questionService.updateQuestion(question);
 
-        return new ResponseEntity( HttpStatus.OK);
+        return new ResponseEntity(mapper.questionToQuestionResDto(response), HttpStatus.OK);
     }
 
     @GetMapping("/questions")
@@ -61,8 +61,9 @@ public class QuestionController {
     @GetMapping("/questions/{questionId}")
     public ResponseEntity getQuestion(@PathVariable Long questionId) {
 
+        Question question = questionService.getQuestion(questionId);
 
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(mapper.questionToQuestionResDto(question), HttpStatus.OK);
     }
 
     @DeleteMapping("/questions/{questionId}")
