@@ -6,10 +6,14 @@ import com.seb40pre023.domain.question.dto.QuestionResDto;
 import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.question.mapper.QuestionMapper;
 import com.seb40pre023.domain.question.service.QuestionService;
+import com.seb40pre023.global.common.dto.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,26 +51,38 @@ public class QuestionController {
         Question question = mapper.questionPatchDtoToQuestion(questionPatchDto);
         Question response = questionService.updateQuestion(question);
 
-        return new ResponseEntity( HttpStatus.OK);
+        return new ResponseEntity(mapper.questionToQuestionResDto(response), HttpStatus.OK);
     }
 
+    /*
+    * 질문 리스트를 조회하는 메서드
+    * parameter : @Param - page, size (페이지네이션 적용)
+    * return : List<QuestionResDto>, Page<Question> (정렬된 Question 을 반환)
+    */
     @GetMapping("/questions")
     public ResponseEntity getQuestions(@RequestParam int page,
                                        @RequestParam int size) {
 
+        Page<Question> pageQuestions = questionService.getQuestions(page - 1, size);
+        List<Question> questions = pageQuestions.getContent();
 
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.questionsToQuestionsResDtoList(questions), pageQuestions), HttpStatus.OK);
     }
 
     @GetMapping("/questions/{questionId}")
     public ResponseEntity getQuestion(@PathVariable Long questionId) {
 
+        Question question = questionService.getQuestion(questionId);
 
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(mapper.questionToQuestionResDto(question), HttpStatus.OK);
     }
 
     @DeleteMapping("/questions/{questionId}")
-    public String deleteQuestion(@PathVariable Long questionId) {
+    public String deleteQuestion(Long memberId,
+            @PathVariable Long questionId) {
+
+        questionService.deleteQuestion(memberId, questionId);
 
         return "delete question";
     }
