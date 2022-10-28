@@ -19,14 +19,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionResDto extends BaseTime{
+public class QuestionResDto{
 
     private Long questionId;
     private MemberDto.Response member;
     private String title;
     private String content;
     private String status;
-    private List<AnswerResponseDto> answerList;
+    private List<AnswerDto.response> answerList;
     private List<QuestionTag> tags;
 
 }

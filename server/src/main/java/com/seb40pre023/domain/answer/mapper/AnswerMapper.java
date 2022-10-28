@@ -40,7 +40,8 @@ public class AnswerMapper {
 
     public AnswerDto.response answerToAnswerResponse(Answer answer) {
         AnswerDto.response response =
-                new AnswerDto.response(answer.getAnswerId(),answer.getContent(), answer.getCreatedAt(), answer.getModifiedAt());
+                new AnswerDto.response(answer.getAnswerId(), answer.getContent(),
+                        answer.getCreatedAt(), answer.getModifiedAt());
 
         return response;
     }

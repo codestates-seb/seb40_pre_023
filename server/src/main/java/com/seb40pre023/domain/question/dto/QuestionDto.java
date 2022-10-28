@@ -4,10 +4,12 @@ import com.seb40pre023.domain.answer.dto.AnswerDto;
 import com.seb40pre023.domain.member.dto.MemberDto;
 import com.seb40pre023.domain.question.entity.QuestionTag;
 import com.seb40pre023.domain.tag.entity.Tag;
+import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class QuestionDto {
@@ -35,8 +37,9 @@ public class QuestionDto {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
-    public static class Response {
+    public static class Response{
 
         private Long questionId;
         private MemberDto.Response member;
@@ -45,6 +48,7 @@ public class QuestionDto {
         private String status;
         private List<AnswerDto.response> answerList;
         private List<QuestionTag> tags;
-
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
     }
 }
