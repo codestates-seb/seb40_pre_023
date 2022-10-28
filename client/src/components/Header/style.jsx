@@ -253,8 +253,7 @@ export const SideMenu = styled.div`
   position: fixed;
   display: ${(props) => (props.sidebar ? 'block' : 'none')};
   width: 240px;
-  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
-    0 2px 8px hsla(0, 0%, 0%, 0.05);
+  border-right: 1px solid #e3e6e8;
   padding-top: 60px;
   padding-bottom: 10px;
   background-color: #fff;

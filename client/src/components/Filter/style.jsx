@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Section = styled.section`
-  padding: 0 16px;
+  padding: 0 16px 12px 16px;
+  border-bottom: 1px solid #e3e6e8;
 
   @media screen and (min-width: 641px) {
     display: flex;
@@ -18,6 +19,7 @@ export const Section = styled.section`
       margin-bottom: 0;
       margin-right: 16px;
       font-size: 17px;
+      line-height: 20px;
     }
   }
 `;

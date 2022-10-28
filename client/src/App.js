@@ -5,9 +5,11 @@ import Main from './pages/Main';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import NotFound from './pages/NotFound/NotFound';
+import QuestionDetail from './pages/QuestionDetail/QuestionDetail';
+import QuestionList from './components/Question/QuestionList';
 import recoilCounterState from './states/recoilCounterState';
 import recoilDataState from './states/recoilDataState';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getData } from './api/api';
 import { useEffect } from 'react';
@@ -28,9 +30,10 @@ function App() {
       <BrowserRouter>
         <GlobalStyle />
         <Header />
-        {/* <Link to="/members/login">gogo</Link> */}
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/main" element={<QuestionList />} />
+          <Route path="/questions/:ID" element={<QuestionDetail />} />
           <Route path="/members/login" element={<Login />} />
           <Route path="/members/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
