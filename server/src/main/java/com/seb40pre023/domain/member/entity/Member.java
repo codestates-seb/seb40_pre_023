@@ -23,21 +23,21 @@ public class Member extends BaseTime {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
-    // 멤버와 답변 1:N관계 매핑
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Answer> answers = new ArrayList<>();
-
-    // 멤버와 질문 1:N관계 매핑
-    @OneToMany(mappedBy = "member")
-    private List<Question> questions = new ArrayList<>();
-
-    // 멤버와 답변투표 1:N관계 매핑
-    @OneToMany(mappedBy = "member")
-    private List<AnswerVote> answerVotes = new ArrayList<>();
-
-    // 멤버와 질문투표 1:N관계 매핑
-    @OneToMany(mappedBy = "member")
-    private List<QuestionVote> questionVotes = new ArrayList<>();
+//    // 멤버와 답변 1:N관계 매핑
+//    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+//    private List<Answer> answers = new ArrayList<>();
+//
+//    // 멤버와 질문 1:N관계 매핑
+//    @OneToMany(mappedBy = "member")
+//    private List<Question> questions = new ArrayList<>();
+//
+//    // 멤버와 답변투표 1:N관계 매핑
+//    @OneToMany(mappedBy = "member")
+//    private List<AnswerVote> answerVotes = new ArrayList<>();
+//
+//    // 멤버와 질문투표 1:N관계 매핑
+//    @OneToMany(mappedBy = "member")
+//    private List<QuestionVote> questionVotes = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
     private String email;

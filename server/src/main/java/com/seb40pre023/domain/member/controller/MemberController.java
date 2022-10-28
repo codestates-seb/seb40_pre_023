@@ -1,14 +1,11 @@
 package com.seb40pre023.domain.member.controller;
 
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.seb40pre023.domain.member.dto.MemberDto;
-import com.seb40pre023.domain.member.dto.MemberLoginDto;
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.service.MemberService;
 import com.seb40pre023.global.common.dto.SingleResponseDto;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.io.IOException;
 
 
@@ -78,9 +74,12 @@ public class MemberController {
 
     //로그아웃
     @GetMapping("/members/logout")
-    public String logout(HttpSession session) {
+    public ResponseEntity logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
         session.invalidate();
-        return "success logout";
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //회원 탈퇴

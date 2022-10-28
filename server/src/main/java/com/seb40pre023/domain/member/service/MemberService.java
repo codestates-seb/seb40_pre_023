@@ -7,6 +7,7 @@ import com.seb40pre023.global.error.exception.ExceptionCode;
 import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,15 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper mapper;
 
+    private final PasswordEncoder passwordEncoder;
+    //DBMemberService는 내부에서 데이터를 데이터베이스에 저장하고, 패스워드를 암호화 해야 하므로 DI
 
     //가입한 회원 save 해줌
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
+        String encryptedPassword = passwordEncoder.encode(member.getPassword()); //패스워드 암호화
+        member.setPassword(encryptedPassword); //암호화된 패스워드 password 필드에 다시 할당
+
         Member savedMember = memberRepository.save(member);
 
         return savedMember;

@@ -1,15 +1,15 @@
-package com.seb40pre023.domain.config.filter;
+package com.seb40pre023.global.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seb40pre023.domain.member.dto.MemberLoginDto;
 import com.seb40pre023.domain.member.entity.Member;
+import io.jsonwebtoken.Jwts;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import com.auth0.jwt.JWT;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -50,8 +50,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) {
         Member member = (Member) authResult.getPrincipal();
         //getPrincipal 로 Member 엔티티 클래스의 객체를 얻음
-        //JwtTokenizer 따로 생성안하고 여기서 Token 생성해서 response 응답에 담아줄까 고민중
-        String token = JWT.create
+        //JwtTokenizer 따로 생성안하고 여기서 Token 생성해서 response 응답에 담아줄까 고민중 -> Tokenizer 따로 생성하기로 결정
+//        String token
     }
 
 

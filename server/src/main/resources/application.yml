@@ -5,6 +5,12 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: jdbc:h2:mem:test
 
 spring:
   profiles:
@@ -13,6 +19,7 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  datasource:
 
 #file:
 #  profileImg: ProfileImg/

@@ -1,4 +1,4 @@
-package com.seb40pre023.domain.config.filter;
+package com.seb40pre023.global.security.filter;
 
 public class JwtVerificationFilter {
 }

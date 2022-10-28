@@ -1,4 +1,4 @@
-package com.seb40pre023.domain.config.auth;
+package com.seb40pre023.global.security.auth;
 
 import com.seb40pre023.domain.member.entity.Member;
 import org.springframework.security.core.GrantedAuthority;

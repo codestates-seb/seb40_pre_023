@@ -1,4 +1,4 @@
-package com.seb40pre023.domain.config.auth;
+package com.seb40pre023.global.security.auth;
 
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.member.repository.MemberRepository;
@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
