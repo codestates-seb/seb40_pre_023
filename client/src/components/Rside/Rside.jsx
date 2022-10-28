@@ -1,21 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Sidebar, Sidebaryellow, ButtonsContainer, IconContainer, RowBox, RowBox2,  Boxcontainer,TextBox} from './style';
+import { Container, Sidebar, Sidebaryellow, TagContainer, IconContainer, RowBox, RowBox2,  Boxcontainer,TextBox} from './style';
+import SideTag from '../SideTag/SideTag';
+import SideImage from '../../assets/favicons.png'
 
-
-export const sideIcons1 = styled.div`
-background: url(./favicons.png) 0 -6120px;
+export const SideIcons1 = styled.div`
+background-image: url(${SideImage});
+background-position:0 -6120px;
 width:  16px; 
 height: 16px;
-position: absolute;
 top: 0;
 left: 0;
 `;
-export const sideIcons2 = styled.div`
-background: url(./favicons.png) 0 -6156px;
+export const SideIcons2 = styled.div`
+background-image: url(${SideImage});
+background-position:0 -6156px;
 width:  16px; 
 height: 16px;
-position: absolute;
 top: 0;
 left: 0;
 `;
@@ -47,10 +48,10 @@ const Rside = () => {
       Featured on Meta
       </header>
       <ul>
-        <li><sideIcons1 />The 2022 Community-a-thon has begun!</li>
-        <li><sideIcons1 />Mobile app infrastructure being decommissioned</li>
-        <li><sideIcons2 />Staging Ground Workflow: Canned Comments</li>
-        <li><sideIcons2 />The Ask Wizard has graduated</li>
+        <li><SideIcons1 />The 2022 Community-a-thon has begun!</li>
+        <li><SideIcons1 />Mobile app infrastructure being decommissioned</li>
+        <li><SideIcons2 />Staging Ground Workflow: Canned Comments</li>
+        <li><SideIcons2 />The Ask Wizard has graduated</li>
       </ul>
       
     </Sidebaryellow>
@@ -65,33 +66,41 @@ const Rside = () => {
         <IconContainer>{googleIcon}</IconContainer>
         <div>Google Cloud</div>
         </RowBox2>
-        <ButtonsContainer><collectButton>Join</collectButton></ButtonsContainer>
+       <collectButton>Join</collectButton>
         </RowBox>
       <TextBox>Google Cloud provides organizations with leading infrastructure, platform capabilities</TextBox>
         </Boxcontainer>
-        <div>
+        
+      <Boxcontainer>
       <RowBox>
       <RowBox2>
       <IconContainer>{intelIcon}</IconContainer>
         <div>Intel</div>
         </RowBox2>
-        <ButtonsContainer><collectButton>Join</collectButton></ButtonsContainer>
+       <collectButton>Join</collectButton>
         </RowBox>
         <TextBox>A space for developers to collaborate on Intel software tools, libraries, and resources. Share</TextBox>
-        </div>
-        <div>
+        </Boxcontainer>
+        <Boxcontainer>
       <RowBox>
       <RowBox2>
       <IconContainer>{wso2Icon}</IconContainer>
         <div>WSO2</div>
         </RowBox2>
-        <ButtonsContainer><collectButton>Join</collectButton></ButtonsContainer>
+       <collectButton>Join</collectButton>
         </RowBox>
         <TextBox>WSO2 solutions give enterprises the flexibility to deploy applications and services on</TextBox>
-        </div>
+        </Boxcontainer>
      
     </Sidebar>
     </div>
+    <TagContainer>
+    <header>Related Tags</header>
+    <SideTag />
+    <a href= "https://stackoverflow.com/questions#">more related tags</a>
+    </TagContainer>
+
+
     </Container>);
 };
 
