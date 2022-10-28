@@ -17,6 +17,26 @@ export const DetailContainer = styled.main`
   }
 `;
 
+export const Stamps = styled.div`
+  margin-left: 16px;
+  padding-bottom: 15px;
+  font-size: 13px;
+  color: #6a737c;
+  border-bottom: 1px solid #e3e6e8;
+  margin-top: -10px;
+  @media screen and (min-width: 641px) {
+    margin-top: -17px;
+  }
+  strong {
+    color: #232629;
+  }
+
+  ul {
+    display: flex;
+    gap: 14px;
+  }
+`;
+
 export const DetailContents = styled.div`
   display: flex;
   padding: 16px 10px 16px 10px;
@@ -61,49 +81,53 @@ export const Vote = styled.div`
   }
 `;
 
-export const EditorContainer = styled.div`
-  .quill {
-    max-height: 290px;
+// export const EditorContainer = styled.div`
+//   .quill {
+//     max-height: 290px;
 
-    button.ql-code-block {
-      /* 블록 코드 버튼이 인라인 코드 버튼과 동일하여 강제 수정 */
-      background-color: #444;
-      height: 80%;
-      border-radius: 2px;
+//     button.ql-code-block {
+//       /* 블록 코드 버튼이 인라인 코드 버튼과 동일하여 강제 수정 */
+//       background-color: #444;
+//       height: 80%;
+//       border-radius: 2px;
 
-      &:hover {
-        background-color: #292929;
-        polyline,
-        line {
-          stroke: #fff;
-        }
-      }
+//       &:hover {
+//         background-color: #292929;
+//         polyline,
+//         line {
+//           stroke: #fff;
+//         }
+//       }
 
-      polyline,
-      line {
-        stroke: #fff;
-      }
+//       polyline,
+//       line {
+//         stroke: #fff;
+//       }
 
-      &.ql-active {
-        polyline,
-        line {
-          stroke: #3e9dfc;
-        }
-        &:hover {
-          background-color: #292929;
-          polyline,
-          line {
-            stroke: #3e9dfc;
-          }
-        }
-      }
-    }
+//       &.ql-active {
+//         polyline,
+//         line {
+//           stroke: #3e9dfc;
+//         }
+//         &:hover {
+//           background-color: #292929;
+//           polyline,
+//           line {
+//             stroke: #3e9dfc;
+//           }
+//         }
+//       }
+//     }
 
-    .ql-container {
-      height: 249px;
-    }
-  }
-`;
+//     .ql-container {
+//       height: 249px;
+//       .ql-editor pre.ql-syntax {
+//         background-color: #f0f0f0 !important;
+//         color: unset !important;
+//       }
+//     }
+//   }
+// `;
 
 export const AnswerTitle = styled.h2`
   font-size: 16px;
