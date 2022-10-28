@@ -34,7 +34,7 @@ public class QuestionController {
         Question request = mapper.questionPostDtoToQuestion(questionPostDto);
         Question question = questionService.createQuestion(memberId, request);
 
-        return new ResponseEntity<>(mapper.questionToQuestionResDto(question), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.questionToQuestionRes(question), HttpStatus.CREATED);
     }
 
     /*
@@ -51,7 +51,7 @@ public class QuestionController {
         Question question = mapper.questionPatchDtoToQuestion(questionPatchDto);
         Question response = questionService.updateQuestion(question);
 
-        return new ResponseEntity(mapper.questionToQuestionResDto(response), HttpStatus.OK);
+        return new ResponseEntity(mapper.questionToQuestionRes(response), HttpStatus.OK);
     }
 
     /*
@@ -67,7 +67,7 @@ public class QuestionController {
         List<Question> questions = pageQuestions.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.questionsToQuestionsResDtoList(questions), pageQuestions), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.questionsToQuestionsResList(questions), pageQuestions), HttpStatus.OK);
     }
 
     @GetMapping("/questions/{questionId}")
@@ -75,7 +75,7 @@ public class QuestionController {
 
         Question question = questionService.getQuestion(questionId);
 
-        return new ResponseEntity<>(mapper.questionToQuestionResDto(question), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.questionToQuestionRes(question), HttpStatus.OK);
     }
 
     @DeleteMapping("/questions/{questionId}")
