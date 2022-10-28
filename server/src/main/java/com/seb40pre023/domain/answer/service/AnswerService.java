@@ -36,7 +36,6 @@ public class AnswerService {
 
     public List<Answer> findAnswers() {
         List<Answer> answers = answerRepository.findAll();
-
         return answers;
     }
 
