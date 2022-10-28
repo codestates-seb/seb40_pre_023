@@ -16,4 +16,7 @@ export const Button = styled.p`
   background-color: #0a95ff;
   color: #fff;
   border-radius: 4px;
+  &:hover {
+    background-color: hsl(206, 100%, 40%);
+  }
 `;
