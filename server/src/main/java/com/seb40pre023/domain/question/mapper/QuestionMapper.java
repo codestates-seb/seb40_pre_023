@@ -9,6 +9,8 @@ import com.seb40pre023.domain.question.entity.Question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -54,5 +56,14 @@ public class QuestionMapper {
                 question.getTagList());
 
         return questionResDto;
+    }
+
+    public List<QuestionResDto> questionsToQuestionsResDtoList(List<Question> questions) {
+
+        List<QuestionResDto> questionResDtoList = questions.stream()
+                .map(question -> questionToQuestionResDto(question))
+                .collect(Collectors.toList());
+
+        return questionResDtoList;
     }
 }
