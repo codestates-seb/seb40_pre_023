@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class AnswerVotePostDto {
-//    private long memberId;
+    private long memberId;
     private long answerId;
-    private int voteCount;
+    private int voteValue;
 }
