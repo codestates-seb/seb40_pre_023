@@ -162,12 +162,13 @@ const Header = ({ isSidebar }) => {
                     <HeaderAvatar img={''}></HeaderAvatar>
                   </Link>
                 </li>
-                <li className="popup-btn prevent-popup">
-                  <span
-                    onClick={() => {
-                      setTogglePopUp(!togglePopUp);
-                    }}
-                  >
+                <li
+                  className="popup-btn prevent-popup"
+                  onClick={() => {
+                    setTogglePopUp(!togglePopUp);
+                  }}
+                >
+                  <span>
                     <svg
                       aria-hidden="true"
                       width="18"
