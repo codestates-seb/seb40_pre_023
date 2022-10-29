@@ -5,20 +5,21 @@ import Aside from '../../components/Aside/Aside';
 import Rside from '../../components/Rside/Rside';
 import QaFooter from '../../components/QaFooter/QaFooter';
 import { displayCreatedAt } from '../../utils/displayCreatedAt';
+import AnswerItem from '../../components/AnswerItem/Answer';
+import VoteBtns from '../../components/VoteBtns/VoteBtns';
 import {
-  VerticalBtns,
   DetailPageContainer,
   QuestionContainer,
-  AnswerContainer,
   Stamps,
   DetailContents,
-  Vote,
   AnswerTitle,
   PostAnswerBtn,
 } from './style';
 
 //작성한 컨텐츠 보기 위한 스타일
 import { QlViewer } from '../../styles/QlVeiwer';
+//html 태그 문서 삽입 시 보안을 위한 sanitizer
+import dompurify from 'dompurify';
 
 //에디터 필요모듈
 import ReactQuill from 'react-quill';
@@ -38,8 +39,10 @@ const QuestionDetail = () => {
   const [editable, setEditable] = useState(true);
   const [data, setData] = useState(qArticle);
   const [answer, setAnswer] = useState('');
+  const [vote, setVote] = useState(0);
   const editorRef = useRef();
   const questionRef = useRef();
+  const sanitizer = dompurify.sanitize;
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -69,26 +72,15 @@ const QuestionDetail = () => {
           <main>
             <DetailContents>
               <QuestionContainer>
-                <VerticalBtns>
-                  <Vote>
-                    <button>
-                      <svg width="36" height="36" viewBox="0 0 36 36">
-                        <path d="M2 25h32L18 9 2 25Z"></path>
-                      </svg>
-                    </button>
-                    <p>0</p>
-                    <button>
-                      <svg width="36" height="36" viewBox="0 0 36 36">
-                        <path d="M2 11h32L18 27 2 11Z"></path>
-                      </svg>
-                    </button>
-                  </Vote>
-                </VerticalBtns>
+                <VoteBtns
+                  votes={qdetail.questionVote}
+                  questionId={qdetail.questionId}
+                ></VoteBtns>
                 <article>
                   <div className="ql-snow">
                     <QlViewer
                       ref={questionRef}
-                      dangerouslySetInnerHTML={{ __html: data }}
+                      dangerouslySetInnerHTML={{ __html: sanitizer(data) }}
                     />
                   </div>
                   <QaFooter
@@ -103,39 +95,11 @@ const QuestionDetail = () => {
               </QuestionContainer>
               {qdetail.answerList.map((a) => {
                 return (
-                  <AnswerContainer key={a.answerId}>
-                    <VerticalBtns>
-                      <Vote>
-                        <button>
-                          <svg width="36" height="36" viewBox="0 0 36 36">
-                            <path d="M2 25h32L18 9 2 25Z"></path>
-                          </svg>
-                        </button>
-                        <p>{a.answerVote}</p>
-                        <button>
-                          <svg width="36" height="36" viewBox="0 0 36 36">
-                            <path d="M2 11h32L18 27 2 11Z"></path>
-                          </svg>
-                        </button>
-                      </Vote>
-                    </VerticalBtns>
-                    <article>
-                      <div className="ql-snow">
-                        <QlViewer
-                          ref={questionRef}
-                          dangerouslySetInnerHTML={{ __html: a.content }}
-                        />
-                      </div>
-                      <QaFooter
-                        type="answer"
-                        createAt={displayCreatedAt(a.createAt)}
-                        modifiedAt={displayCreatedAt(a.modifiedAt)}
-                        name={a.member.nickname}
-                        editable={editable}
-                        avatar={a.member.img}
-                      ></QaFooter>
-                    </article>
-                  </AnswerContainer>
+                  <AnswerItem
+                    key={a.answerId}
+                    answer={a}
+                    editable={editable}
+                  ></AnswerItem>
                 );
               })}
               <form action="submit" onSubmit={onSubmit}>

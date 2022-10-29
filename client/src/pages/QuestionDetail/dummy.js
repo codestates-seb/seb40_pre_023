@@ -8,7 +8,7 @@ export const qdetail = {
   content: '~~',
   createdAt: '2022-10-26T17:00:47.2460054',
   modifiedAt: '2022-10-26T17:00:47.2460054',
-  questionVote: '~~',
+  questionVote: 1,
   tags: ['react', '~~~'],
   answerList: [
     {
