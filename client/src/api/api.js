@@ -21,3 +21,13 @@ export const postAnswer = async (nickname, content) => {
   // });
   //   return response;
 };
+
+export const voteAnswer = async (Id, vote) => {
+  //Answer에 투표하기
+  return `${Id} answer의 좋아요 = ${vote}개`;
+};
+
+export const voteQuestion = async (Id, vote) => {
+  //Question에 투표하기
+  return `${Id} question의 좋아요 = ${vote}개`;
+};
