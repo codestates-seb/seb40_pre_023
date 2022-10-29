@@ -8,10 +8,10 @@ import { displayCreatedAt } from '../../utils/displayCreatedAt';
 import {
   VerticalBtns,
   DetailPageContainer,
-  DetailContainer,
+  QuestionContainer,
+  AnswerContainer,
   Stamps,
   DetailContents,
-  Article,
   Vote,
   AnswerTitle,
   PostAnswerBtn,
@@ -28,7 +28,7 @@ import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 
 // TODO: 테스트용 더미 데이터 연결후 지워야함
-import { qArticle, qdetail } from './dummy';
+import { qArticle, aArticle, qdetail } from './dummy';
 
 //TODO: postAnswer로 answerpost 보내야함
 import { postAnswer } from '../../api/api';
@@ -66,58 +66,97 @@ const QuestionDetail = () => {
               </li>
             </ul>
           </Stamps>
-          <DetailContainer>
+          <main>
             <DetailContents>
-              <VerticalBtns>
-                <Vote>
-                  <button>
-                    <svg width="36" height="36" viewBox="0 0 36 36">
-                      <path d="M2 25h32L18 9 2 25Z"></path>
-                    </svg>
-                  </button>
-                  <p>0</p>
-                  <button>
-                    <svg width="36" height="36" viewBox="0 0 36 36">
-                      <path d="M2 11h32L18 27 2 11Z"></path>
-                    </svg>
-                  </button>
-                </Vote>
-              </VerticalBtns>
-              <Article>
-                <div className="ql-snow">
-                  <QlViewer
-                    ref={questionRef}
-                    dangerouslySetInnerHTML={{ __html: data }}
-                  />
-                </div>
-                <QaFooter
-                  type="question"
-                  createAt={displayCreatedAt(qdetail.createdAt)}
-                  modifiedAt={displayCreatedAt(qdetail.modifiedAt)}
-                  name={qdetail.member.nickname}
-                  editable={editable}
-                  avatar={qdetail.member.img}
-                ></QaFooter>
-                <form action="submit" onSubmit={onSubmit}>
-                  <EditorContainer>
-                    <AnswerTitle>Your Answer</AnswerTitle>
-                    <ReactQuill
-                      theme="snow"
-                      modules={editorModules}
-                      ref={editorRef}
-                      onChange={(content, delta, source, editor) =>
-                        setAnswer(editor.getHTML())
-                      }
+              <QuestionContainer>
+                <VerticalBtns>
+                  <Vote>
+                    <button>
+                      <svg width="36" height="36" viewBox="0 0 36 36">
+                        <path d="M2 25h32L18 9 2 25Z"></path>
+                      </svg>
+                    </button>
+                    <p>0</p>
+                    <button>
+                      <svg width="36" height="36" viewBox="0 0 36 36">
+                        <path d="M2 11h32L18 27 2 11Z"></path>
+                      </svg>
+                    </button>
+                  </Vote>
+                </VerticalBtns>
+                <article>
+                  <div className="ql-snow">
+                    <QlViewer
+                      ref={questionRef}
+                      dangerouslySetInnerHTML={{ __html: data }}
                     />
-                  </EditorContainer>
-                  <PostAnswerBtn>Post Your Answer</PostAnswerBtn>
-                </form>
-              </Article>
+                  </div>
+                  <QaFooter
+                    type="question"
+                    createAt={displayCreatedAt(qdetail.createdAt)}
+                    modifiedAt={displayCreatedAt(qdetail.modifiedAt)}
+                    name={qdetail.member.nickname}
+                    editable={editable}
+                    avatar={qdetail.member.img}
+                  ></QaFooter>
+                </article>
+              </QuestionContainer>
+              {qdetail.answerList.map((a) => {
+                return (
+                  <AnswerContainer key={a.answerId}>
+                    <VerticalBtns>
+                      <Vote>
+                        <button>
+                          <svg width="36" height="36" viewBox="0 0 36 36">
+                            <path d="M2 25h32L18 9 2 25Z"></path>
+                          </svg>
+                        </button>
+                        <p>{a.answerVote}</p>
+                        <button>
+                          <svg width="36" height="36" viewBox="0 0 36 36">
+                            <path d="M2 11h32L18 27 2 11Z"></path>
+                          </svg>
+                        </button>
+                      </Vote>
+                    </VerticalBtns>
+                    <article>
+                      <div className="ql-snow">
+                        <QlViewer
+                          ref={questionRef}
+                          dangerouslySetInnerHTML={{ __html: a.content }}
+                        />
+                      </div>
+                      <QaFooter
+                        type="answer"
+                        createAt={displayCreatedAt(a.createAt)}
+                        modifiedAt={displayCreatedAt(a.modifiedAt)}
+                        name={a.member.nickname}
+                        editable={editable}
+                        avatar={a.member.img}
+                      ></QaFooter>
+                    </article>
+                  </AnswerContainer>
+                );
+              })}
+              <form action="submit" onSubmit={onSubmit}>
+                <EditorContainer>
+                  <AnswerTitle>Your Answer</AnswerTitle>
+                  <ReactQuill
+                    theme="snow"
+                    modules={editorModules}
+                    ref={editorRef}
+                    onChange={(content, delta, source, editor) =>
+                      setAnswer(editor.getHTML())
+                    }
+                  />
+                </EditorContainer>
+                <PostAnswerBtn>Post Your Answer</PostAnswerBtn>
+              </form>
             </DetailContents>
             <Aside>
               <Rside></Rside>
             </Aside>
-          </DetailContainer>
+          </main>
         </DetailPageContainer>
       </LayoutContainer>
     </>
