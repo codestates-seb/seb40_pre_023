@@ -12,3 +12,12 @@ export const getQuestions = async (pageNum, pageSize) => {
   //   return response;
   return `${pageNum},${pageSize}`;
 };
+
+export const postAnswer = async (nickname, content) => {
+  //TODO: pagination 누를시 받아오는 데이터
+  // const response = await axios.post('/answer', {
+  //   nickname: nickname,
+  //   content: content,
+  // });
+  //   return response;
+};

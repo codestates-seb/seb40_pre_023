@@ -11,6 +11,7 @@ export const Gnb = styled.header`
     0 2px 8px hsla(0, 0%, 0%, 0.05);
   border-top: 3px solid #f48223;
   box-sizing: border-box;
+  z-index: 1;
 
   > div {
     display: flex;
@@ -253,15 +254,19 @@ export const SideMenu = styled.div`
   position: fixed;
   display: ${(props) => (props.sidebar ? 'block' : 'none')};
   width: 240px;
-  border-right: 1px solid #e3e6e8;
   padding-top: 60px;
   padding-bottom: 10px;
   background-color: #fff;
+  z-index: 1;
+  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
+    0 2px 8px hsla(0, 0%, 0%, 0.05);
 
   @media screen and (min-width: 641px) {
     display: block;
     width: 164px;
     height: 100vh;
+    border-right: 1px solid #e3e6e8;
+    box-shadow: none;
   }
 
   &.remove {

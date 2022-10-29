@@ -9,34 +9,71 @@ export const DetailPageContainer = styled.div`
   @media screen and (min-width: 641px) {
     margin-left: 164px;
   }
+  > main {
+    display: flex;
+  }
 `;
 
-export const DetailContainer = styled.main`
-  @media screen and (min-width: 981px) {
+export const QuestionContainer = styled.div`
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e3e6e8;
+
+  > article {
+    width: 100%;
+    @media screen and (min-width: 1100px) {
+      width: calc(100% - 36px);
+    }
+  }
+`;
+
+export const AnswerContainer = styled(QuestionContainer)`
+  padding: 16px 0;
+`;
+
+export const Stamps = styled.div`
+  margin-left: 16px;
+  padding-bottom: 15px;
+  font-size: 13px;
+  color: #6a737c;
+  border-bottom: 1px solid #e3e6e8;
+  margin-top: -10px;
+  @media screen and (min-width: 641px) {
+    margin-top: -17px;
+  }
+  strong {
+    color: #232629;
+  }
+
+  ul {
     display: flex;
+    gap: 14px;
   }
 `;
 
 export const DetailContents = styled.div`
   display: flex;
-  padding: 16px 10px 16px 10px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 16px;
+  max-width: 100%;
+  > form {
+    width: 100%;
+
+    .quill {
+      max-height: 290px;
+      .ql-container {
+        height: 249px;
+      }
+    }
+  }
 `;
 
 export const VerticalBtns = styled.div`
   width: 36px;
   flex-shrink: 0;
-`;
-
-export const Article = styled.article`
-  padding: 0 16px;
-
-  pre {
-    display: inline-block;
-    width: 100%;
-    white-space: pre-wrap;
-    font-size: 15px;
-    line-height: 22px;
-  }
 `;
 
 export const Vote = styled.div`
@@ -58,50 +95,6 @@ export const Vote = styled.div`
     font-size: 21px;
     text-align: center;
     margin: 4px 0;
-  }
-`;
-
-export const EditorContainer = styled.div`
-  .quill {
-    max-height: 290px;
-
-    button.ql-code-block {
-      /* 블록 코드 버튼이 인라인 코드 버튼과 동일하여 강제 수정 */
-      background-color: #444;
-      height: 80%;
-      border-radius: 2px;
-
-      &:hover {
-        background-color: #292929;
-        polyline,
-        line {
-          stroke: #fff;
-        }
-      }
-
-      polyline,
-      line {
-        stroke: #fff;
-      }
-
-      &.ql-active {
-        polyline,
-        line {
-          stroke: #3e9dfc;
-        }
-        &:hover {
-          background-color: #292929;
-          polyline,
-          line {
-            stroke: #3e9dfc;
-          }
-        }
-      }
-    }
-
-    .ql-container {
-      height: 249px;
-    }
   }
 `;
 
