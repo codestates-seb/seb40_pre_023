@@ -2,11 +2,16 @@ import styled from 'styled-components';
 
 export const QlViewer = styled.pre`
   font-size: 15px;
+  line-height: 22px;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: pre-wrap;
   .ql-syntax {
     background-color: hsl(210, 8%, 95%);
     border-radius: 5px;
     padding: 10px;
     font-size: 13px;
+    line-height: 1.3em;
   }
 
   blockquote {
