@@ -116,6 +116,11 @@ export const EditMenu = styled.div`
   }
   > .Edit,
   .Network {
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
     font-size: 0.8em;
     border: 1px solid #9fa6ad;
     border-radius: 0.4em;

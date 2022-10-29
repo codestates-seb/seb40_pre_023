@@ -5,10 +5,10 @@ export const Container = styled.div`
   flex-direction: row;
   margin-left: 11em;
   padding-top: 4.5em;
-  height: 1000px;
+
   box-sizing: border-box;
   padding: 1em;
-  @media screen and (max-width: 980px) {
+  @media (max-width: 980px) {
     display: flex;
     flex-direction: column;
   }
@@ -20,15 +20,21 @@ export const Container = styled.div`
 export const LContent = styled.div`
   display: flex;
   flex: 1;
+  @media (max-width: 980px) {
+    display: flex;
+    flex-grow: 0;
+    margin-bottom: 2em;
+  }
 `;
 export const Stats = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 
-  > .stat-title {
+  > .title {
     font-size: 1.5em;
     padding-bottom: 0.3em;
+    letter-spacing: -0.03em;
   }
 `;
 export const StatContainer = styled.div`
@@ -70,6 +76,88 @@ export const StatBottom = styled.div`
 
 export const RContent = styled.div`
   flex: 3;
+  margin-left: 1.5em;
+  display: flex;
+  flex-direction: column;
+  > .about-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+
+    > .title {
+      font-size: 1.5em;
+      padding-bottom: 0.3em;
+      letter-spacing: -0.03em;
+    }
+    > .about-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      height: 100px;
+      padding: 3em;
+      border: 1px solid #d6d9dc;
+      border-radius: 0.3em;
+      background-color: #f8f9f9;
+
+      > .about-txt {
+        font-size: 0.9em;
+        color: #6a737c;
+        text-align: center;
+        line-height: 1.2em;
+        letter-spacing: -0.01em;
+        > .about-link {
+          box-sizing: border-box;
+          color: #0074cc;
+          padding-left: 0.3em;
+          &:hover {
+            color: #0e95ff;
+          }
+        }
+      }
+    }
+  }
+  > .posts-container {
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    > .title {
+      font-size: 1.5em;
+      padding-bottom: 0.3em;
+      letter-spacing: -0.03em;
+    }
+    > .posts-content {
+      box-sizing: border-box;
+      padding: 3em;
+      height: 398px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #d6d9dc;
+      border-radius: 0.3em;
+      background-color: #f8f9f9;
+      > .posts-icon {
+        padding-bottom: 2em;
+      }
+      > .posts-txt {
+        width: 420px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        font-size: 0.9em;
+        color: #6a737c;
+        text-align: center;
+        line-height: 1.2em;
+        letter-spacing: -0.01em;
+        > .posts-txt-top {
+          padding-bottom: 1em;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 981px) {
+    margin-left: 0;
+  }
 `;
 
 export const StatNum = styled.p`
