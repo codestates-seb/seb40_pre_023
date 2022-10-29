@@ -2,7 +2,6 @@ import React from 'react';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import MyInfo from '../../components/MyPage/MyInfo/MyInfo';
 import MyProfile from '../../components/MyPage/MyProfile/MyProfile';
-import Footer from '../../components/Footer/Footer';
 import memberIdState from '../../_state/memberIdState';
 import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
@@ -20,16 +19,16 @@ const MyPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    InfoAPI(token).then((res) =>{
+    InfoAPI(token).then((res) => {
       console.log(res.data);
       setUser(res.data);
       setIsLoading(false);
-    })
-  },[]);
+    });
+  }, []);
 
   return (
     <LayoutContainer>
-     {isLoading ? (
+      {isLoading ? (
         <div style={{ paddingTop: '10em', paddingBottom: '10em' }}>
           <Loading />
         </div>

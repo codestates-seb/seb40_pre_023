@@ -77,8 +77,10 @@ export const StatBottom = styled.div`
 export const RContent = styled.div`
   flex: 3;
   margin-left: 1.5em;
+
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   > .about-container {
     display: flex;
     flex-direction: column;
@@ -117,10 +119,13 @@ export const RContent = styled.div`
       }
     }
   }
+
   > .posts-container {
-    margin-bottom: 2em;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    max-width: 47em;
+
     > .title {
       font-size: 1.5em;
       padding-bottom: 0.3em;
@@ -128,14 +133,54 @@ export const RContent = styled.div`
     }
     > .posts-content {
       box-sizing: border-box;
-      padding: 3em;
-      height: 398px;
+
       display: flex;
       flex-direction: column;
       align-items: center;
       border: 1px solid #d6d9dc;
       border-radius: 0.3em;
       background-color: #f8f9f9;
+
+      > .post-item {
+        box-sizing: border-box;
+        padding: 0.5em;
+        display: flex;
+        background-color: white;
+        height: 2.5em;
+        align-items: center;
+        font-size: 1.1em;
+        width: 100%;
+
+        border-bottom: 1px solid #d6d9dc;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        &:first-child:not(:last-child) {
+          border-top-left-radius: 0.3em;
+          border-top-right-radius: 0.3em;
+        }
+        &:last-child:not(:first-child) {
+          border-bottom-left-radius: 0.3em;
+          border-bottom-right-radius: 0.3em;
+          border-bottom: 0;
+        }
+        > .post-idx {
+          margin-left: 0.3em;
+          margin-right: 0.7em;
+        }
+        > .post-title .post-link {
+          color: #0075cc;
+          &:hover {
+            color: #0e95ff;
+          }
+        }
+        > .post-data {
+          display: flex;
+          width: 5em;
+          background-color: black;
+        }
+      }
+
       > .posts-icon {
         padding-bottom: 2em;
       }
