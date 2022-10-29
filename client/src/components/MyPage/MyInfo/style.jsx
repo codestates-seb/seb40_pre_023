@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   box-sizing: border-box;
-  padding: 0.5em;
+  padding: 1em;
   width: auto; // 임시 값
   margin-left: 11em;
-  padding-top: 4em;
+  padding-top: 4.5em;
   display: flex;
   justify-content: space-between;
   > .profile-name {
@@ -13,18 +13,27 @@ export const Container = styled.div`
   }
   @media screen and (max-width: 981px) {
     box-sizing: border-box;
-    padding-top: 4em;
-    height: 112px;
   }
   @media screen and (max-width: 817px) {
-    height: 196px;
     > .profile-name {
       display: flex;
       flex-direction: column;
     }
   }
   @media screen and (max-width: 640px) {
+    box-sizing: border-box;
     margin-left: 0em;
+    padding-top: 4em;
+    > .profile-name {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  @media screen and (max-width: 565px) {
+    > .profile-name {
+      display: flex;
+      flex-direction: column;
+    }
   }
 `;
 
@@ -33,7 +42,8 @@ export const ProfileImg = styled.div`
   min-height: 128px;
   margin-right: 1em;
   border-radius: 5%;
-  background-color: yellow;
+  box-shadow: rgb(0 0 0 / 5%) 0px 10px 24px, rgb(0 0 0 / 5%) 0px 20px 48px,
+    rgb(0 0 0 / 10%) 0px 1px 4px;
   background-image: ${(props) =>
     props.img
       ? `url(${props.img})`
@@ -43,6 +53,12 @@ export const ProfileImg = styled.div`
     max-width: 96px;
     min-height: 96px;
     max-height: 96px;
+  }
+  @media screen and (max-width: 640px) {
+    min-width: 64px;
+    max-width: 64px;
+    min-height: 64px;
+    max-height: 64px;
   }
 `;
 
@@ -55,11 +71,18 @@ export const ProfileInfo = styled.div`
   > .nickname {
     font-size: 2.2em;
     font-weight: medium;
+    @media screen and (max-width: 640px) {
+      font-size: 1.6em;
+    }
   }
-  @media screen and (max-width: 981px) {
-    padding-top: 3em;
-  }
+
   @media screen and (max-width: 817px) {
+    padding-top: 1em;
+  }
+  @media screen and (max-width: 640px) {
+    padding-top: 0;
+  }
+  @media screen and (max-width: 565px) {
     padding-top: 1em;
   }
 `;
@@ -85,8 +108,9 @@ export const ProfileDay = styled.div`
 `;
 export const EditMenu = styled.div`
   display: flex;
-
+  white-space: nowrap;
   margin-left: auto;
+  cursor: pointer;
   > .Edit {
     margin-right: 0.5em;
   }

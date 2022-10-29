@@ -17,7 +17,8 @@ const Footer = () => {
     if (
       location.pathname === '/' ||
       location.pathname.indexOf('questions') !== -1 ||
-      location.pathname.indexOf('answers') !== -1
+      location.pathname.indexOf('answers') !== -1 ||
+      location.pathname.indexOf('mypage') !== -1
     ) {
       setNeedFooter(true);
     } else {
