@@ -71,7 +71,7 @@ const Header = ({ isSidebar }) => {
   };
   function changeLocation(placeToGo) {
     navigate(placeToGo, { replace: true });
-    window.location.reload();
+    navigate('/');
   }
   return (
     <>

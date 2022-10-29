@@ -98,7 +98,7 @@ const QuestionDetail = () => {
                 Modified <strong>{displayCreatedAt(data.modifiedAt)}</strong>
               </li>
               <li>
-                Viewed <strong>3 times</strong>
+                Viewed <strong>{data.views}</strong>
               </li>
             </ul>
           </Stamps>
