@@ -9,7 +9,7 @@ import LayoutContainer from '../components/LayoutContainer/LayoutContainer';
 import QuestionList from '../components/Question/QuestionList';
 import PaginationGroup from '../components/PaginationGroup/PaginationGroup';
 import { getQuestions, getVoteFilteredData } from '../api/api';
-
+import Loading from '../components/Loading/Loading';
 const Main = () => {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState('15');
@@ -17,22 +17,27 @@ const Main = () => {
   const [filtered, setFiltered] = useState(false);
   const [totalPage, setTotalPage] = useState(0);
   const [totalQuestion, setTotalQustion] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (filtered) {
+      setIsLoading(true);
       getVoteFilteredData(page, size).then((res) => {
         navigate(`/${page}/${size}/votes`);
         setData(res.data.data);
         setTotalPage(res.data.pageInfo.totalPages);
         setTotalQustion(res.data.pageInfo.totalElements);
+        setIsLoading(false);
       });
     } else {
+      setIsLoading(true);
       getQuestions(page, size).then((res) => {
         navigate(`/${page}/${size}`);
         setData(res.data.data);
         setTotalPage(res.data.pageInfo.totalPages);
         setTotalQustion(res.data.pageInfo.totalElements);
+        setIsLoading(false);
       });
     }
   }, [page, size]);
@@ -51,7 +56,7 @@ const Main = () => {
               setSize={setSize}
               type="questions"
             ></Filter>
-            <QuestionList questions={data} />
+            {isLoading ? <Loading /> : <QuestionList questions={data} />}
             <PaginationGroup
               totalPage={totalPage}
               page={page}

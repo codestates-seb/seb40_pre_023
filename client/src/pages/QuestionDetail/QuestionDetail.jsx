@@ -37,12 +37,12 @@ import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';
 import tokenState from '../../_state/tokenState';
 import memberIdState from '../../_state/memberIdState';
-
+import Loading from '../../components/Loading/Loading';
 const QuestionDetail = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [token, setToken] = useRecoilState(tokenState);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
 
   const [data, setData] = useState({});
@@ -61,6 +61,7 @@ const QuestionDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    setIsLoading(true);
     getDetail(`${location.pathname}`)
       .then((res) => {
         setData(res.data);
@@ -74,6 +75,7 @@ const QuestionDetail = () => {
             setUserInfo(res.data.data);
           });
         }
+        setIsLoading(false);
       });
   }, []);
 
@@ -111,88 +113,95 @@ const QuestionDetail = () => {
     <>
       <LayoutContainer>
         <DetailPageContainer>
-          <PageTitle title={data.title} button="Ask Question"></PageTitle>
-          <Stamps>
-            <ul>
-              <li>
-                Asked <strong>{displayCreatedAt(data.createdAt)}</strong>
-              </li>
-              <li>
-                Modified <strong>{displayCreatedAt(data.modifiedAt)}</strong>
-              </li>
-              <li>
-                Viewed <strong>{data.views}</strong>
-              </li>
-            </ul>
-          </Stamps>
-          <main>
-            <DetailContents>
-              <QuestionContainer>
-                <VoteBtns
-                  votes={
-                    data.questionVote?.voteCount === undefined
-                      ? 0
-                      : data.questionVote.voteCount
-                  }
-                  questionId={data.questionId}
-                ></VoteBtns>
-                <article>
-                  <div className="ql-snow">
-                    <QlViewer
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizer(data.content),
-                      }}
-                    />
-                  </div>
-                  <TagContainer>
-                    {data.tags
-                      ? data.tags.map((el, idx) => {
-                          return <Tag key={idx}>{el}</Tag>;
-                        })
-                      : ''}
-                  </TagContainer>
-                  <QaFooter
-                    type="question"
-                    createAt={displayCreatedAt(data.createdAt)}
-                    modifiedAt={displayCreatedAt(data.modifiedAt)}
-                    name={memeber.nickname}
-                    editable={questionMember === memberId}
-                    avatar={memeber.img}
-                    itemId={data.questionId}
-                  ></QaFooter>
-                </article>
-              </QuestionContainer>
-              {answerList.map((a) => {
-                return (
-                  <AnswerItem
-                    key={a.answerId}
-                    answer={a}
-                    editable={a.memberId === memberId}
-                  ></AnswerItem>
-                );
-              })}
-              <form action="submit" onSubmit={onSubmit}>
-                <AnswerTitle>Your Answer</AnswerTitle>
-                <EditorContainer className={isAnswerFit ? '' : 'error'}>
-                  <ReactQuill
-                    theme="snow"
-                    ref={editorRef}
-                    modules={editorModules}
-                    onChange={(content, delta, source, editor) =>
-                      onChange(editor.getHTML(), editor.getText())
-                    }
-                  />
-                </EditorContainer>
-                <small>Mimimum 20 characters</small>
-                <PostAnswerBtn ref={postBtnRef} disabled>
-                  Post Your Answer
-                </PostAnswerBtn>
-              </form>
-            </DetailContents>
-            <Aside>
-              <Rside></Rside>
-            </Aside>
-          </main>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <PageTitle title={data.title} button="Ask Question"></PageTitle>
+              <Stamps>
+                <ul>
+                  <li>
+                    Asked <strong>{displayCreatedAt(data.createdAt)}</strong>
+                  </li>
+                  <li>
+                    Modified{' '}
+                    <strong>{displayCreatedAt(data.modifiedAt)}</strong>
+                  </li>
+                  <li>
+                    Viewed <strong>{data.views}</strong>
+                  </li>
+                </ul>
+              </Stamps>
+              <main>
+                <DetailContents>
+                  <QuestionContainer>
+                    <VoteBtns
+                      votes={
+                        data.questionVote?.voteCount === undefined
+                          ? 0
+                          : data.questionVote.voteCount
+                      }
+                      questionId={data.questionId}
+                    ></VoteBtns>
+                    <article>
+                      <div className="ql-snow">
+                        <QlViewer
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizer(data.content),
+                          }}
+                        />
+                      </div>
+                      <TagContainer>
+                        {data.tags
+                          ? data.tags.map((el, idx) => {
+                              return <Tag key={idx}>{el}</Tag>;
+                            })
+                          : ''}
+                      </TagContainer>
+                      <QaFooter
+                        type="question"
+                        createAt={displayCreatedAt(data.createdAt)}
+                        modifiedAt={displayCreatedAt(data.modifiedAt)}
+                        name={memeber.nickname}
+                        editable={questionMember === memberId}
+                        avatar={memeber.img}
+                        itemId={data.questionId}
+                      ></QaFooter>
+                    </article>
+                  </QuestionContainer>
+                  {answerList.map((a) => {
+                    return (
+                      <AnswerItem
+                        key={a.answerId}
+                        answer={a}
+                        editable={a.memberId === memberId}
+                      ></AnswerItem>
+                    );
+                  })}
+                  <form action="submit" onSubmit={onSubmit}>
+                    <AnswerTitle>Your Answer</AnswerTitle>
+                    <EditorContainer className={isAnswerFit ? '' : 'error'}>
+                      <ReactQuill
+                        theme="snow"
+                        ref={editorRef}
+                        modules={editorModules}
+                        onChange={(content, delta, source, editor) =>
+                          onChange(editor.getHTML(), editor.getText())
+                        }
+                      />
+                    </EditorContainer>
+                    <small>Mimimum 20 characters</small>
+                    <PostAnswerBtn ref={postBtnRef} disabled>
+                      Post Your Answer
+                    </PostAnswerBtn>
+                  </form>
+                </DetailContents>
+                <Aside>
+                  <Rside></Rside>
+                </Aside>
+              </main>
+            </>
+          )}
         </DetailPageContainer>
       </LayoutContainer>
     </>
