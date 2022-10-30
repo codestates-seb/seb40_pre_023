@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import NotFound from './pages/NotFound/NotFound';
 import MyPage from './pages/MyPage/MyPage';
+import ScrollToTop from './utils/ScrollTop';
 import QuestionWrite from './pages/QuestionWrite/QuestionWrite';
 import QuestionDetail from './pages/QuestionDetail/QuestionDetail';
 import QuestionEdit from './pages/QusetionEdit/QuestionEdit';
@@ -32,6 +33,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <GlobalStyle />
         <Header />
         <Routes>
