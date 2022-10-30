@@ -293,6 +293,7 @@ export const DiscardBtn = styled.p`
   }
 `;
 
+// TODO: 정리필요(현재 태그 오류 스타일 적용안되고 있음)
 export const TagsInputGroup = styled.label`
   display: flex;
   align-items: center;
@@ -340,6 +341,8 @@ export const TagsInputGroup = styled.label`
     height: 100%;
     padding-left: 0;
     border: none;
+    min-width: 250px;
+
     &:focus-visible {
       outline: none;
     }

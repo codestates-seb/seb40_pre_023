@@ -23,6 +23,7 @@ const AnswerItem = ({ answer, editable }) => {
           name={answer.member.nickname}
           editable={editable}
           avatar={answer.member.img}
+          itemId={answer.answerId}
         ></QaFooter>
       </article>
     </AnswerContainer>

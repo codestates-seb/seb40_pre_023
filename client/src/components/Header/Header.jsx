@@ -10,6 +10,7 @@ import {
   MobileSearchButton,
   SearchIcon,
   SideMenu,
+  HeaderAvatar,
 } from './style';
 import LayoutContainer from '../LayoutContainer/LayoutContainer';
 import { Link, useLocation } from 'react-router-dom';
@@ -20,7 +21,7 @@ const Header = () => {
 
   const [isSearch, setIsSearch] = useState(false);
   const [isSidebarOn, setIsSidebarOn] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const [needSidebar, setNeedSidebar] = useState(true);
 
   const handleCloseToggle = (e) => {
@@ -136,7 +137,9 @@ const Header = () => {
             {isLogin ? (
               <ul>
                 <li>
-                  <p></p>
+                  <Link to="/mypage">
+                    <HeaderAvatar img={''}></HeaderAvatar>
+                  </Link>
                 </li>
                 <li>
                   <svg

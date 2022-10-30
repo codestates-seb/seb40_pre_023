@@ -90,6 +90,7 @@ const QuestionDetail = () => {
                     name={qdetail.member.nickname}
                     editable={editable}
                     avatar={qdetail.member.img}
+                    itemId={qdetail.questionId}
                   ></QaFooter>
                 </article>
               </QuestionContainer>

@@ -5,7 +5,10 @@ export const qdetail = {
     img: '',
   },
   title: 'Enable gestures on Entity in RealityKit?',
-  content: '~~',
+  content: `<p>hello! </p><p>i have a question</p><p><br></p><pre class="ql-syntax" spellcheck="false"><span class="hljs-keyword">function</span>(){
+    <span class="hljs-keyword">const</span> arr = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]
+    }
+  </pre><p><br></p>`,
   createdAt: '2022-10-26T17:00:47.2460054',
   modifiedAt: '2022-10-26T17:00:47.2460054',
   questionVote: 1,
