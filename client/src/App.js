@@ -6,6 +6,7 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import NotFound from './pages/NotFound/NotFound';
 import MyPage from './pages/MyPage/MyPage';
+import QuestionWrite from './pages/QuestionWrite/QuestionWrite';
 import QuestionDetail from './pages/QuestionDetail/QuestionDetail';
 import QuestionList from './components/Question/QuestionList';
 import recoilCounterState from './states/recoilCounterState';
@@ -35,6 +36,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/main" element={<QuestionList />} />
           <Route path="/questions/:id" element={<QuestionDetail />} />
+          <Route path="/questions/ask" element={<QuestionWrite />} />
           <Route path="/members/login" element={<Login />} />
           <Route path="/members/signup" element={<Signup />} />
           <Route path="/mypage" element={<MyPage />} />
