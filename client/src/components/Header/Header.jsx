@@ -34,7 +34,9 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    if (
+    if (location.pathname.indexOf('ask') !== -1) {
+      setNeedSidebar(false);
+    } else if (
       location.pathname === '/' ||
       location.pathname.indexOf('questions') !== -1 ||
       location.pathname.indexOf('answers') !== -1 ||

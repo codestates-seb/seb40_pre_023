@@ -6,7 +6,7 @@ const PageTitle = ({ title, button }) => {
     <Header>
       {title}
       {button ? (
-        <Link to="/">
+        <Link to="/questions/ask">
           <Button>{button}</Button>
         </Link>
       ) : (
