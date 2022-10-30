@@ -7,14 +7,37 @@ import {
   Name,
   Modified,
 } from './style';
+import { Link } from 'react-router-dom';
 
-const QaFooter = ({ type, name, createAt, modifiedAt, editable, avatar }) => {
+const QaFooter = ({
+  type,
+  name,
+  createAt,
+  modifiedAt,
+  editable,
+  avatar,
+  itemId,
+}) => {
   return (
     <Tail>
       <PostController>
         <ul>
           <li>Share</li>
-          {editable ? <li>Edit</li> : ''}
+          {/* to={`/questions/${item.questionId}`}> */}
+          {editable && type === 'question' ? (
+            <Link to={`/questions/${itemId}/edit`}>
+              <li>Edit</li>
+            </Link>
+          ) : (
+            ''
+          )}
+          {editable && type === 'answer' ? (
+            <Link to={`/answers/${itemId}/edit`}>
+              <li>Edit</li>
+            </Link>
+          ) : (
+            ''
+          )}
           <li>Follow</li>
         </ul>
       </PostController>

@@ -1,4 +1,3 @@
-
 import SignupInput from '../../components/SignupInput/SignupInput';
 import SignupSideInfo from '../../components/SignupSideInfo/SignupSideInfo';
 import {
@@ -74,7 +73,7 @@ const Signup = () => {
           <div>
             Are you an employer?
             <a href="https://talent.stackoverflow.com/users/login">
-              Sign up on Talent 
+              Sign up on Talent
             </a>
           </div>
         </Footer2>

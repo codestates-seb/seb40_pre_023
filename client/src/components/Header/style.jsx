@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import LogoImg from '../../assets/sprites.svg';
+import DefaultAvatar from '../../assets/default-avatar.svg';
 
 export const Gnb = styled.header`
   position: fixed;
@@ -159,14 +160,16 @@ export const LoginNav = styled.nav`
           opacity: 1;
         }
       }
-      p {
-        width: 24px;
-        height: 24px;
-        border-radius: 3px;
-        background-color: hsl(210, 8%, 35%);
-      }
     }
   }
+`;
+
+export const HeaderAvatar = styled.p`
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  background-image: ${(props) =>
+    props.img ? `url(${props.img})` : `url(${DefaultAvatar})`};
 `;
 
 export const SearchIcon = styled.div`

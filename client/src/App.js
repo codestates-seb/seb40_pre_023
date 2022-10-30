@@ -8,7 +8,9 @@ import NotFound from './pages/NotFound/NotFound';
 import MyPage from './pages/MyPage/MyPage';
 import QuestionWrite from './pages/QuestionWrite/QuestionWrite';
 import QuestionDetail from './pages/QuestionDetail/QuestionDetail';
+import QuestionEdit from './pages/QusetionEdit/QuestionEdit';
 import QuestionList from './components/Question/QuestionList';
+import AnswerEdit from './pages/AnswerEdit/AnswerEdit';
 import recoilCounterState from './states/recoilCounterState';
 import recoilDataState from './states/recoilDataState';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -36,7 +38,9 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/main" element={<QuestionList />} />
           <Route path="/questions/:id" element={<QuestionDetail />} />
+          <Route path="/questions/:id/edit" element={<QuestionEdit />} />
           <Route path="/questions/ask" element={<QuestionWrite />} />
+          <Route path="/answers/:id/edit" element={<AnswerEdit />} />
           <Route path="/members/login" element={<Login />} />
           <Route path="/members/signup" element={<Signup />} />
           <Route path="/mypage" element={<MyPage />} />
