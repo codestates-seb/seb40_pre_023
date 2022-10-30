@@ -12,6 +12,7 @@ import {
 import Tag from '../../components/Tag/Tag';
 import Aside from '../../components/Aside/Aside';
 import Rside from '../../components/Rside/Rside';
+import { useNavigate } from 'react-router';
 
 //에디터 필요모듈
 import ReactQuill from 'react-quill';
@@ -20,10 +21,9 @@ import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 import { qdetail } from '../QuestionDetail/dummy';
-import Quill from 'quill';
 
 const QuestionEdit = () => {
-  const [tags, setTags] = useState(qdetail.tags);
+  const [tags, setTags] = useState([]);
   const [title, setTitle] = useState(qdetail.title);
   const [tag, setTag] = useState('');
   const [body, setBody] = useState('');
@@ -43,6 +43,7 @@ const QuestionEdit = () => {
   const tagInputRef = useRef();
   const editorRef = useRef();
   let nextTagId = useRef(tags.length);
+  const navigate = useNavigate();
 
   const onTagFocused = useCallback((e) => {
     e.target.closest('label').classList.add('focused');
@@ -118,7 +119,13 @@ const QuestionEdit = () => {
               </TagsInputGroup>
               <div>
                 <EditBtn>Save edits</EditBtn>
-                <CancelBtn>Cancel</CancelBtn>
+                <CancelBtn
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  Cancel
+                </CancelBtn>
               </div>
             </InputUnit>
           </EditContainer>
