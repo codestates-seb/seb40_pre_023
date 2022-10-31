@@ -154,10 +154,10 @@ const Header = () => {
               </ul>
             ) : (
               <>
-                <Link to="/members/login">
+                <Link to="/account/login">
                   <Button sky>Log in</Button>
                 </Link>
-                <Link to="/members/signup">
+                <Link to="/account/register">
                   <Button>Sign up</Button>
                 </Link>
               </>

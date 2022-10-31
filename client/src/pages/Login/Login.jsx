@@ -1,76 +1,59 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 import {
-  Container,
-  InputLabel,
-  InputText,
-  InputDiv,
-  InputButton,
-  SignUp,
-} from './style';
-import { useState } from 'react';
-import { isEmail, isPassword } from '../../utils/Regex';
-import Logo from '../../components/Logo';
-const Login = () => {
-  const [emailValue, setEmailValue] = useState('');
-  const [emailError, setEmailError] = useState(false);
-  const [passwordValue, setPasswordValue] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
-  const handleLogin = () => {
-    if (!isEmail(emailValue) || !isPassword(passwordValue)) {
-      if (!isEmail(emailValue)) {
-        setEmailError(true);
-      }
-      if (!isPassword(passwordValue)) {
-        setPasswordError(true);
-        return;
-      }
-    } else {
-      alert('Login Success!');
-    }
-  };
-  const handleEmailChange = (e) => {
-    setEmailValue(e.target.value);
-    setEmailError(false);
-  };
-  const handlePasswordChange = (e) => {
-    setPasswordValue(e.target.value);
-    setPasswordError(false);
-  };
+    Container,
+    InputLabel,
+    InputText,
+    InputDiv,
+    InputButton,
+    SignUp,
+  } from './style';
+import { useUserActions } from '../../_actions/user.actions'; 
+import Logo from '../../components/Logo'; 
+export { Login };
 
-  return (
-    <Container>
-      <Logo />
-      <InputDiv>
-        <InputLabel>Email</InputLabel>
-        <InputText
-          type="email"
-          value={emailValue}
-          onChange={handleEmailChange}
-          error={emailError ? true : null}
-        />
-        <div className={emailError ? 'error' : 'msg-title'}>
-          The email is not a valid email address.
-        </div>
-        <InputLabel>Password</InputLabel>
-        <InputText
-          type="password"
-          value={passwordValue}
-          onChange={handlePasswordChange}
-          error={passwordError ? true : null}
-        />
+function Login () {
+    const userActions = useUserActions();
 
-        <div className={passwordError ? 'error' : 'msg-title'}>
-          Password must be at least 12 characters.
-        </div>
+    // form validation rules 
+    const validationSchema = Yup.object().shape({
+        username: Yup.string().required('Username is required'),
+        password: Yup.string().required('Password is required')
+    });
+    const formOptions = { resolver: yupResolver(validationSchema) };
 
-        <InputButton onClick={() => handleLogin()}>Log in</InputButton>
-      </InputDiv>
-      <SignUp>
-        Don't have an account? <Link to="/members/signup">Sign up</Link>
+    // get functions to build form with useForm() hook
+    const { register, handleSubmit, formState } = useForm(formOptions);
+    const { errors, isSubmitting } = formState;
+
+    return (
+        <Container>
+            <Logo />
+           
+            <InputDiv>
+                <form onSubmit={handleSubmit(userActions.login)}>
+                    <div className="form-group">
+                    <InputLabel>Username</InputLabel>
+                        <InputText name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
+                        <div className="invalid-feedback">{errors.username?.message}</div>
+                    </div>
+                    <div className="form-group">
+                    <InputLabel>Password</InputLabel>
+                        <InputText name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
+                        <div className="invalid-feedback">{errors.password?.message}</div>
+                    </div>
+                    <InputButton disabled={isSubmitting} className="btn btn-primary">
+                        {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                        Login
+                    </InputButton>
+    
+                </form>
+            </InputDiv>
+            <SignUp>
+        Don't have an account? <Link to="register">Sign up</Link>
       </SignUp>
-    </Container>
-  );
-};
-
-export default Login;
+        </Container>
+    )
+}

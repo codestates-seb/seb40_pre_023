@@ -1,12 +1,46 @@
 import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
+  padding: 24px;
+  width: 100%;
+  height: calc(100vh - 50px);
+  background-color: #f1f2f3;
+`;
+
+export const SideContainer = styled.span`
+  margin: 0px 48px 128px 0px;
+  justify-content: center;
+  align-items: center;
+  width: 411px;
+  height: 285px;
+
+  h1 {
+    font-size: 27px;
+    margin: 0px 0px 32px;
+    color: var(--fc-dark);
+  }
+
+  @media (max-width: 817px) {
+    h1 {
+      flex-direction: column;
+    }
+
+    @media (max-width: 817px) {
+      display: none;
+    }
+  }
+`;
+
+export const SignUpContainer = styled.div`
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #f1f2f3;
+  align-items: center;
+  width: 316px;
+  height: 934px;
 `;
 
 export const InputDiv = styled.div`
