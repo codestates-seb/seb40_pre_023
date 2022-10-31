@@ -17,7 +17,6 @@ import { useEffect } from 'react';
 
 import { useRecoilValue } from 'recoil';
 import Main from './pages/Main';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import { authAtom } from './_state/auth'; 
 import { Users } from './users/Users'; 
 import { Account } from './_account'; 
