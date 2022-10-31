@@ -3,6 +3,11 @@ package com.seb40pre023.domain.answer.service;
 import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.answer.repository.AnswerRepository;
 import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.domain.member.service.MemberService;
+import com.seb40pre023.domain.question.entity.Question;
+import com.seb40pre023.domain.question.service.QuestionService;
+import com.seb40pre023.global.error.exception.BusinessLogicException;
+import com.seb40pre023.global.error.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +18,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AnswerService {
     private final AnswerRepository answerRepository;
+    private final MemberService memberService;
+    private final QuestionService questionService;
 
-    public Answer createAnswer(Answer answer) {
+    // 회원이 질문글에 답변 생성
+    public Answer createAnswer(Long memberId, Long questionId, Answer answer) {
+        Member member = memberService.findVerifiedMember(memberId);
+        Question question = questionService.findVerifiedQuestion(questionId);
+        answer.setMember(member);
+        answer.setQuestion(question);
 
         return answerRepository.save(answer);
     }
 
+    // 회원이 질문글에 작성한 답변 수정
     public Answer updateAnswer(Answer answer) {
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
         Optional.ofNullable(answer.getContent())
@@ -41,16 +54,16 @@ public class AnswerService {
     }
 
     public void deleteAnswer(Long answerId) {
-        System.out.println("success delete answer" + answerId);
+        System.out.println("success delete answer : " + answerId);
         answerRepository.deleteById(answerId);
     }
 
-    private Answer findVerifiedAnswer(Long answerId) {
+    public Answer findVerifiedAnswer(Long answerId) {
         Optional<Answer> optionalAnswer =
                 answerRepository.findById(answerId);
         Answer findAnswer =
                 optionalAnswer.orElseThrow(() ->
-                        new RuntimeException("존재하지 않는 답변"));
+                        new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         return findAnswer;
     }
 }
