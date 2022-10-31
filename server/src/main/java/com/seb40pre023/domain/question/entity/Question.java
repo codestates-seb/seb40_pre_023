@@ -2,6 +2,7 @@ package com.seb40pre023.domain.question.entity;
 
 import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.domain.questionvote.entity.QuestionVote;
 import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,12 +29,30 @@ public class Question extends BaseTime {
 
     private String title;
     private String content;
-    private String status;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<Answer> answerList = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<QuestionTag> tagList;
+
+    @OneToOne(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private QuestionVote questionVote;
+
+    @Enumerated(value = EnumType.STRING)
+    private QuestionStatus questionStatus;
+
+    public enum QuestionStatus {
+        UNANSWERED("답변이 없는 질문"),
+        UNACCEPTED("채택된 답변이 없는 질문"),
+        ACCEPTED("해결된 질문");
+
+        @Getter
+        private String status;
+
+        QuestionStatus(String status) {
+            this.status = status;
+        }
+    }
 }
 

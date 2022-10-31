@@ -50,7 +50,7 @@ public class QuestionMapper {
                 memberMapper.memberToMemberResponse(question.getMember()),
                 question.getTitle(),
                 question.getContent(),
-                question.getStatus(),
+                question.getQuestionStatus(),
                 question.getAnswerList().stream()
                         .map(answerMapper::answerToAnswerResponse)
                         .collect(Collectors.toList()),

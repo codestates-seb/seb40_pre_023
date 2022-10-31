@@ -2,6 +2,7 @@ package com.seb40pre023.domain.question.dto;
 
 import com.seb40pre023.domain.answer.dto.AnswerDto;
 import com.seb40pre023.domain.member.dto.MemberDto;
+import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.question.entity.QuestionTag;
 import com.seb40pre023.domain.tag.entity.Tag;
 import com.seb40pre023.global.common.auditing.BaseTime;
@@ -45,7 +46,7 @@ public class QuestionDto {
         private MemberDto.Response member;
         private String title;
         private String content;
-        private String status;
+        private Question.QuestionStatus status;
         private List<AnswerDto.response> answerList;
         private List<QuestionTag> tags;
         private LocalDateTime createdAt;
