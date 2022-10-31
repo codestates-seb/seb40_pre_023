@@ -25,9 +25,12 @@ public class AnswerVoteController {
     public ResponseEntity postVote(@RequestBody AnswerVoteDto.Post requestBody) {
         Long memberId = requestBody.getMemberId();
         Long answerId = requestBody.getAnswerId();
+
         boolean findAnswerVote = answerVoteService.findAnswerVote(memberId, answerId);
         AnswerVote response;
+
         int changeValue = requestBody.getVoteValue();
+
         if (findAnswerVote) {
             response = answerVoteService.updateAnswerVote(memberId, answerId, changeValue);
             return new ResponseEntity(mapper.answerVoteToAnswerVoteResponse(response), HttpStatus.OK);

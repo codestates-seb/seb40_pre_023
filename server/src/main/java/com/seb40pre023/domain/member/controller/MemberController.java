@@ -43,7 +43,8 @@ public class MemberController {
 
     //회원 정보 수정
     @PatchMapping("/members/edit/{memberId}")
-    public ResponseEntity patchMember(@PathVariable("memberId") Long memberId, @Valid @RequestBody MemberDto.Patch requestBody) {
+    public ResponseEntity patchMember(@PathVariable("memberId") Long memberId,
+                                      @Valid @RequestBody MemberDto.Patch requestBody) {
 
         requestBody.setMemberId(memberId);
 
@@ -64,11 +65,12 @@ public class MemberController {
 
     //로그인
     @GetMapping("/members/login")
-    public ResponseEntity login(@Valid @RequestBody MemberDto.Login loginDto, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity login(@Valid @RequestBody MemberDto.Login loginDto,
+                                HttpServletRequest request, HttpServletResponse response) throws IOException {
         Member loginMember = memberService.login(loginDto);
 
-        HttpSession session = request.getSession(true);
-        session.setAttribute("LOGIN_MEMBER", loginMember);
+//        HttpSession session = request.getSession(true);
+//        session.setAttribute("LOGIN_MEMBER", loginMember);
         return new ResponseEntity(new SingleResponseDto<>(mapper.memberLoginToMember(loginDto)), HttpStatus.OK);
     }
 

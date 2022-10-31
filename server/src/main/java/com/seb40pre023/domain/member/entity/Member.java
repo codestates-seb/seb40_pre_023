@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "MEMBER")
 public class Member extends BaseTime {
@@ -53,8 +54,11 @@ public class Member extends BaseTime {
     @Column(nullable = true)
     private String img;
 
-    @Column(nullable = false)
+    @Column
+//            (nullable = false)
     private Roles roles = Roles.MEMBER_ACTIVE;
+
+    private boolean activated;
 
     public enum Roles {
         MEMBER_ACTIVE("존재하는 회원"),

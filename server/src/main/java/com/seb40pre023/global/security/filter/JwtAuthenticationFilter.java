@@ -1,10 +1,16 @@
 package com.seb40pre023.global.security.filter;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seb40pre023.domain.member.dto.MemberLoginDto;
 import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.global.security.auth.Jwtsecret;
+import com.seb40pre023.global.security.auth.PrincipalDetails;
+import com.seb40pre023.global.security.auth.TokenProvider;
 import io.jsonwebtoken.Jwts;
 import lombok.SneakyThrows;
+import lombok.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * JWT 인증 2.
@@ -48,10 +55,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) {
-        Member member = (Member) authResult.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
         //getPrincipal 로 Member 엔티티 클래스의 객체를 얻음
-        //JwtTokenizer 따로 생성안하고 여기서 Token 생성해서 response 응답에 담아줄까 고민중 -> Tokenizer 따로 생성하기로 결정
-//        String token
+
+        String jwtToken = JWT.create()
+                .withSubject(principalDetails.getUsername())
+                .withExpiresAt(new Date(Jwtsecret.EXPIRATION_MINUTES))
+                .withClaim("id", principalDetails.getMember().getMemberId())
+                .withClaim("email", principalDetails.getMember().getEmail())
+                .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
+
+        response.addHeader(Jwtsecret.HEADER, "Bearer " + jwtToken);
     }
 
 

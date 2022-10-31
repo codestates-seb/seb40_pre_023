@@ -29,7 +29,8 @@ public class Answer extends BaseTime {
     private Member member;
 
     // 질문과 답변 1:N관계 매핑
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+//            (cascade = CascadeType.ALL)
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
 
