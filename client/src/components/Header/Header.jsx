@@ -11,9 +11,17 @@ import {
   SearchIcon,
   SideMenu,
   HeaderAvatar,
+  LogoutPop,
+  MenuRows,
+  AvatarBlock,
+  Row,
+  Lshape,
 } from './style';
 import LayoutContainer from '../LayoutContainer/LayoutContainer';
 import { Link, useLocation } from 'react-router-dom';
+
+// TODO: dummy 지워야 함
+import { userInfo } from './dummy';
 
 const Header = () => {
   const location = useLocation();
@@ -23,10 +31,14 @@ const Header = () => {
   const [isSidebarOn, setIsSidebarOn] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [needSidebar, setNeedSidebar] = useState(true);
+  const [togglePopUp, setTogglePopUp] = useState(false);
 
   const handleCloseToggle = (e) => {
     if (!e.target.closest('.prevent-sidebar')) {
       setIsSidebarOn(false);
+    }
+    if (!e.target.closest('.prevent-popup')) {
+      setTogglePopUp(false);
     }
   };
 
@@ -141,15 +153,71 @@ const Header = () => {
                     <HeaderAvatar img={''}></HeaderAvatar>
                   </Link>
                 </li>
-                <li>
-                  <svg
-                    aria-hidden="true"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 18 18"
+                <li className="prevent-popup">
+                  <span
+                    onClick={() => {
+                      setTogglePopUp(!togglePopUp);
+                    }}
                   >
-                    <path d="M15 1H3a2 2 0 0 0-2 2v2h16V3a2 2 0 0 0-2-2ZM1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 0 0 2-2v-2H1v2Zm16-7H1v4h16V6Z"></path>
-                  </svg>
+                    <svg
+                      aria-hidden="true"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                    >
+                      <path d="M15 1H3a2 2 0 0 0-2 2v2h16V3a2 2 0 0 0-2-2ZM1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 0 0 2-2v-2H1v2Zm16-7H1v4h16V6Z"></path>
+                    </svg>
+                  </span>
+
+                  {togglePopUp ? (
+                    <LogoutPop>
+                      <header>
+                        <p>CURRENT COMMUNITY</p>
+                        <svg
+                          onClick={() => {
+                            setTogglePopUp(!togglePopUp);
+                          }}
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                        >
+                          <path d="M15 4.41 13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9 15 4.41Z"></path>
+                        </svg>
+                      </header>
+                      <MenuRows>
+                        <Row>
+                          <div>
+                            {/* TODO: avatar들어오면 연결 필요 */}
+                            <AvatarBlock img={userInfo.img}></AvatarBlock>
+                            <p>{userInfo.nickname}</p>
+                          </div>
+                          <div>
+                            <span>logout</span>
+                          </div>
+                        </Row>
+                        <Row className="second">
+                          <div>
+                            <span></span>Stack Overflow
+                          </div>
+                          <div>
+                            <span>help</span>
+                            <span>chat</span>
+                            <span>logout</span>
+                          </div>
+                        </Row>
+                        <Row className="third">
+                          <div>
+                            <div className="Licon">
+                              <Lshape></Lshape>
+                            </div>
+                            <span className="icon"></span>Meta Stack Overflow
+                          </div>
+                        </Row>
+                      </MenuRows>
+                    </LogoutPop>
+                  ) : (
+                    ''
+                  )}
                 </li>
               </ul>
             ) : (

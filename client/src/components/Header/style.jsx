@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import LogoImg from '../../assets/sprites.svg';
 import DefaultAvatar from '../../assets/default-avatar.svg';
+import Icon from '../../assets/favicons.png';
 
 export const Gnb = styled.header`
   position: fixed;
@@ -149,6 +150,13 @@ export const LoginNav = styled.nav`
       align-items: center;
       padding: 0 7px;
       cursor: pointer;
+
+      span {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
 
       &:hover {
         background-color: hsl(210, 8%, 90%);
@@ -333,4 +341,109 @@ export const SideMenu = styled.div`
       }
     }
   }
+`;
+
+export const LogoutPop = styled.div`
+  position: absolute;
+  right: 0;
+  top: 44px;
+  width: 100%;
+  background-color: hsl(210, 8%, 95%);
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
+    0 2px 8px hsla(0, 0%, 0%, 0.05);
+
+  @media screen and (min-width: 641px) {
+    width: 363px;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+
+    p {
+      font-size: 11px;
+      font-weight: 800;
+      color: #0074cc;
+      &:hover {
+        color: rgb(10, 149, 255);
+      }
+    }
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+`;
+
+export const MenuRows = styled.div`
+  display: block;
+  background-color: hsl(205, 47%, 97%);
+`;
+
+export const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    font-size: 12px;
+    color: #0074cc;
+
+    &:nth-child(2) {
+      gap: 10px;
+    }
+
+    span {
+      font-size: 12px;
+    }
+  }
+
+  &.second {
+    padding: 0 4px;
+    > div:first-child {
+      font-weight: 800;
+      span {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url(${Icon});
+        background-position: 0 -6138px;
+      }
+    }
+  }
+
+  &.third {
+    padding: 0 10px;
+    > div:first-child {
+      .icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url(${Icon});
+        background-position: 0 -6138px;
+        filter: grayscale(1);
+      }
+    }
+  }
+`;
+
+export const AvatarBlock = styled.p`
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+  background-image: ${(props) =>
+    props.img ? `url(${props.img})` : `url(${DefaultAvatar})`};
+`;
+
+export const Lshape = styled.div`
+  width: 10px;
+  height: 10px;
+  border-bottom: 0.8px solid #959798;
+  border-left: 0.8px solid #959798;
 `;

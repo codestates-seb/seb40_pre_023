@@ -12,9 +12,10 @@ import {
   TextBox,
   CollectButton,
 } from './style';
+import Icon from '../../assets/favicons.png';
 
 export const SideIcons1 = styled.div`
-  background: url(./favicons.png) 0 -6120px;
+  background: url(${Icon}) 0 -6120px;
   width: 16px;
   height: 16px;
   position: absolute;
@@ -22,7 +23,7 @@ export const SideIcons1 = styled.div`
   left: 0;
 `;
 export const SideIcons2 = styled.div`
-  background: url(./favicons.png) 0 -6156px;
+  background: url(${Icon}) 0 -6156px;
   width: 16px;
   height: 16px;
   position: absolute;
