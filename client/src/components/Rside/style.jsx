@@ -60,6 +60,10 @@ export const Sidebaryellow = styled(Sidebar)`
     list-style: inside;
     list-style-type: none;
   }
+
+  svg {
+    flex-shrink: 0;
+  }
 `;
 
 export const SidebarCollective = styled(Sidebar)`
@@ -152,6 +156,7 @@ export const ChatIcon = styled.div`
   background-position: 0 -6120px;
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
 `;
 
 export const LogoIcon = styled(ChatIcon)`
