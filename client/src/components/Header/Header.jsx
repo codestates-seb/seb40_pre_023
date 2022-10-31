@@ -153,7 +153,7 @@ const Header = () => {
                     <HeaderAvatar img={''}></HeaderAvatar>
                   </Link>
                 </li>
-                <li className="prevent-popup">
+                <li className="popup-btn prevent-popup">
                   <span
                     onClick={() => {
                       setTogglePopUp(!togglePopUp);

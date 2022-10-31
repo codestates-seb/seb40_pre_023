@@ -151,6 +151,10 @@ export const LoginNav = styled.nav`
       padding: 0 7px;
       cursor: pointer;
 
+      &.popup-btn {
+        position: relative;
+      }
+
       span {
         display: flex;
         align-items: center;
@@ -345,9 +349,9 @@ export const SideMenu = styled.div`
 
 export const LogoutPop = styled.div`
   position: absolute;
-  right: 0;
+  right: -12px;
   top: 44px;
-  width: 100%;
+  width: 100vw;
   background-color: hsl(210, 8%, 95%);
   box-sizing: border-box;
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
@@ -413,6 +417,7 @@ export const Row = styled.div`
         width: 16px;
         height: 16px;
         background-image: url(${Icon});
+        background-size: 16px 7038px;
         background-position: 0 -6138px;
       }
     }
@@ -426,6 +431,7 @@ export const Row = styled.div`
         width: 16px;
         height: 16px;
         background-image: url(${Icon});
+        background-size: 16px 7038px;
         background-position: 0 -6138px;
         filter: grayscale(1);
       }
