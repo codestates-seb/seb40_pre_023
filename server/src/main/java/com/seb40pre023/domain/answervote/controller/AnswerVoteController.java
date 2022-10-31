@@ -16,20 +16,6 @@ public class AnswerVoteController {
     private final AnswerVoteService answerVoteService;
     private final AnswerVoteMapper mapper;
 
-<<<<<<< HEAD
-    @PostMapping
-    public ResponseEntity postVote(@RequestBody AnswerVoteDto.Post requestBody) {
-        Long memberId = requestBody.getMemberId();
-        Long answerId = requestBody.getAnswerId();
-
-        boolean findAnswerVote = answerVoteService.findAnswerVote(memberId, answerId);
-        AnswerVote response;
-
-        int changeValue = requestBody.getVoteValue();
-
-        if (findAnswerVote) {
-            response = answerVoteService.updateAnswerVote(memberId, answerId, changeValue);
-=======
     @PostMapping("/2")
     public ResponseEntity postUpVote(@RequestBody AnswerVoteDto.Post requestBody) {
         /*
@@ -52,7 +38,6 @@ public class AnswerVoteController {
         }
         else if (voteState == 2) { // 이미 UP 투표에서 UP을 눌러서 취소하는 경우
             response = answerVoteService.cancelAnswerVote(requestBody.getMemberId(), requestBody.getAnswerId(), answerVote);
->>>>>>> 8e2742813512ce88006e3ffe2f9ea8ea8b4f0b9b
             return new ResponseEntity(mapper.answerVoteToAnswerVoteResponse(response), HttpStatus.OK);
         }
         // voteState == 1인경우 투표를 취소했다 다시 하는경우 update 하기 위해
