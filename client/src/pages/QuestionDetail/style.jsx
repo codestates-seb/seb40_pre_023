@@ -10,7 +10,9 @@ export const DetailPageContainer = styled.div`
     margin-left: 164px;
   }
   > main {
-    display: flex;
+    @media screen and (min-width: 1100px) {
+      display: flex;
+    }
   }
 `;
 

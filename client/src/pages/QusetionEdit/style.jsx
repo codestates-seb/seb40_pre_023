@@ -9,13 +9,14 @@ export const EditPageContainer = styled.div`
     margin-left: 164px;
   }
   > main {
-    display: flex;
+    @media screen and (min-width: 1100px) {
+      display: flex;
+    }
   }
 `;
 
 export const EditContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
   padding: 16px;
   padding-top: 20px;
   border-bottom: 1px solid #e3e6e8;
