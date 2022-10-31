@@ -1,7 +1,7 @@
 import GlobalStyle from './styles/GlobalStyle';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import { Login } from './_account'; 
+import Login from './pages/Login/Login';
 import NotFound from './pages/NotFound/NotFound';
 import MyPage from './pages/MyPage/MyPage';
 import ScrollToTop from './utils/ScrollTop';
@@ -17,14 +17,14 @@ import { useEffect } from 'react';
 
 import { useRecoilValue } from 'recoil';
 import Main from './pages/Main';
-import { authAtom } from './_state/auth'; 
-import { Users } from './users/Users'; 
-import { Account } from './_account'; 
-import { Register } from './pages/Register/Register'; 
+import { authAtom } from './_state/auth';
+import { Users } from './users/Users';
+import { Account } from './_account';
+import { Register } from './pages/Register/Register';
 export { App };
 function App() {
   const auth = useRecoilValue(authAtom);
- 
+
   // useEffect(() => {
   //   getData().then((res) => {
   //     setData(res.data);
@@ -51,8 +51,6 @@ function App() {
           <Route path="/account/login" element={<Login />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="*" element={<NotFound />} />
-         
-         
         </Routes>
         <Footer />
       </BrowserRouter>

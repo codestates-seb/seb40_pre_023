@@ -5,9 +5,9 @@ export const TagBlock = styled.p`
   align-items: center;
   justify-content: center;
   gap: 2px;
-  height: 12px;
+  height: 19px;
   font-size: 12px;
-  padding: 4px;
+  padding: 7px;
   margin: 0 !important;
   border-radius: 3px;
   background-color: hsl(205, 46%, 92%);
