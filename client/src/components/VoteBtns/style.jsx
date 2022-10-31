@@ -14,6 +14,10 @@ export const Vote = styled.div`
     border: none;
     cursor: pointer;
 
+    &:focus {
+      outline: none;
+    }
+
     svg {
       fill: #babfc3;
       pointer-events: none;

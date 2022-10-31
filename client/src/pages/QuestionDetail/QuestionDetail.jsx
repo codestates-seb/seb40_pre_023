@@ -14,6 +14,8 @@ import {
   DetailContents,
   AnswerTitle,
   PostAnswerBtn,
+  TagContainer,
+  Tag,
 } from './style';
 
 //작성한 컨텐츠 보기 위한 스타일
@@ -83,6 +85,11 @@ const QuestionDetail = () => {
                       dangerouslySetInnerHTML={{ __html: sanitizer(data) }}
                     />
                   </div>
+                  <TagContainer>
+                    {qdetail.tags.map((el, idx) => {
+                      return <Tag key={idx}>{el}</Tag>;
+                    })}
+                  </TagContainer>
                   <QaFooter
                     type="question"
                     createAt={displayCreatedAt(qdetail.createdAt)}

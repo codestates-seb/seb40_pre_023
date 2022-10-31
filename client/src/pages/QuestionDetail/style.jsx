@@ -94,3 +94,22 @@ export const PostAnswerBtn = styled.button`
     background-color: hsl(206, 100%, 40%);
   }
 `;
+
+export const TagContainer = styled.div`
+  margin: 30px 0;
+`;
+
+export const Tag = styled.p`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 19px;
+  font-size: 12px;
+  padding: 7px;
+  margin-right: 0.4em;
+  border-radius: 3px;
+  background-color: hsl(205, 46%, 92%);
+  color: #39739d !important;
+  white-space: nowrap;
+`;
