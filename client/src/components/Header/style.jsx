@@ -230,7 +230,7 @@ export const MobileSearchButton = styled.div`
 `;
 
 export const Button = styled.div`
-  height: 15px;
+  height: 30px;
   padding: 8.4px 8px 6.4px 8px;
   border-radius: 2px;
   border: 1px solid black;
