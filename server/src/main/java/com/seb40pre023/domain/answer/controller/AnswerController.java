@@ -1,9 +1,6 @@
 package com.seb40pre023.domain.answer.controller;
 
 import com.seb40pre023.domain.answer.dto.AnswerDto;
-import com.seb40pre023.domain.answer.dto.AnswerPatchDto;
-import com.seb40pre023.domain.answer.dto.AnswerPostDto;
-import com.seb40pre023.domain.answer.dto.AnswerResponseDto;
 import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.answer.mapper.AnswerMapper;
 import com.seb40pre023.domain.answer.service.AnswerService;
@@ -25,9 +22,10 @@ public class AnswerController {
     //질문글에 답변을 쓸 때 답변 생성
     @PostMapping
     public ResponseEntity postAnswer(@RequestBody AnswerDto.Post requestBody) {
-        Answer response = answerService.createAnswer(mapper.answerPostToAnswer(requestBody));
+        Answer answer = mapper.answerPostToAnswer(requestBody);
+        Answer response = answerService.createAnswer(requestBody.getMemberId(), requestBody.getQuestionId(), answer);
 
-        return new ResponseEntity(mapper.answerToAnswerResponse(response), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.answerToAnswerResponse(response), HttpStatus.CREATED);
     }
 
     // 질문글에 작성한 답변 내용 수정하기
@@ -37,7 +35,7 @@ public class AnswerController {
         requestBody.setAnswerId(answerId);
         Answer response = answerService.updateAnswer(mapper.answerPatchToAnswer(requestBody));
 
-        return new ResponseEntity(mapper.answerToAnswerResponse(response), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.answerToAnswerResponse(response), HttpStatus.OK);
     }
 
     // 답변 하나 조회
