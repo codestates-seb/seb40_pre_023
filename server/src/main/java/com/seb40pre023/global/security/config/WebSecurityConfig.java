@@ -87,7 +87,7 @@ public class WebSecurityConfig {
 //                .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/questions/**").permitAll()
                 .antMatchers("/answers/**").permitAll()
-                .antMatchers("/votes/**").permitAll()
+                .antMatchers("/vote/**").permitAll()
 
 
                 .anyRequest().authenticated()
