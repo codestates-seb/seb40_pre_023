@@ -1,9 +1,11 @@
 package com.seb40pre023.domain.answervote.service;
 
 import com.seb40pre023.domain.answer.entity.Answer;
+import com.seb40pre023.domain.answer.service.AnswerService;
 import com.seb40pre023.domain.answervote.entity.AnswerVote;
 import com.seb40pre023.domain.answervote.repository.AnswerVoteRepository;
-import com.seb40pre023.global.error.exception.BusinessLogicException;
+import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,52 +16,49 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AnswerVoteService {
     private final AnswerVoteRepository answerVoteRepository;
+    private final MemberService memberService;
+    private final AnswerService answerService;
 
-    public AnswerVote createAnswerVote(AnswerVote answerVote) {
-        if (answerVote.getVoteValue() == 1) {
-            answerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteState.ANSWER_VOTE_UP);
-        }
-        else if (answerVote.getVoteValue() == -1) {
-            answerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteState.ANSWER_VOTE_DOWN);
-        }
+    // 회원이 답변에 투표 함
+    public AnswerVote createAnswerVote(Long memberId, Long answerId, AnswerVote answerVote) {
+        Member member = memberService.findVerifiedMember(memberId);
+        Answer answer = answerService.findVerifiedAnswer(answerId);
+        answerVote.setMember(member);
+        answerVote.setAnswer(answer);
 
         return answerVoteRepository.save(answerVote);
     }
 
-    public AnswerVote updateAnswerVote(Long memberId, Long answerId, int changeValue) {
-        Optional<AnswerVote> optionalAnswerVote =
-                answerVoteRepository.findByMemberMemberIdAndAnswerAnswerId(memberId, answerId);
-        AnswerVote findAnswerVote = optionalAnswerVote.get();
+    // 기존 UP투표를 DOWN으로, DOWN투표를 UP투표로 바꿈
+    public AnswerVote updateAnswerVote(Long memberId, Long answerId, AnswerVote answerVote) {
+        AnswerVote findAnswerVote = getAnswerVote(memberId, answerId);
+        findAnswerVote.setVoteState(answerVote.getVoteState());
 
-        int basedValue = findAnswerVote.getVoteValue();
-        if (basedValue == changeValue) {
-            System.out.println("중복 투표로 적용 안함");
-            return findAnswerVote;
-        }
-        else {
-            basedValue += changeValue;
-            if (basedValue == 1) {
-                findAnswerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteState.ANSWER_VOTE_UP);
-                findAnswerVote.setVoteValue(basedValue);
-            }
-            else if (basedValue == 0) {
-                findAnswerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteState.ANSWER_VOTE_NOTHING);
-                findAnswerVote.setVoteValue(basedValue);
-            }
-            else if (basedValue == -1) {
-                findAnswerVote.setAnswerVoteStatus(AnswerVote.AnswerVoteState.ANSWER_VOTE_DOWN);
-                findAnswerVote.setVoteValue(basedValue);
-            }
-        }
+        return answerVoteRepository.save(findAnswerVote);
+    }
+
+    // 기존 UP투표를 취소, DOWN투표를 취소
+    public AnswerVote cancelAnswerVote(Long memberId, Long answerId, AnswerVote answerVote) {
+        AnswerVote findAnswerVote = getAnswerVote(memberId, answerId);
+        findAnswerVote.setVoteState(1);
+
         return answerVoteRepository.save(findAnswerVote);
     }
 
     @Transactional(readOnly = true)
-    public boolean findAnswerVote(Long memberId, Long answerId) {
+    private AnswerVote getAnswerVote(Long memberId, Long answerId) {
+        Optional<AnswerVote> optionalAnswerVote =
+                answerVoteRepository.findByMemberMemberIdAndAnswerAnswerId(memberId, answerId);
+        AnswerVote findAnswerVote = optionalAnswerVote.get();
+        return findAnswerVote;
+    }
+
+    @Transactional(readOnly = true)
+    public int findAnswerVote(Long memberId, Long answerId) {
         Optional<AnswerVote> optionalAnswerVote =
                 answerVoteRepository.findByMemberMemberIdAndAnswerAnswerId(memberId, answerId);
         if (optionalAnswerVote.isPresent())
-            return true;
-        else return false;
+            return optionalAnswerVote.get().getVoteState();
+        else return -1;
     }
 }

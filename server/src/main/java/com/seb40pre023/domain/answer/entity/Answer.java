@@ -1,21 +1,30 @@
 package com.seb40pre023.domain.answer.entity;
 
+import com.seb40pre023.domain.answervote.entity.AnswerVote;
 import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.domain.member.repository.MemberRepository;
 import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-@NoArgsConstructor
+//@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Answer extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
+
+    @Column
+    private String nickname;
 
     @Column(nullable = false)
     private String content;
@@ -34,9 +43,8 @@ public class Answer extends BaseTime {
     private Question question;
 
 
-    // 답변과 답변투표 매핑
-    //    @OneToMany(mappedBy = "answer")
-//    private List<Vote> votes = new ArrayList<>();
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.PERSIST)
+    private List<AnswerVote> answerVoteList = new ArrayList<>();
 
     public enum AnswerStatus {
         ANSWER_COMPLETE("답변 완료"),
