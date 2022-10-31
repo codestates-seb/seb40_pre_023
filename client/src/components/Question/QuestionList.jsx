@@ -16,8 +16,14 @@ import {
 } from './style';
 import { displayCreatedAt } from '../../utils/displayCreatedAt';
 import { Link } from 'react-router-dom';
-
+import { getData } from '../../api/api';
+import { useState } from 'react';
 const QuestionList = () => {
+  // const [data, setData] = useState([]);
+  // getData().then((res) => {
+  //   setData(res.data.data);
+  //   console.log(res.data.data);
+  // });
   const data = [
     {
       createdAt: '2022-10-26T17:00:47.2460054',
@@ -35,10 +41,9 @@ const QuestionList = () => {
       vote: '1',
       answers: '0',
       views: '0',
-      title:
-        'Test1ffdddsdsdafsddsdadskujfkdlfsghdjfksghkjdsfghkjfdshgkjldsfjfkdsahdskjfadkjsfhsdkjfhdksfjhdhsfjkhfdsfsdakhnfgkjsghdfsjkghjkfdskjghfgdkjlhafjhgjdfskghdfskjghsdkfjghdkfsj',
+      title: 'ffffffffffddsdafsadfsdsdfasddssadfsadfsdafdddddddddd',
       content:
-        '1번째 글입니다djskafhdsjkfhjksdfhjk sddkjdfgh jkdsfghdfkjsghf dkjlghdsfjk hdsjkafhdasjkfhjdsakfhkdsajlfhkdsjalfhskajsdajkhfkfjdslfskadjhdfskaljdskjfhkldasjfhjkdsalfhjksdafhjkkjdsfhjkdasfhkjdlsahfdjksalfhdkjsghfdjksghfdjkshgkjfdshgjkfdshgjkfdshgkjlfsdhgjkfdshgkjdfshgkjlfdshgkjlfdshgkjdfshgjklsdfhhasdkjfhdsakjflhsadjklfhsdshafkjldhsfjklhsdkjldsjkahfkdjsafhdkjsafhksdajlfhdjksfhjklsdkjfhdsakfjlhsadfjkldhskjdsahfjkhdsfajkfhasdkjfhdskjalhfkljfsdahjkfdshajklfdsahkjfhdasksjaflhdshajkfhdsakjlfhdsajklfhjklasfdhjksfhdsjklafhkajsdlhfsjksafnkjdsglkhfdjsgkljdsfgkldshfjkdhsfjkdskjhdsjkghkdjlsfghdfjklsghfdjkslghhdsajklfhdsjakfhdskjdsjkhfjkdashfjkdsahfjkldsahfjkdshfjkldsahfjklsadhfjksdsajkfhdsakjfhsakjdlfhjdksaldshajkfhdsfkjlsdafhnkjsagbsdfjkgbdfsjkghdfsjkgdsfhgkjghsdfaljkhdsajkfhdsjkafhdsjakfhksladfhsdjkdsajklfhsadjklfhksjadlfdsahfjkdshafkjsadhfkjsddsjhfkdsahfkjsdhdshfkjhsdfakjafgbkjhsadgfhjkdasfghjkasdgfjsad.',
+        'fjfjfjfjsadfsadsdafdsafhkjdsahfkjldshakjflhasdkjlfasdfsdhasdkjljsadlkfjals;kdfjldsakjjsakdlfjlaskd;fjlskadfjfsadksafjfjfjfjfjfj',
       status: 'unanswered',
       tags: [
         {
@@ -84,6 +89,7 @@ const QuestionList = () => {
       ],
     },
   ];
+
   return (
     <QList>
       {data.map((item, idx) => (
