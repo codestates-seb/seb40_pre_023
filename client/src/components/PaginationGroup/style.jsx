@@ -13,12 +13,16 @@ export const PageLocation = styled.div`
   li {
     font-size: 13px;
   }
-  button[aria-current='true'] {
-    background-color: #f48223;
-    color: #fff;
-    border-color: transparent;
+  button {
+    &:focus {
+      outline: none;
+    }
+    &[aria-current='true'] {
+      background-color: #f48223;
+      color: #fff;
+      border-color: transparent;
+    }
   }
-
   .css-19xm0h7-MuiButtonBase-root-MuiPaginationItem-root {
     min-width: 27px;
     height: 27px;

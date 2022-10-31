@@ -75,7 +75,6 @@ export const Logo = styled.div`
   display: inline-flex;
   align-items: center;
   height: 100%;
-  width: 25px;
   padding: 0 8px;
   margin-left: 15px;
   cursor: pointer;
