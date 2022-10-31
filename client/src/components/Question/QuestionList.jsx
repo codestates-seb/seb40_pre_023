@@ -86,8 +86,8 @@ const QuestionList = () => {
   ];
   return (
     <QList>
-      {data.map((item) => (
-        <QDetail>
+      {data.map((item, idx) => (
+        <QDetail key={idx}>
           <QHead>
             <p>{item.vote ? item.vote : 0} votes</p>
             <p>{item.answers ? item.answers : 0} answers</p>
@@ -100,8 +100,8 @@ const QuestionList = () => {
             <QContent>{item.content}</QContent>
             <QUser>
               <QTagList>
-                {item.tags.map((tag) => (
-                  <QTag>{tag.content}</QTag>
+                {item.tags.map((tag, idx) => (
+                  <QTag key={idx}>{tag.content}</QTag>
                 ))}
               </QTagList>
               <QInfo>

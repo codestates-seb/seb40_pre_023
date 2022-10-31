@@ -22,23 +22,24 @@ import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 import { qdetail } from '../QuestionDetail/dummy';
 
+const makeTag = (arr) => {
+  const tagObjs = [];
+  for (let i = 0; i < arr.length; i++) {
+    tagObjs.push({
+      name: arr[i],
+      id: i,
+    });
+  }
+  return tagObjs;
+};
+
 const QuestionEdit = () => {
-  const [tags, setTags] = useState([]);
+  const defaultTag = makeTag(qdetail.tags);
+
+  const [tags, setTags] = useState(defaultTag);
   const [title, setTitle] = useState(qdetail.title);
   const [tag, setTag] = useState('');
   const [body, setBody] = useState('');
-
-  //tag ui 만들기위해 객체 형태로 변형
-  useEffect(() => {
-    const tagObjs = [];
-    for (let i = 0; i < tags.length; i++) {
-      tagObjs.push({
-        name: tags[i],
-        id: i,
-      });
-    }
-    setTags(tagObjs);
-  }, []);
 
   const tagInputRef = useRef();
   const editorRef = useRef();
