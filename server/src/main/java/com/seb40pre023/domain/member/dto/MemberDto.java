@@ -47,7 +47,6 @@ public class MemberDto {
         @NotBlank
         private String email;
 
-        @NotBlank
         private String password;
         private Member.Roles roles = Member.Roles.MEMBER_ACTIVE;
     }
