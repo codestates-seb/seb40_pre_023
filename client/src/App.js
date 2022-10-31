@@ -10,11 +10,12 @@ import QuestionDetail from './pages/QuestionDetail/QuestionDetail';
 import QuestionEdit from './pages/QusetionEdit/QuestionEdit';
 import QuestionList from './components/Question/QuestionList';
 import AnswerEdit from './pages/AnswerEdit/AnswerEdit';
+import PrivateRoute from './utils/PrivateRoute';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getData } from './api/api';
 import { useEffect } from 'react';
-
+import isLoginState from './_state/isLoginState';
 import { useRecoilValue } from 'recoil';
 import Main from './pages/Main';
 import { authAtom } from './_state/auth';
@@ -24,7 +25,7 @@ import { Register } from './pages/Register/Register';
 export { App };
 function App() {
   const auth = useRecoilValue(authAtom);
-
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   // useEffect(() => {
   //   getData().then((res) => {
   //     setData(res.data);
@@ -49,7 +50,10 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/account/register" element={<Register />} />
           <Route path="/account/login" element={<Login />} />
-          <Route path="/mypage" element={<MyPage />} />
+          <Route
+            path="/mypage"
+            element={<PrivateRoute component={<MyPage />} />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
