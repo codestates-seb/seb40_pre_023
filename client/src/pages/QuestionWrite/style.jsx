@@ -319,7 +319,7 @@ export const TagsInputGroup = styled.label`
     }
   }
 
-  & + small {
+  & ~ small {
     margin-top: 6px;
     display: none;
     font-size: 12px;
@@ -329,7 +329,7 @@ export const TagsInputGroup = styled.label`
   &.error {
     border-color: #de4f54;
 
-    & + small {
+    & ~ small.on {
       display: block;
     }
   }

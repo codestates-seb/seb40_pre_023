@@ -37,7 +37,8 @@ export const postAnswer = async (nickname, content) => {
 
 export const postQuestion = async (body) => {
   //json 형태로 body 받아옴
-  axios.post(`${URL}/questions/ask`, body);
+  const response = axios.post(`${URL}/questions/ask`, body);
+  return response;
 };
 
 export const voteAnswer = async (Id, vote) => {
