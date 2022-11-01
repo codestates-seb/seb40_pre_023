@@ -38,7 +38,7 @@ const QuestionWrite = () => {
     tags: [],
   });
 
-  // 이전 입력 통과시 클릭 활성화 관리
+  // 이 배열에 타입이 입력되면 그 스텝이 오픈됨
   const [opened, setOpened] = useState(['title']);
 
   //tag 키값 변수
@@ -53,14 +53,21 @@ const QuestionWrite = () => {
   const [introError, setIntroError] = useState(false);
   const [expandError, setExpandError] = useState(false);
 
+  //버튼의 활성화 비활성화를 제어하기 위해 필요
   const titleNextRef = useRef();
   const introNextRef = useRef();
   const expandNextRef = useRef();
   const postRef = useRef();
+
+  //태그 포커스, 적합성 테스트에 필요
   const tagInputRef = useRef();
+  const tagOutBox = useRef();
+  const tagMinimumRef = useRef();
+  const tagMaximumRef = useRef();
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     const postBody = JSON.stringify({
       title: body.title,
       content: `${body.introduce}<p><br></p>${body.expand}`,
@@ -68,12 +75,12 @@ const QuestionWrite = () => {
     });
 
     postQuestion(postBody)
-      .then((res) => res)
+      .then((res) => console.log(res))
       .catch((error) => alert(`글 작성에 실패하였습니다!🥲`));
   };
 
-  //설명 박스 등장을 제어함
-  const onFocusHandler = useCallback((e) => {
+  // 설명 박스 등장을 제어함
+  const onHelperHandler = useCallback((e) => {
     if (document.activeElement.closest('.helperUnit')) {
       if (document.querySelector('.helperUnit.active')) {
         document.querySelector('.helperUnit.active').classList.remove('active');
@@ -82,71 +89,35 @@ const QuestionWrite = () => {
     }
   }, []);
 
-  //title => intro로 넘어가기
-  const openIntroduce = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOpened([...opened, 'introduce']);
-      e.target.classList.add('remove');
-    },
-    [opened]
-  );
+  // next 버튼 누를시 다음 step 활성화 시키기
+  const openNext = (e, next) => {
+    e.preventDefault();
+    setOpened([...opened, next]);
+    e.target.classList.add('remove');
+  };
 
-  //intro => expand로 넘어가기
-  const openExpand = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOpened([...opened, 'expand']);
-      e.target.classList.add('remove');
-    },
-    [opened]
-  );
-
-  //expand=> tags로 넘어가기
-  const openTags = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOpened([...opened, 'tags']);
-      e.target.classList.add('remove');
-    },
-    [opened]
-  );
-
-  //tags => post 버튼 활성화 시키기
-  const openPost = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOpened([...opened, 'post']);
-      e.target.classList.add('remove');
-    },
-    [opened]
-  );
-
-  const onTagFocused = useCallback((e) => {
+  // 태그 박스에 포커스 효과 제어
+  const onTagFocused = (e) => {
     e.target.closest('label').classList.add('focused');
-  }, []);
-
-  const onTagFocusedOut = useCallback((e) => {
+  };
+  const onTagFocusedOut = (e) => {
     e.target.closest('label').classList.remove('focused');
-  }, []);
+  };
 
   useEffect(() => {
-    window.addEventListener('click', onFocusHandler);
-    titleNextRef.current.addEventListener('click', openIntroduce);
-    introNextRef.current.addEventListener('click', openExpand);
-    expandNextRef.current.addEventListener('click', openTags);
+    window.addEventListener('click', onHelperHandler);
+    titleNextRef.current.addEventListener('click', (e) => {
+      openNext(e, 'introduce');
+    });
+    introNextRef.current.addEventListener('click', (e) => {
+      openNext(e, 'expand');
+    });
+    expandNextRef.current.addEventListener('click', (e) => {
+      openNext(e, 'tags');
+    });
     tagInputRef.current.addEventListener('focus', onTagFocused);
     tagInputRef.current.addEventListener('focusout', onTagFocusedOut);
-  }, [
-    opened,
-    onFocusHandler,
-    openIntroduce,
-    openExpand,
-    openTags,
-    openPost,
-    onTagFocused,
-    onTagFocusedOut,
-  ]);
+  }, [opened]);
 
   useEffect(() => {
     if (tags.length > 0) {
@@ -155,9 +126,11 @@ const QuestionWrite = () => {
       postRef.current.disabled = true;
     }
 
+    // 추가 삭제를 위해 객체로 관리하던 tags를 배열로 변경
     const tagNameArr = tags.map((obj) => {
       return obj.name;
     });
+
     setBody({
       ...body,
       tags: [...tagNameArr],
@@ -178,12 +151,12 @@ const QuestionWrite = () => {
   };
 
   //introduce 에디터 변화 인식(intro, expand)
-  const onChangeIntro = (description, currentType) => {
+  const onChangeIntro = (htmlStr, text, currentType) => {
     setBody({
       ...body,
-      [currentType]: description,
+      [currentType]: htmlStr,
     });
-    let isFit = description.length > 20;
+    let isFit = text.length > 20;
     let nextBtn;
     let errorSetter;
 
@@ -215,6 +188,30 @@ const QuestionWrite = () => {
       }
     }
   };
+
+  const onTagChange = () => {
+    if (tags.length < 1) {
+      tagOutBox.current.classList.add('error');
+      tagMinimumRef.current.classList.add('on');
+    } else if (tags.length === 5) {
+      tagOutBox.current.classList.add('error');
+      tagMaximumRef.current.classList.add('on');
+    } else {
+      if (tagOutBox.current.classList.contains('error')) {
+        tagOutBox.current.classList.remove('error');
+      }
+      if (tagMinimumRef.current.classList.contains('on')) {
+        tagMinimumRef.current.classList.remove('on');
+      }
+      if (tagMaximumRef.current.classList.contains('on')) {
+        tagMaximumRef.current.classList.remove('on');
+      }
+    }
+  };
+
+  useEffect(() => {
+    onTagChange();
+  }, [tags]);
 
   const onDiscard = () => {
     navigate(0);
@@ -293,7 +290,11 @@ const QuestionWrite = () => {
                       className={titleError ? 'error' : ''}
                     ></InputText>
                     <small>Minimum 15 characters.</small>
-                    <NextBtn ref={titleNextRef} disabled>
+                    <NextBtn
+                      ref={titleNextRef}
+                      // onClick={openIntroduce}
+                      disabled
+                    >
                       Next
                     </NextBtn>
                   </InputSec>
@@ -336,7 +337,11 @@ const QuestionWrite = () => {
                         theme="snow"
                         modules={editorModules}
                         onChange={(content, delta, source, editor) =>
-                          onChangeIntro(editor.getHTML(), 'intro')
+                          onChangeIntro(
+                            editor.getHTML(),
+                            editor.getText(),
+                            'intro'
+                          )
                         }
                       />
                     </EditorContainer>
@@ -395,7 +400,11 @@ const QuestionWrite = () => {
                         theme="snow"
                         modules={editorModules}
                         onChange={(content, delta, source, editor) =>
-                          onChangeIntro(editor.getHTML(), 'expand')
+                          onChangeIntro(
+                            editor.getHTML(),
+                            editor.getText(),
+                            'expand'
+                          )
                         }
                       />
                     </EditorContainer>
@@ -446,7 +455,7 @@ const QuestionWrite = () => {
                       Add up to 5 tags to describe what your question is about.
                       Start typing to see suggestions. Minimum 1 tag.
                     </p>
-                    <TagsInputGroup htmlFor="tag-input">
+                    <TagsInputGroup htmlFor="tag-input" ref={tagOutBox}>
                       {tags.map((t) => {
                         return (
                           <Tag
@@ -465,11 +474,13 @@ const QuestionWrite = () => {
                         ref={tagInputRef}
                         onChange={(e) => {
                           setTag(e.target.value);
+                          onTagChange(e);
                         }}
                         onKeyPress={onKeyPress}
                       ></input>
                     </TagsInputGroup>
-                    <small>Minimum 1 tag.</small>
+                    <small ref={tagMinimumRef}>Minimum 1 tag.</small>
+                    <small ref={tagMaximumRef}>Maximum 5 tag.</small>
                   </InputSec>
                 </InputGroup>
                 <div>
