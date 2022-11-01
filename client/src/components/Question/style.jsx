@@ -4,8 +4,9 @@ export const QList = styled.div`
   width: 100%;
 `;
 
-export const QRightDetail = styled.div``;
-
+export const QRightDetail = styled.div`
+  width: 100%;
+`;
 export const QDetail = styled.div`
   padding: 16px;
   box-sizing: border-box;

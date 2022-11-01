@@ -8,79 +8,19 @@ import Rside from '../components/Rside/Rside';
 import LayoutContainer from '../components/LayoutContainer/LayoutContainer';
 import QuestionList from '../components/Question/QuestionList';
 import PaginationGroup from '../components/PaginationGroup/PaginationGroup';
-import { getQuestions } from '../api/api';
-
-const listDummy = [
-  {
-    createdAt: '2022-10-26T17:00:47.2460054',
-    modifiedAt: '2022-10-26T17:00:47.2460054',
-    questionId: 1,
-    member: {
-      createdAt: '2022-10-26T17:00:47.2460054',
-      modifiedAt: '2022-10-26T17:00:47.2460054',
-      memberId: 1,
-      email: 'hgd1@gmail.com',
-      nickname: 'honggildong',
-      about: '저는 홍길동1입니다.',
-      img: '사진',
-    },
-    vote: '1',
-    answers: '0',
-    views: '0',
-    title: 'ffffffffffddsdafsadfsdsdfasddssadfsadfsdafdddddddddd',
-    content:
-      'fjfjfjfjsadfsadsdafdsafhkjdsahfkjldshakjflhasdkjlfasdfsdhasdkjljsadlkfjals;kdfjldsakjjsakdlfjlaskd;fjlskadfjfsadksafjfjfjfjfjfj',
-    status: 'unanswered',
-    tags: [
-      {
-        tagId: 1,
-        content: 'java',
-      },
-      {
-        tagId: 2,
-        content: 'javascript',
-      },
-      {
-        tagId: 3,
-        content: 'react',
-      },
-    ],
-  },
-  {
-    createdAt: '2022-10-26T17:00:47.2460054',
-    modifiedAt: '2022-10-26T17:00:47.2460054',
-    questionId: 2,
-    member: {
-      createdAt: '2022-10-26T17:00:47.2460054',
-      modifiedAt: '2022-10-26T17:00:47.2460054',
-      memberId: 2,
-      email: 'hgd2@gmail.com',
-      nickname: 'honggildong223',
-      about: '저는 홍길동2입니다.',
-      img: '사진',
-    },
-    title: 'Test2',
-    content:
-      '2번째 글sadfjksajdfdsafdslkjdlksfjlskdfjklsdjfksdlgjlfasdjhdjksahfsadjklfhsdajklfhsdjkldsjkgfshdfsjkghkfjfjkdghgdksfjlhgfjk입니다.',
-    status: 'unanswered',
-    tags: [
-      {
-        tagId: 1,
-        content: 'java',
-      },
-      {
-        tagId: 2,
-        content: 'javascript',
-      },
-    ],
-  },
-];
+import { getData, getQuestions } from '../api/api';
 
 const Main = () => {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(15);
-  const [data, setData] = useState(listDummy);
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getData().then((res) => {
+      setData(res.data.data);
+    });
+  }, []);
 
   useEffect(() => {
     //메인 리스트화면 초기화 & 메인 페이지에서 네이션 눌를 경우
