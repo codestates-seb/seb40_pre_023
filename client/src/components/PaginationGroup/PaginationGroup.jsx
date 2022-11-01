@@ -3,7 +3,7 @@ import { Section, PageLocation, PageSize } from './style';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-const PaginationGroup = ({ page, size, setPage, setSize }) => {
+const PaginationGroup = ({ page, size, setPage, setSize, totalPage }) => {
   const handlePage = (page) => setPage(page);
 
   const handlePaginationClick = (e) => {
@@ -37,7 +37,7 @@ const PaginationGroup = ({ page, size, setPage, setSize }) => {
         <Stack spacing={2}>
           {/* TODO: count에 전체 페이지 수 넣어야 함 */}
           <Pagination
-            count={10}
+            count={totalPage}
             variant="outlined"
             shape="rounded"
             onChange={(event, value) => handlePage(value)}

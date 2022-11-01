@@ -95,6 +95,12 @@ export const PostAnswerBtn = styled.button`
   &:hover {
     background-color: hsl(206, 100%, 40%);
   }
+  &:focus {
+    outline: none;
+  }
+  &:disabled {
+    opacity: 0.3;
+  }
 `;
 
 export const TagContainer = styled.div`

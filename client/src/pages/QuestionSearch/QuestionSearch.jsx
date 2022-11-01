@@ -79,7 +79,9 @@ const searchDummy = [
 const QuestionSearch = () => {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(15);
+  const [totalPage, setTotalPage] = useState(0);
   const [data, setData] = useState(searchDummy);
+  const [totalQuestion, setTotalQustion] = useState(0);
   let { keyword } = useParams();
   const navigate = useNavigate();
 
@@ -89,7 +91,8 @@ const QuestionSearch = () => {
       navigate(`/search/${keyword}/${page}/${size}`);
       //TODO: 현재 임시로 pageNum과 pageSize를 응답받도록 설정해 놓음 추후, 페이지에 해당하는 데이터 받아야함
       // setData(res);
-      console.log(res);
+      // console.log(res);
+      setTotalPage(res.data.pageInfo.totalPages);
     });
   }, [page, size, keyword]);
 
@@ -99,9 +102,10 @@ const QuestionSearch = () => {
         <PageContainer>
           <main>
             <PageTitle title="Search Results" button="Ask Question" />
-            <Filter></Filter>
+            <Filter totalQuestion={totalQuestion}></Filter>
             <QuestionList questions={data} />
             <PaginationGroup
+              count={totalPage}
               page={page}
               size={size}
               setSize={setSize}

@@ -4,11 +4,6 @@ import { voteAnswer, voteQuestion } from '../../api/api';
 
 const VoteBtns = ({ votes, questionId, answerId }) => {
   const [vote, setVote] = useState(0);
-  useEffect(() => {
-    // console.log(votes, vote);
-    // window.addEventListener('click', handleCloseToggle);
-    // voteAnswer(type, answerId);
-  }, [vote]);
 
   const onClick = (e) => {
     const type = e.target.dataset.type;
