@@ -14,15 +14,17 @@ const Footer = () => {
   const [needFooter, setNeedFooter] = useState(true);
 
   useEffect(() => {
-    if (
+    if (location.pathname.indexOf('account') !== -1) {
+      setNeedFooter(false);
+    } else if (
       location.pathname === '/' ||
+      location.pathname.indexOf('search') !== -1 ||
       location.pathname.indexOf('questions') !== -1 ||
       location.pathname.indexOf('answers') !== -1 ||
-      location.pathname.indexOf('mypage') !== -1
+      location.pathname.indexOf('mypage') !== -1 ||
+      location.pathname.indexOf('ask') !== -1
     ) {
       setNeedFooter(true);
-    } else {
-      setNeedFooter(false);
     }
   }, [location, needFooter]);
 

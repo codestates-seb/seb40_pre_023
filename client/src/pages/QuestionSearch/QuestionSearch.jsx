@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Filter from '../components/Filter/Filter';
-import PageTitle from '../components/PageTitle/PageTitle';
-import PageContainer from '../components/PageContainer/PageContainer';
-import Aside from '../components/Aside/Aside';
-import Rside from '../components/Rside/Rside';
-import LayoutContainer from '../components/LayoutContainer/LayoutContainer';
-import QuestionList from '../components/Question/QuestionList';
-import PaginationGroup from '../components/PaginationGroup/PaginationGroup';
-import { getQuestions } from '../api/api';
+import { useParams, useNavigate } from 'react-router-dom';
+import Filter from '../../components/Filter/Filter';
+import PageTitle from '../../components/PageTitle/PageTitle';
+import PageContainer from '../../components/PageContainer/PageContainer';
+import Aside from '../../components/Aside/Aside';
+import Rside from '../../components/Rside/Rside';
+import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
+import QuestionList from '../../components/Question/QuestionList';
+import PaginationGroup from '../../components/PaginationGroup/PaginationGroup';
+import { getQuestions } from '../../api/api';
 
-const listDummy = [
+const searchDummy = [
   {
     createdAt: '2022-10-26T17:00:47.2460054',
     modifiedAt: '2022-10-26T17:00:47.2460054',
@@ -27,7 +27,7 @@ const listDummy = [
     vote: '1',
     answers: '0',
     views: '0',
-    title: 'ffffffffffddsdafsadfsdsdfasddssadfsadfsdafdddddddddd',
+    title: '검색결과1',
     content:
       'fjfjfjfjsadfsadsdafdsafhkjdsahfkjldshakjflhasdkjlfasdfsdhasdkjljsadlkfjals;kdfjldsakjjsakdlfjlaskd;fjlskadfjfsadksafjfjfjfjfjfj',
     status: 'unanswered',
@@ -59,7 +59,7 @@ const listDummy = [
       about: '저는 홍길동2입니다.',
       img: '사진',
     },
-    title: 'Test2',
+    title: '검색 결과2',
     content:
       '2번째 글sadfjksajdfdsafdslkjdlksfjlskdfjklsdjfksdlgjlfasdjhdjksahfsadjklfhsdajklfhsdjkldsjkgfshdfsjkghkfjfjkdghgdksfjlhgfjk입니다.',
     status: 'unanswered',
@@ -76,28 +76,29 @@ const listDummy = [
   },
 ];
 
-const Main = () => {
+const QuestionSearch = () => {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(15);
-  const [data, setData] = useState(listDummy);
+  const [data, setData] = useState(searchDummy);
+  let { keyword } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    //메인 리스트화면 초기화 & 메인 페이지에서 네이션 눌를 경우
-    getQuestions(page, size).then((res) => {
-      navigate(`/${page}/${size}`);
+    //검색화면 초기화 & 검색 페이지에서 페이지 네이션 눌를 경우
+    getQuestions(page, size, keyword).then((res) => {
+      navigate(`/search/${keyword}/${page}/${size}`);
       //TODO: 현재 임시로 pageNum과 pageSize를 응답받도록 설정해 놓음 추후, 페이지에 해당하는 데이터 받아야함
       // setData(res);
       console.log(res);
     });
-  }, [page, size]);
+  }, [page, size, keyword]);
 
   return (
     <>
       <LayoutContainer>
         <PageContainer>
           <main>
-            <PageTitle title="All Questions" button="Ask Question" />
+            <PageTitle title="Search Results" button="Ask Question" />
             <Filter></Filter>
             <QuestionList questions={data} />
             <PaginationGroup
@@ -116,4 +117,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default QuestionSearch;
