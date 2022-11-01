@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -22,12 +23,14 @@ public class QuestionVote extends BaseTime {
     private Long voteId;
 
     // MemberId : "투표상태" 를 HashMap 에 저장
-    @Type(type = "json")
-    private HashMap<Long, VoteStatus> voteStatus;
+    @ElementCollection
+    private Map<Long, VoteStatus> voteStatus = new HashMap<>();
 
     @OneToOne
     @JoinColumn(name = "QUESTION_ID")
     private Question question;
+
+    private int voteCount;
 
     // 투표 상태를 enum 타입으로 나타냄.
     public enum VoteStatus {
@@ -36,13 +39,19 @@ public class QuestionVote extends BaseTime {
 
         @Getter
         private int voteNumber;
-
         @Getter
         private String status;
 
         VoteStatus(int voteNumber, String status){
             this.voteNumber = voteNumber;
             this.status = status;
+        }
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+        if(question.getQuestionVote() != this) {
+            question.setQuestionVote(this);
         }
     }
 }

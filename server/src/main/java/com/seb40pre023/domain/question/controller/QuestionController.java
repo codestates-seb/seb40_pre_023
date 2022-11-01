@@ -6,6 +6,8 @@ import com.seb40pre023.domain.question.dto.QuestionResDto;
 import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.question.mapper.QuestionMapper;
 import com.seb40pre023.domain.question.service.QuestionService;
+import com.seb40pre023.domain.questionvote.entity.QuestionVote;
+import com.seb40pre023.domain.questionvote.entity.QuestionVoteCalculator;
 import com.seb40pre023.global.common.dto.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -85,6 +87,16 @@ public class QuestionController {
         questionService.deleteQuestion(memberId, questionId);
 
         return "delete question";
+    }
+
+    @PostMapping("/questions/vote/{questionId}")
+    public int postVote(@RequestParam int voteType,
+                        @PathVariable Long questionId,
+                        @RequestParam Long memberId) {
+
+        int voteScore = questionService.voteEvent(voteType, questionId, memberId);
+
+        return voteScore;
     }
 
 }

@@ -40,7 +40,7 @@ public class Question extends BaseTime {
     private QuestionVote questionVote;
 
     @Enumerated(value = EnumType.STRING)
-    private QuestionStatus questionStatus;
+    private QuestionStatus questionStatus = QuestionStatus.UNANSWERED;
 
     public enum QuestionStatus {
         UNANSWERED("답변이 없는 질문"),
@@ -52,6 +52,13 @@ public class Question extends BaseTime {
 
         QuestionStatus(String status) {
             this.status = status;
+        }
+    }
+
+    public void setQuestionVote(QuestionVote questionVote) {
+        this.questionVote = questionVote;
+        if (questionVote.getQuestion() != this) {
+            questionVote.setQuestion(this);
         }
     }
 }
