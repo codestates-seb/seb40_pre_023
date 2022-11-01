@@ -22,6 +22,11 @@ export const getQuestions = async (pageNum, pageSize, keyword) => {
   }
 };
 
+export const getQuestionDetail = async (parameter) => {
+  const response = await axios.get(URL + `${parameter}`);
+  return response;
+};
+
 export const postAnswer = async (nickname, content) => {
   const response = await axios.post(URL + `/answers`, {
     nickname,

@@ -14,12 +14,16 @@ const Main = () => {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(15);
   const [data, setData] = useState([]);
+  const [totalPage, setTotalPage] = useState(0);
+  const [totalQuestion, setTotalQustion] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     getQuestions(page, size).then((res) => {
       navigate(`/${page}/${size}`);
       setData(res.data.data);
+      setTotalPage(res.data.pageInfo.totalPages);
+      setTotalQustion(res.data.pageInfo.totalElements);
     });
   }, [page, size]);
 
@@ -29,9 +33,10 @@ const Main = () => {
         <PageContainer>
           <main>
             <PageTitle title="All Questions" button="Ask Question" />
-            <Filter></Filter>
+            <Filter totalQuestion={totalQuestion}></Filter>
             <QuestionList questions={data} />
             <PaginationGroup
+              totalPage={totalPage}
               page={page}
               size={size}
               setSize={setSize}

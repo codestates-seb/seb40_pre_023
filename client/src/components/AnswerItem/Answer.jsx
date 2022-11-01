@@ -9,7 +9,7 @@ const AnswerItem = ({ answer, editable }) => {
   const sanitizer = dompurify.sanitize;
   return (
     <AnswerContainer key={answer.answerId}>
-      <VoteBtns votes={answer.answerVote} answerId={answer.answerId} />
+      <VoteBtns votes={answer.numberOfTotalVote} answerId={answer.answerId} />
       <article>
         <div className="ql-snow">
           <QlViewer
@@ -18,11 +18,12 @@ const AnswerItem = ({ answer, editable }) => {
         </div>
         <QaFooter
           type="answer"
-          createAt={displayCreatedAt(answer.createAt)}
+          createAt={displayCreatedAt(answer.createdAt)}
           modifiedAt={displayCreatedAt(answer.modifiedAt)}
-          name={answer.member.nickname}
+          // CHECK: 답변자 이름이 안들어오고 있음()
+          name={'이름'}
           editable={editable}
-          avatar={answer.member.img}
+          avatar={''}
           itemId={answer.answerId}
         ></QaFooter>
       </article>

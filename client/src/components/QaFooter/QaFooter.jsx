@@ -49,7 +49,7 @@ const QaFooter = ({
         ''
       )}
       <ProfileCard type={type}>
-        <ProfilePicture avatar={avatar}></ProfilePicture>
+        <ProfilePicture avatar={avatar ? avatar : ''}></ProfilePicture>
         <div>
           <Timestamp>
             {type === 'question' ? 'asked ' : 'answered '}

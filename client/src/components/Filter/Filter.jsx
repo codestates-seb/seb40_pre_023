@@ -6,16 +6,16 @@ import {
   FilterCheck,
 } from './style';
 
-const Filter = () => {
+const Filter = ({ totalQuestion }) => {
   return (
     <Section>
-      <h3>23,148,869 questions</h3>
+      <h3>{totalQuestion} questions</h3>
       <BtnGroup>
         <FilterOptions>
           <p className="active">Newest</p>
           <p>Active</p>
           <p className="disappear-mobile">
-            Bountied <span>267</span>
+            Bountied <span>{totalQuestion}</span>
           </p>
           <p className="disappear-mobile">Unanswered</p>
           <p className="toggle">More</p>

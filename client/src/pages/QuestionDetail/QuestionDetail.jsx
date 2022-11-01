@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import Aside from '../../components/Aside/Aside';
@@ -34,37 +35,66 @@ import 'highlight.js/styles/stackoverflow-light.css';
 import { qArticle, aArticle, qdetail } from './dummy';
 
 //TODO: postAnswer로 answerpost 보내야함
-import { postAnswer } from '../../api/api';
+import { getQuestionDetail, postAnswer } from '../../api/api';
 
 const QuestionDetail = () => {
   //TODO: 질문 작성자 아이디와 비교해서 해당 글을 수정할 수 있는지 여부 체크 필요
   const [editable, setEditable] = useState(true);
-  const [data, setData] = useState(qArticle);
-  const [answer, setAnswer] = useState('');
-  const [vote, setVote] = useState(0);
-  const editorRef = useRef();
-  const questionRef = useRef();
+
+  const [data, setData] = useState({});
+  const [memeber, setMember] = useState({});
+  const [answerList, setAnswerList] = useState([]);
+
+  //html answer 컨텐츠
+  const [answerContent, setAnswerContent] = useState('');
+  const [isAnswerFit, setIsAnswerFit] = useState(true);
+
+  const postBtnRef = useRef();
   const sanitizer = dompurify.sanitize;
+  const location = useLocation();
+
+  useEffect(() => {
+    getQuestionDetail(`${location.pathname}`).then((res) => {
+      setData(res.data);
+      setMember(res.data.member);
+      setAnswerList(res.data.answerList);
+    });
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const description = editorRef.current.editor.root.innerHTML;
-    console.log(description);
-    // postAnswer();
+    // CHECK: 내 닉넴 받아오기
+    // TODO: 답변 포스트 성공시 해당부분만 추가하기 (question 전체 리로드 x)
+    // postAnswer(닉네임, answerContent)
+    //   .then((res) => {
+    //     setAnswerList([...answerList, res.data]);
+    //   })
+    //   .catch((error) => alert(`글 작성에 실패하였습니다!🥲`));
+  };
+
+  const onChange = (html, text) => {
+    setAnswerContent(html);
+    if (text.length > 20) {
+      postBtnRef.current.disabled = false;
+      setIsAnswerFit(true);
+    } else {
+      postBtnRef.current.disabled = true;
+      setIsAnswerFit(false);
+    }
   };
 
   return (
     <>
       <LayoutContainer>
         <DetailPageContainer>
-          <PageTitle title={qdetail.title} button="Ask Question"></PageTitle>
+          <PageTitle title={data.title} button="Ask Question"></PageTitle>
           <Stamps>
             <ul>
               <li>
-                Asked <strong>{displayCreatedAt(qdetail.createdAt)}</strong>
+                Asked <strong>{displayCreatedAt(data.createdAt)}</strong>
               </li>
               <li>
-                Modified <strong>{displayCreatedAt(qdetail.modifiedAt)}</strong>
+                Modified <strong>{displayCreatedAt(data.modifiedAt)}</strong>
               </li>
               <li>
                 Viewed <strong>3 times</strong>
@@ -74,34 +104,35 @@ const QuestionDetail = () => {
           <main>
             <DetailContents>
               <QuestionContainer>
-                <VoteBtns
-                  votes={qdetail.questionVote}
-                  questionId={qdetail.questionId}
-                ></VoteBtns>
+                {/* CHECK: 질문 투표수가 안들어오고 있음 */}
+                <VoteBtns votes={0} questionId={data.questionId}></VoteBtns>
                 <article>
                   <div className="ql-snow">
                     <QlViewer
-                      ref={questionRef}
-                      dangerouslySetInnerHTML={{ __html: sanitizer(data) }}
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizer(data.content),
+                      }}
                     />
                   </div>
                   <TagContainer>
-                    {qdetail.tags.map((el, idx) => {
-                      return <Tag key={idx}>{el}</Tag>;
-                    })}
+                    {data.tags
+                      ? data.tags.map((el, idx) => {
+                          return <Tag key={idx}>{el}</Tag>;
+                        })
+                      : ''}
                   </TagContainer>
                   <QaFooter
                     type="question"
-                    createAt={displayCreatedAt(qdetail.createdAt)}
-                    modifiedAt={displayCreatedAt(qdetail.modifiedAt)}
-                    name={qdetail.member.nickname}
+                    createAt={displayCreatedAt(data.createdAt)}
+                    modifiedAt={displayCreatedAt(data.modifiedAt)}
+                    name={memeber.nickname}
                     editable={editable}
-                    avatar={qdetail.member.img}
-                    itemId={qdetail.questionId}
+                    avatar={memeber.img}
+                    itemId={data.questionId}
                   ></QaFooter>
                 </article>
               </QuestionContainer>
-              {qdetail.answerList.map((a) => {
+              {answerList.map((a) => {
                 return (
                   <AnswerItem
                     key={a.answerId}
@@ -111,18 +142,20 @@ const QuestionDetail = () => {
                 );
               })}
               <form action="submit" onSubmit={onSubmit}>
-                <EditorContainer>
-                  <AnswerTitle>Your Answer</AnswerTitle>
+                <AnswerTitle>Your Answer</AnswerTitle>
+                <EditorContainer className={isAnswerFit ? '' : 'error'}>
                   <ReactQuill
                     theme="snow"
                     modules={editorModules}
-                    ref={editorRef}
                     onChange={(content, delta, source, editor) =>
-                      setAnswer(editor.getHTML())
+                      onChange(editor.getHTML(), editor.getText())
                     }
                   />
                 </EditorContainer>
-                <PostAnswerBtn>Post Your Answer</PostAnswerBtn>
+                <small>Mimimum 20 characters</small>
+                <PostAnswerBtn ref={postBtnRef} disabled>
+                  Post Your Answer
+                </PostAnswerBtn>
               </form>
             </DetailContents>
             <Aside>
