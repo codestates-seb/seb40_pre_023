@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;

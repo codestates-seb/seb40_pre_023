@@ -20,6 +20,7 @@ import java.io.IOException;
 
 @RestController
 @Validated
+@CrossOrigin
 public class MemberController {
 
     private MemberService memberService;
