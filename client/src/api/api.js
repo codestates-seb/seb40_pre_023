@@ -30,6 +30,11 @@ export const postAnswer = async (nickname, content) => {
   return response;
 };
 
+export const postQuestion = async (body) => {
+  //json 형태로 body 받아옴
+  axios.post(`${URL}/questions/ask`, body);
+};
+
 export const voteAnswer = async (Id, vote) => {
   //Answer에 투표하기
   return `${Id} answer의 좋아요 = ${vote}개`;

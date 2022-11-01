@@ -26,6 +26,7 @@ import {
   TagsInputGroup,
 } from './style';
 import Tag from '../../components/Tag/Tag';
+import { postQuestion } from '../../api/api';
 
 const QuestionWrite = () => {
   const navigate = useNavigate();
@@ -57,6 +58,19 @@ const QuestionWrite = () => {
   const expandNextRef = useRef();
   const postRef = useRef();
   const tagInputRef = useRef();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const postBody = JSON.stringify({
+      title: body.title,
+      content: `${body.introduce}<p><br></p>${body.expand}`,
+      tags: [...body.tags],
+    });
+
+    postQuestion(postBody)
+      .then((res) => res)
+      .catch((error) => alert(`글 작성에 실패하였습니다!🥲`));
+  };
 
   //설명 박스 등장을 제어함
   const onFocusHandler = useCallback((e) => {
@@ -140,6 +154,14 @@ const QuestionWrite = () => {
     } else {
       postRef.current.disabled = true;
     }
+
+    const tagNameArr = tags.map((obj) => {
+      return obj.name;
+    });
+    setBody({
+      ...body,
+      tags: [...tagNameArr],
+    });
   }, [tags]);
 
   //title 인풋 변화 인식
@@ -157,6 +179,10 @@ const QuestionWrite = () => {
 
   //introduce 에디터 변화 인식(intro, expand)
   const onChangeIntro = (description, currentType) => {
+    setBody({
+      ...body,
+      [currentType]: description,
+    });
     let isFit = description.length > 20;
     let nextBtn;
     let errorSetter;
@@ -227,7 +253,7 @@ const QuestionWrite = () => {
                   <li>Review your question and post it to the site.</li>
                 </ul>
               </Notice>
-              <form>
+              <form onSubmit={onSubmit}>
                 <InputGroup
                   className={
                     opened.indexOf('title') !== -1
