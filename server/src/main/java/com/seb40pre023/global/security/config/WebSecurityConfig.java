@@ -11,19 +11,13 @@ package com.seb40pre023.global.security.config;
  * JWT 생성 후, 클라이언트의 응답으로 전달
  */
 
-<<<<<<< HEAD
 import com.seb40pre023.global.security.filter.JwtAuthenticationFilter;
 import com.seb40pre023.global.security.handler.JwtAuthenticationEntryPoint;
 import com.seb40pre023.global.security.auth.TokenProvider;
 import com.seb40pre023.global.security.handler.JwtAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-=======
-import com.seb40pre023.global.security.auth.JwtAuthenticationEntryPoint;
-import com.seb40pre023.global.security.auth.TokenProvider;
-import com.seb40pre023.global.security.handler.JwtAccessDeniedHandler;
-import org.springframework.context.annotation.Bean;
->>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
+
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -42,99 +36,67 @@ public class WebSecurityConfig {
     private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-<<<<<<< HEAD
-    private final AuthenticationConfiguration authenticationConfiguration;
-=======
->>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
 
-    public WebSecurityConfig(
-            TokenProvider tokenProvider,
-            CorsFilter corsFilter,
-            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-<<<<<<< HEAD
-            JwtAccessDeniedHandler jwtAccessDeniedHandler,
-            AuthenticationConfiguration authenticationConfiguration) {
-=======
-            JwtAccessDeniedHandler jwtAccessDeniedHandler
-    ) {
->>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
+    private final AuthenticationConfiguration authenticationConfiguration;
+
+    public WebSecurityConfig(TokenProvider tokenProvider, CorsFilter corsFilter, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAccessDeniedHandler jwtAccessDeniedHandler, AuthenticationConfiguration authenticationConfiguration) {
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-<<<<<<< HEAD
         this.authenticationConfiguration = authenticationConfiguration;
-=======
->>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
     }
+        @Bean
+        public PasswordEncoder passwordEncoder () {
+            return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public WebSecurityCustomizer webSecurityCustomizer () {
+            return (web) -> web.ignoring().antMatchers("/h2-console/**"
+                    , "/favicon.ico"
+                    , "/error");
+        }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/h2-console/**"
-                , "/favicon.ico"
-                , "/error");
-    }
+        @Bean
+        public SecurityFilterChain filterChain (HttpSecurity httpSecurity) throws Exception {
+            httpSecurity
+                    .csrf().disable()
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-<<<<<<< HEAD
+                    .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
 
-=======
->>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
-        httpSecurity
-                // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
-                .csrf().disable()
+                    .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), tokenProvider))
+                    .exceptionHandling()
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                    // enable h2-console
+                    .and()
+                    .headers()
+                    .frameOptions()
+                    .sameOrigin()
 
-<<<<<<< HEAD
-                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), tokenProvider))
-=======
->>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
+                    // 세션을 사용하지 않기 때문에 STATELESS로 설정
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                // enable h2-console
-                .and()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
-
-                // 세션을 사용하지 않기 때문에 STATELESS로 설정
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                .and()
-                .authorizeRequests()
-                .antMatchers("/members/**").permitAll()
-<<<<<<< HEAD
-                .antMatchers("/members/login").permitAll()
-=======
->>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/members/**").permitAll()
+                    .antMatchers("/members/login").permitAll()
 //                .antMatchers("/api/authenticate").permitAll()
-                .antMatchers("/questions/**").permitAll()
-                .antMatchers("/answers/**").permitAll()
-                .antMatchers("/vote/**").permitAll()
+                    .antMatchers("/questions/**").permitAll()
+                    .antMatchers("/answers/**").permitAll()
+                    .antMatchers("/vote/**").permitAll()
 
 
-                .anyRequest().authenticated()
+                    .anyRequest().authenticated()
 
-                .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
-<<<<<<< HEAD
-//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                    .and()
+                    .apply(new JwtSecurityConfig(tokenProvider));
 
-=======
->>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
-
-        return httpSecurity.build();
+            return httpSecurity.build();
+        }
     }
-}
