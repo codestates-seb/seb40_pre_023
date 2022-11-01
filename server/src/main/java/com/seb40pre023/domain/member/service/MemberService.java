@@ -1,13 +1,14 @@
 package com.seb40pre023.domain.member.service;
 
 import com.seb40pre023.domain.member.dto.MemberDto;
-import com.seb40pre023.domain.member.dto.MemberPostDto;
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.global.error.exception.BusinessLogicException;
 import com.seb40pre023.global.error.exception.ExceptionCode;
 import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.repository.MemberRepository;
+import com.seb40pre023.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,14 +43,15 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }
 
-    public Member login(MemberDto.Login loginDto) {
-        Member member = mapper.memberLoginToMember(loginDto);
-        Member findMember = findVerifiedMemberByEmail(member.getEmail());
-//        if (!member.getPassword().equals(findMember.getPassword())) {
-//            throw new BusinessLogicException(ExceptionCode.INVALID_PASSWORD);
-//        } -> password 암호화후 nullpointexception 터져서 주석처리
-        return findMember;
-    }
+//    public Member login(MemberDto.Login loginDto) {
+//        Member member = mapper.memberLoginToMember(loginDto);
+//        Member findMember = findVerifiedMemberByEmail(member.getEmail());
+////        if (!member.getPassword().equals(findMember.getPassword())) {
+////            throw new BusinessLogicException(ExceptionCode.INVALID_PASSWORD);
+////        } -> password 암호화후 nullpointexception 터져서 주석처리
+//        return findMember;
+//    }
+
 
     @Transactional
     public Member findVerifiedMemberByEmail(String email) {
@@ -83,10 +85,6 @@ public class MemberService {
 
         Member findMember = optionalMember.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-//        if (findMember.getRoles() == Member.Roles.MEMBER_NOT_EXISTS) {
-//            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-//        }
 
         return findMember;
     }

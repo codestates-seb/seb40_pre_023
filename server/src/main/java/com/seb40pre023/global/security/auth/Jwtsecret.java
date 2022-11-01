@@ -5,4 +5,6 @@ public interface Jwtsecret {
     int EXPIRATION_MINUTES = 30;
 
     String HEADER = "Authorization";
+
+//    String TOKEN_PREFIX = "Bearer";
 }

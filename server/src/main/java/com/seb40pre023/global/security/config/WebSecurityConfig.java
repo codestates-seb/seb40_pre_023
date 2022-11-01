@@ -11,10 +11,12 @@ package com.seb40pre023.global.security.config;
  * JWT 생성 후, 클라이언트의 응답으로 전달
  */
 
-import com.seb40pre023.global.security.auth.JwtAuthenticationEntryPoint;
+import com.seb40pre023.global.security.filter.JwtAuthenticationFilter;
+import com.seb40pre023.global.security.handler.JwtAuthenticationEntryPoint;
 import com.seb40pre023.global.security.auth.TokenProvider;
 import com.seb40pre023.global.security.handler.JwtAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,17 +35,19 @@ public class WebSecurityConfig {
     private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final AuthenticationConfiguration authenticationConfiguration;
 
     public WebSecurityConfig(
             TokenProvider tokenProvider,
             CorsFilter corsFilter,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-            JwtAccessDeniedHandler jwtAccessDeniedHandler
-    ) {
+            JwtAccessDeniedHandler jwtAccessDeniedHandler,
+            AuthenticationConfiguration authenticationConfiguration) {
         this.tokenProvider = tokenProvider;
         this.corsFilter = corsFilter;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.authenticationConfiguration = authenticationConfiguration;
     }
 
     @Bean
@@ -60,12 +64,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+
+
         httpSecurity
                 // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
                 .csrf().disable()
 
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
+                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), tokenProvider))
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -84,6 +91,7 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/members/**").permitAll()
+                .antMatchers("/members/login").permitAll()
 //                .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/questions/**").permitAll()
                 .antMatchers("/answers/**").permitAll()
@@ -94,6 +102,8 @@ public class WebSecurityConfig {
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
+//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+
 
         return httpSecurity.build();
     }
