@@ -13,20 +13,17 @@ const Footer = () => {
   const location = useLocation();
   const [needFooter, setNeedFooter] = useState(true);
 
+  const ignorePaths = [
+    '/account/login',
+    '/account/register',
+    '/ask',
+    '/account',
+    '/404',
+  ];
+
   useEffect(() => {
-    if (location.pathname.indexOf('account') !== -1) {
-      setNeedFooter(false);
-    } else if (
-      location.pathname === '/' ||
-      location.pathname.indexOf('search') !== -1 ||
-      location.pathname.indexOf('questions') !== -1 ||
-      location.pathname.indexOf('answers') !== -1 ||
-      location.pathname.indexOf('mypage') !== -1 ||
-      location.pathname.indexOf('ask') !== -1
-    ) {
-      setNeedFooter(true);
-    }
-  }, [location, needFooter]);
+    setNeedFooter(!ignorePaths.includes(location.pathname));
+  }, [location]);
 
   return (
     <Container className={needFooter ? '' : 'remove'}>
