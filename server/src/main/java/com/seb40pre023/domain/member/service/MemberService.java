@@ -1,6 +1,7 @@
 package com.seb40pre023.domain.member.service;
 
 import com.seb40pre023.domain.member.dto.MemberDto;
+import com.seb40pre023.domain.member.dto.MemberPostDto;
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.global.error.exception.BusinessLogicException;
 import com.seb40pre023.global.error.exception.ExceptionCode;
@@ -8,7 +9,10 @@ import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.repository.MemberRepository;
 import com.seb40pre023.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+<<<<<<< HEAD
 import org.springframework.security.core.context.SecurityContextHolder;
+=======
+>>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +47,7 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     }
 
+<<<<<<< HEAD
 //    public Member login(MemberDto.Login loginDto) {
 //        Member member = mapper.memberLoginToMember(loginDto);
 //        Member findMember = findVerifiedMemberByEmail(member.getEmail());
@@ -52,6 +57,16 @@ public class MemberService {
 //        return findMember;
 //    }
 
+=======
+    public Member login(MemberDto.Login loginDto) {
+        Member member = mapper.memberLoginToMember(loginDto);
+        Member findMember = findVerifiedMemberByEmail(member.getEmail());
+//        if (!member.getPassword().equals(findMember.getPassword())) {
+//            throw new BusinessLogicException(ExceptionCode.INVALID_PASSWORD);
+//        } -> password 암호화후 nullpointexception 터져서 주석처리
+        return findMember;
+    }
+>>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
 
     @Transactional
     public Member findVerifiedMemberByEmail(String email) {

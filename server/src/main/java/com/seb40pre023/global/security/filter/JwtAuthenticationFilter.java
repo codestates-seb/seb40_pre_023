@@ -20,7 +20,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+<<<<<<< HEAD
 import java.io.IOException;
+=======
+>>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
 import java.util.Date;
 
 /**
@@ -31,6 +34,7 @@ import java.util.Date;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+<<<<<<< HEAD
     private final TokenProvider tokenProvider;
 
 //    private final JwtTokenizer jwtTokenizer; 생략
@@ -39,6 +43,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.setFilterProcessesUrl("/login");
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
+=======
+//    private final JwtTokenizer jwtTokenizer; 생략
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+>>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
     }
 
     @SneakyThrows
@@ -54,15 +64,24 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return authenticationManager.authenticate(authenticationToken);
         //위에 AuthenticationToken을 AuthenticationManager에게 전달하면서 인증 처리를 위임함
     }
+<<<<<<< HEAD
     //생성자 생성 ->
+=======
+>>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
+<<<<<<< HEAD
                                             Authentication authResult) throws IOException {
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
+=======
+                                            Authentication authResult) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+        //getPrincipal 로 Member 엔티티 클래스의 객체를 얻음
+>>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
 
         String jwtToken = JWT.create()
                 .withSubject(principalDetails.getUsername())
@@ -72,7 +91,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
 
         response.addHeader(Jwtsecret.HEADER, "Bearer " + jwtToken);
+<<<<<<< HEAD
         response.getWriter().write("success login");
+=======
+>>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
     }
 
 

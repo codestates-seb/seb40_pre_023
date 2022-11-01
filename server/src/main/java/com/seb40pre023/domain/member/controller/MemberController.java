@@ -64,6 +64,7 @@ public class MemberController {
     }
 
     //로그인
+<<<<<<< HEAD
 //    @GetMapping("/login")
 //    public ResponseEntity login(@Valid @RequestBody MemberDto.Login loginDto,
 //                                HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -73,6 +74,17 @@ public class MemberController {
 ////        session.setAttribute("LOGIN_MEMBER", loginMember);
 //        return new ResponseEntity(new SingleResponseDto<>(mapper.memberLoginToMember(loginDto)), HttpStatus.OK);
 //    }
+=======
+    @GetMapping("/members/login")
+    public ResponseEntity login(@Valid @RequestBody MemberDto.Login loginDto,
+                                HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Member loginMember = memberService.login(loginDto);
+
+//        HttpSession session = request.getSession(true);
+//        session.setAttribute("LOGIN_MEMBER", loginMember);
+        return new ResponseEntity(new SingleResponseDto<>(mapper.memberLoginToMember(loginDto)), HttpStatus.OK);
+    }
+>>>>>>> 6d830ed243240ca3442f99fdfd1fb9227d0636dc
 
     //로그아웃
     @GetMapping("/members/logout")
