@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -30,10 +31,16 @@ import java.util.Date;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+
+    private final TokenProvider tokenProvider;
+
 //    private final JwtTokenizer jwtTokenizer; 생략
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
+        this.setFilterProcessesUrl("/login");
         this.authenticationManager = authenticationManager;
+        this.tokenProvider = tokenProvider;
+
     }
 
     @SneakyThrows
@@ -54,9 +61,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) {
+
+                                            Authentication authResult) throws IOException {
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
-        //getPrincipal 로 Member 엔티티 클래스의 객체를 얻음
+
 
         String jwtToken = JWT.create()
                 .withSubject(principalDetails.getUsername())
@@ -66,6 +74,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
 
         response.addHeader(Jwtsecret.HEADER, "Bearer " + jwtToken);
+        response.getWriter().write("success login");
+
     }
 
 
