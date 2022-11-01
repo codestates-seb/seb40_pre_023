@@ -12,7 +12,7 @@ import QuestionList from './components/Question/QuestionList';
 import AnswerEdit from './pages/AnswerEdit/AnswerEdit';
 import PrivateRoute from './utils/PrivateRoute';
 import QuestionSearch from './pages/QuestionSearch/QuestionSearch';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getData } from './api/api';
 import { useEffect } from 'react';
@@ -27,12 +27,6 @@ export { App };
 function App() {
   const auth = useRecoilValue(authAtom);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  // useEffect(() => {
-  //   getData().then((res) => {
-  //     setData(res.data);
-  //     console.log(data);
-  //   });
-  // }, []);
 
   return (
     <div className={'app-container' + (auth ? ' bg-light' : '')}>
@@ -59,6 +53,7 @@ function App() {
             path="/mypage"
             element={<PrivateRoute component={<MyPage />} />}
           />
+          <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
