@@ -159,6 +159,7 @@ export const InputText = styled.input`
   padding: 8px 9px;
   border: 1px solid hsl(210, 8%, 75%);
   border-radius: 2px;
+  font-size: 14px;
 
   &:focus-visible {
     border: none;
@@ -342,6 +343,7 @@ export const TagsInputGroup = styled.label`
     padding-left: 0;
     border: none;
     min-width: 250px;
+    font-size: 13px;
 
     &:focus-visible {
       outline: none;
