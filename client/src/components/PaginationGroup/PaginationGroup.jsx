@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Section, PageLocation, PageSize } from './style';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { getQuestions } from '../../api/api';
 
-const PaginationGroup = () => {
-  const [pageNum, setPageNum] = useState(1);
-  const [pageSize, setPageSize] = useState('15');
-
-  const handlePage = (page) => setPageNum(page);
+const PaginationGroup = ({ page, size, setPage, setSize }) => {
+  const handlePage = (page) => setPage(page);
 
   const handlePaginationClick = (e) => {
     const paginationBtn = e.target.closest('.MuiButtonBase-root');
@@ -21,7 +17,7 @@ const PaginationGroup = () => {
         const result = nowPage.ariaLabel.replace(regex, '');
         const pageNumber = parseInt(result);
 
-        setPageNum(pageNumber);
+        setPage(pageNumber);
       }
     }
   };
@@ -30,16 +26,9 @@ const PaginationGroup = () => {
     window.addEventListener('click', handlePaginationClick);
   }, []);
 
-  useEffect(() => {
-    getQuestions(pageNum, pageSize).then((res) => {
-      //TODO: 현재 임시로 pageNum과 pageSize를 응답받도록 설정해 놓음 추후, 페이지에 해당하는 데이터 받아야함
-      console.log(res);
-    });
-  }, [pageNum, pageSize]);
-
   const handleChangePageSize = (event) => {
-    setPageSize(event.target.value);
-    setPageNum(1);
+    setSize(event.target.value);
+    setPage(1);
   };
 
   return (
@@ -52,7 +41,7 @@ const PaginationGroup = () => {
             variant="outlined"
             shape="rounded"
             onChange={(event, value) => handlePage(value)}
-            page={pageNum}
+            page={page}
           />
         </Stack>
       </PageLocation>
@@ -64,7 +53,7 @@ const PaginationGroup = () => {
               id="15"
               name="page-size"
               value="15"
-              checked={pageSize === '15'}
+              checked={size === '15'}
               onChange={handleChangePageSize}
             />
             <label htmlFor="15">15</label>

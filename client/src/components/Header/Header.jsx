@@ -18,7 +18,7 @@ import {
   Lshape,
 } from './style';
 import LayoutContainer from '../LayoutContainer/LayoutContainer';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 // TODO: dummy 지워야 함
 import { userInfo } from './dummy';
@@ -26,6 +26,7 @@ import { userInfo } from './dummy';
 const Header = () => {
   const location = useLocation();
   const sideBar = useRef();
+  const navigate = useNavigate();
 
   const [isSearch, setIsSearch] = useState(false);
   const [isSidebarOn, setIsSidebarOn] = useState(false);
@@ -47,19 +48,27 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    if (location.pathname.indexOf('ask') !== -1) {
+    if (
+      location.pathname.indexOf('ask') !== -1 ||
+      location.pathname.indexOf('account') !== -1
+    ) {
       setNeedSidebar(false);
     } else if (
       location.pathname === '/' ||
+      location.pathname.indexOf('search') !== -1 ||
       location.pathname.indexOf('questions') !== -1 ||
       location.pathname.indexOf('answers') !== -1 ||
       location.pathname.indexOf('mypage') !== -1
     ) {
       setNeedSidebar(true);
-    } else {
-      setNeedSidebar(false);
     }
   }, [location, needSidebar]);
+
+  const onKeyPress = (e) => {
+    if (e.key === 'Enter' && e.target.value.length > 0) {
+      navigate(`/search/${e.target.value}/1/5`);
+    }
+  };
 
   return (
     <>
@@ -145,7 +154,11 @@ const Header = () => {
                 <path d="m18 16.5-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5ZM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Z"></path>
               </svg>
             </SearchIcon>
-            <Search className="prevent-searchbar" visible={isSearch}></Search>
+            <Search
+              onKeyPress={onKeyPress}
+              className="prevent-searchbar"
+              visible={isSearch}
+            ></Search>
             {isLogin ? (
               <ul>
                 <li>

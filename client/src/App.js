@@ -11,7 +11,8 @@ import QuestionEdit from './pages/QusetionEdit/QuestionEdit';
 import QuestionList from './components/Question/QuestionList';
 import AnswerEdit from './pages/AnswerEdit/AnswerEdit';
 import PrivateRoute from './utils/PrivateRoute';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import QuestionSearch from './pages/QuestionSearch/QuestionSearch';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getData } from './api/api';
 import { useEffect } from 'react';
@@ -40,8 +41,12 @@ function App() {
         <GlobalStyle />
         <Header />
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/main" element={<QuestionList />} />
+          <Route index path="/" element={<Main />} />
+          <Route index path="/:page/:size" element={<Main />} />
+          <Route
+            path="/search/:keyword/:page/:size"
+            element={<QuestionSearch />}
+          />
           <Route path="/questions/:id" element={<QuestionDetail />} />
           <Route path="/questions/:id/edit" element={<QuestionEdit />} />
           <Route path="/questions/ask" element={<QuestionWrite />} />
