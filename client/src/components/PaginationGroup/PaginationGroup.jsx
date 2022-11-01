@@ -53,7 +53,7 @@ const PaginationGroup = ({ page, size, setPage, setSize }) => {
               id="15"
               name="page-size"
               value="15"
-              checked={size === '15'}
+              checked={size === 15}
               onChange={handleChangePageSize}
             />
             <label htmlFor="15">15</label>
