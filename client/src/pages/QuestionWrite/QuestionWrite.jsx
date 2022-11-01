@@ -213,6 +213,11 @@ const QuestionWrite = () => {
     onTagChange();
   }, [tags]);
 
+  useEffect(() => {
+    tagOutBox.current.classList.remove('error');
+    tagMinimumRef.current.classList.remove('on');
+  }, []);
+
   const onDiscard = () => {
     navigate(0);
     window.scrollTo(0, 0);
