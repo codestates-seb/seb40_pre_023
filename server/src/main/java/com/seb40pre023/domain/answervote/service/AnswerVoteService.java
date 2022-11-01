@@ -46,7 +46,7 @@ public class AnswerVoteService {
     }
 
     @Transactional(readOnly = true)
-    private AnswerVote getAnswerVote(Long memberId, Long answerId) {
+    public AnswerVote getAnswerVote(Long memberId, Long answerId) {
         Optional<AnswerVote> optionalAnswerVote =
                 answerVoteRepository.findByMemberMemberIdAndAnswerAnswerId(memberId, answerId);
         AnswerVote findAnswerVote = optionalAnswerVote.get();
