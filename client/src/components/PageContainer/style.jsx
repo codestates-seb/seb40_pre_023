@@ -13,10 +13,4 @@ export const Container = styled.div`
     display: flex;
     justify-content: space-between;
   }
-
-  > main {
-    @media screen and (min-width: 981px) {
-      margin-right: 24px;
-    }
-  }
 `;

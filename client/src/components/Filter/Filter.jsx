@@ -6,10 +6,12 @@ import {
   FilterCheck,
 } from './style';
 
-const Filter = ({ totalQuestion }) => {
+const Filter = ({ totalQuestion, type }) => {
   return (
     <Section>
-      <h3>{totalQuestion} questions</h3>
+      <h3>
+        {totalQuestion} {type}
+      </h3>
       <BtnGroup>
         <FilterOptions>
           <p className="active">Newest</p>

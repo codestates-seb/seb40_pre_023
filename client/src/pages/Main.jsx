@@ -33,7 +33,7 @@ const Main = () => {
         <PageContainer>
           <main>
             <PageTitle title="All Questions" button="Ask Question" />
-            <Filter totalQuestion={totalQuestion}></Filter>
+            <Filter totalQuestion={totalQuestion} type="questions"></Filter>
             <QuestionList questions={data} />
             <PaginationGroup
               totalPage={totalPage}
