@@ -73,7 +73,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim("email", principalDetails.getMember().getEmail())
                 .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
 
-//        response.addHeader(Jwtsecret.HEADER, "Bearer " + jwtToken);
+        response.addHeader(Jwtsecret.HEADER, jwtToken);
+
         response.getWriter().write("success login");
 
     }

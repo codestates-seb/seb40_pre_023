@@ -96,7 +96,6 @@ public class QuestionController {
                         @PathVariable Long questionId,
                         @RequestParam Long memberId) {
 
-
         int voteScore = questionService.voteEvent(voteType, questionId, memberId);
 
         return voteScore;
