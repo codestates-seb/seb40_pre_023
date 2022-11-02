@@ -57,8 +57,9 @@ public class AnswerService {
         return answers;
     }
 
-    public void deleteAnswer(Long answerId) {
+    public void deleteAnswer(Long memberId, Long answerId) {
         System.out.println("success delete answer : " + answerId);
+
 //        Answer findAnswer = findVerifiedAnswer(answerId);
 
 //        if (findAnswer.getMember().getMemberId().equals(memberId)) {
@@ -66,7 +67,6 @@ public class AnswerService {
 //        }else {
 //            throw new NoSuchMessageException("삭제 권한이 없습니다.");
 //        }
-
 
     }
 

@@ -9,6 +9,7 @@ import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.repository.MemberRepository;
 import com.seb40pre023.global.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,19 @@ import java.util.Optional;
 
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
-    private final MemberMapper mapper;
+    private MemberRepository memberRepository;
+//    private MemberMapper mapper;
+    private PasswordEncoder passwordEncoder;
 
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+        this.memberRepository = memberRepository;
+//        this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
+    }
     //DBMemberService는 내부에서 데이터를 데이터베이스에 저장하고, 패스워드를 암호화 해야 하므로 DI
 
     //가입한 회원 save 해줌
