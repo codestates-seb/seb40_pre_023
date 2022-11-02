@@ -2,6 +2,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Login from './pages/Login/Login';
+import Logout from './pages/Logout/Logout';
 import NotFound from './pages/NotFound/NotFound';
 import MyPage from './pages/MyPage/MyPage';
 import ScrollToTop from './utils/ScrollTop';
@@ -21,6 +22,7 @@ import { useRecoilValue } from 'recoil';
 import Main from './pages/Main';
 import { authAtom } from './_state/auth';
 import { Register } from './pages/Register/Register';
+
 export { App };
 function App() {
   const auth = useRecoilValue(authAtom);
@@ -45,6 +47,7 @@ function App() {
           <Route path="/answers/:id/edit" element={<AnswerEdit />} />
           <Route path="/account/register" element={<Register />} />
           <Route path="/account/login" element={<Login />} />
+          <Route path="/account/logout" element={<Logout />} />
           <Route
             path="/mypage"
             element={<PrivateRoute component={<MyPage />} />}

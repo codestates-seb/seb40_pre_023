@@ -399,6 +399,13 @@ export const Row = styled.div`
     font-size: 12px;
     color: #0074cc;
 
+    a {
+      color: #0074cc;
+      &:hover {
+        color: hsl(206, 100%, 52%);
+      }
+    }
+
     &:nth-child(2) {
       gap: 10px;
     }

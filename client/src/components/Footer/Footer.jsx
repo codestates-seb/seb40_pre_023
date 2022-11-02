@@ -15,6 +15,7 @@ const Footer = () => {
 
   const ignorePaths = [
     '/account/login',
+    '/account/logout',
     '/account/register',
     '/ask',
     '/account',

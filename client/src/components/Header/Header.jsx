@@ -37,6 +37,7 @@ const Header = ({ isSidebar }) => {
 
   const ignorePaths = [
     '/account/login',
+    '/account/logout',
     '/account/register',
     '/ask',
     '/account',
@@ -199,7 +200,9 @@ const Header = ({ isSidebar }) => {
                             <p>{userInfo.nickname}</p>
                           </div>
                           <div>
-                            <span>logout</span>
+                            <span>
+                              <Link to="/account/logout">logout</Link>
+                            </span>
                           </div>
                         </Row>
                         <Row className="second">
@@ -209,7 +212,6 @@ const Header = ({ isSidebar }) => {
                           <div>
                             <span>help</span>
                             <span>chat</span>
-                            <span>logout</span>
                           </div>
                         </Row>
                         <Row className="third">
