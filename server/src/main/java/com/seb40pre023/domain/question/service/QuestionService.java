@@ -5,6 +5,8 @@ import com.seb40pre023.domain.member.repository.MemberRepository;
 import com.seb40pre023.domain.member.service.MemberService;
 import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.question.repository.QuestionRepository;
+import com.seb40pre023.domain.questionvote.entity.QuestionVote;
+import com.seb40pre023.domain.questionvote.entity.QuestionVoteCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -20,12 +24,12 @@ import java.util.Optional;
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
-
     // 질문 생성
     public Question createQuestion(Long memberId, Question question) {
 
         Member member = memberService.findVerifiedMember(memberId);
         question.setMember(member);
+        question.setQuestionVote(new QuestionVote());
 
         return questionRepository.save(question);
     }
@@ -94,8 +98,23 @@ public class QuestionService {
         } else {
             throw new NoSuchMessageException("질문을 삭제할 수 있는 권한이 없습니다.");
         }
-
-
     }
 
+    public int voteEvent(int voteType, Long questionId, Long memberId) {
+        Question findQuestion = findVerifiedQuestion(questionId);
+        QuestionVote.VoteStatus vote;
+        // voteType == 1 : 추천 / voteType == 2 : 비추천
+        if (voteType == 1) vote = QuestionVote.VoteStatus.VOTE_GOOD;
+        else vote = QuestionVote.VoteStatus.VOTE_BAD;
+
+        // Question.VoteStatus 에 새로 추가된 vote 값을 넣어준다.
+        findQuestion.getQuestionVote().getVoteStatus().put(memberId, vote);
+
+        // voteCount 계산해서 Question - QuestionVote 에 넣어준다.
+        int voteCount = QuestionVoteCalculator.calQuestionVote(findQuestion.getQuestionVote());
+        findQuestion.getQuestionVote().setVoteCount(voteCount);
+        questionRepository.save(findQuestion);
+
+        return QuestionVoteCalculator.calQuestionVote(findQuestion.getQuestionVote());
+    }
 }

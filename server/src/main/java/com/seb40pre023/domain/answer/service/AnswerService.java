@@ -24,7 +24,10 @@ public class AnswerService {
     // 회원이 질문글에 답변 생성
     public Answer createAnswer(Long memberId, Long questionId, Answer answer) {
         Member member = memberService.findVerifiedMember(memberId);
-        Question question = questionService.findVerifiedQuestion(questionId);
+        Question question = questionService.findVerifiedQuestion(questionId); // Id 를 통해 질문 가져오기
+        question.setQuestionStatus(Question.QuestionStatus.UNACCEPTED); // 질문 상태 변경
+
+        // Answer 에 DB 에서 불러온 Member 와 Question 입력
         answer.setMember(member);
         answer.setQuestion(question);
 
