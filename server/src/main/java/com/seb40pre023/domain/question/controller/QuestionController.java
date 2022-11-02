@@ -94,7 +94,7 @@ public class QuestionController {
     @PostMapping("/questions/vote/{questionId}")
     public int postVote(@RequestParam int voteType,
                         @PathVariable Long questionId,
-                        @LoginAccountId Long memberId) {
+                        @RequestParam Long memberId) {
 
 
         int voteScore = questionService.voteEvent(voteType, questionId, memberId);

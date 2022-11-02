@@ -59,14 +59,14 @@ public class AnswerService {
 
     public void deleteAnswer(Long memberId, Long answerId) {
         System.out.println("success delete answer : " + answerId);
-        Answer findAnswer = findVerifiedAnswer(answerId);
 
-        if (findAnswer.getMember().getMemberId().equals(memberId)) {
+//        Answer findAnswer = findVerifiedAnswer(answerId);
+
+//        if (findAnswer.getMember().getMemberId().equals(memberId)) {
             answerRepository.deleteById(answerId);
-        }else {
-            throw new NoSuchMessageException("삭제 권한이 없습니다.");
-        }
-
+//        }else {
+//            throw new NoSuchMessageException("삭제 권한이 없습니다.");
+//        }
 
     }
 
