@@ -2,7 +2,10 @@ package com.seb40pre023.domain.question.dto;
 
 import com.seb40pre023.domain.answer.dto.AnswerDto;
 import com.seb40pre023.domain.member.dto.MemberDto;
+import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.question.entity.QuestionTag;
+import com.seb40pre023.domain.questionvote.dto.QuestionVoteDto;
+import com.seb40pre023.domain.questionvote.entity.QuestionVote;
 import com.seb40pre023.domain.tag.entity.Tag;
 import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.AllArgsConstructor;
@@ -20,7 +23,7 @@ public class QuestionDto {
 
         private String title;
         private String content;
-        private List<QuestionTag> tagList;
+        private List<QuestionTag> tags;
 
     }
 
@@ -32,7 +35,7 @@ public class QuestionDto {
         private Long questionId;
         private String title;
         private String content;
-        private List<QuestionTag> tagList;
+        private List<QuestionTag> tags;
 
     }
 
@@ -45,9 +48,10 @@ public class QuestionDto {
         private MemberDto.Response member;
         private String title;
         private String content;
-        private String status;
+        private Question.QuestionStatus status;
         private List<AnswerDto.response> answerList;
         private List<QuestionTag> tags;
+        private QuestionVoteDto.Response questionVote;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

@@ -7,6 +7,8 @@ import com.seb40pre023.domain.question.dto.QuestionPatchDto;
 import com.seb40pre023.domain.question.dto.QuestionPostDto;
 import com.seb40pre023.domain.question.dto.QuestionResDto;
 import com.seb40pre023.domain.question.entity.Question;
+import com.seb40pre023.domain.questionvote.dto.QuestionVoteDto;
+import com.seb40pre023.domain.questionvote.entity.QuestionVoteCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -50,11 +52,15 @@ public class QuestionMapper {
                 memberMapper.memberToMemberResponse(question.getMember()),
                 question.getTitle(),
                 question.getContent(),
-                question.getStatus(),
+                question.getQuestionStatus(),
                 question.getAnswerList().stream()
                         .map(answerMapper::answerToAnswerResponse)
                         .collect(Collectors.toList()),
                 question.getTagList(),
+                new QuestionVoteDto.Response(
+                        question.getQuestionVote().getVoteId(),
+                        question.getQuestionVote().getVoteStatus(),
+                        question.getQuestionVote().getVoteCount()),
                 question.getCreatedAt(),
                 question.getModifiedAt());
 
