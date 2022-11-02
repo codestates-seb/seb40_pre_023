@@ -5,6 +5,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   color: var(--black-700);
   font-weight: 600;
+  margin-top:50px;
 `;
 
 export const Info1 = styled.span`

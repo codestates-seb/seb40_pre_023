@@ -16,7 +16,7 @@ export const SideContainer = styled.span`
   align-items: center;
   width: 411px;
   height: 285px;
-
+  
   h1 {
     font-size: 27px;
     margin: 0px 0px 32px;
@@ -48,8 +48,9 @@ export const InputDiv = styled.div`
   flex-direction: column;
   -webkit-box-pack: justify;
   justify-content: space-between;
+  align-items:center;
   width: 252px;
-  height: 212px;
+  height: 300px;
   padding: 24px;
   margin: 24px 0px;
   background-color: white;
@@ -116,6 +117,7 @@ export const InputButton = styled.button`
   &:hover {
     background-color: #0074cc;
   }
+  margin-top:30px;
 `;
 
 export const SignUp = styled.p`
@@ -134,4 +136,5 @@ export const SignUp = styled.p`
       color: #379fef;
     }
   }
+  margin-top:50px;
 `;

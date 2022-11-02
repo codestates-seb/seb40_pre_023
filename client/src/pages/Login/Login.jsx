@@ -10,15 +10,15 @@ import {
   InputButton,
   SignUp,
 } from './style';
-import { useUserActions } from '../../_actions/user.actions';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/Logo';
 
 function Login() {
-  const userActions = useUserActions();
-
+  const navigate = useNavigate();
   // form validation rules
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
+    email: Yup.string().required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
@@ -26,22 +26,47 @@ function Login() {
   // get functions to build form with useForm() hook
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors, isSubmitting } = formState;
-
+  const URL = process.env.REACT_APP_URL;
+//   const onSubmit = (data) => {
+//     axios.get(URL + `/members/login`,
+//     data)
+//     .then((res) => {
+//       navigate('/');
+//       console.log(res)
+//     })
+// }
+const onSubmit = async (data) => {
+  try{
+  console.log(data)
+  const req = JSON.stringify(data);
+  console.log(req)
+  axios.get(URL + `/login`,
+  req, {
+      headers: { "Content-Type": `application/json`}
+      })
+  .then(res => {
+    navigate('/');
+  console.log(res)})
+  } catch (err){
+  console.log(err);
+  }
+  
+}
   return (
     <Container>
       <Logo />
 
       <InputDiv>
-        <form onSubmit={handleSubmit(userActions.login)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
-            <InputLabel>Username</InputLabel>
+            <InputLabel>Email</InputLabel>
             <InputText
               name="username"
               type="text"
-              {...register('username')}
-              className={`form-control ${errors.username ? 'is-invalid' : ''}`}
+              {...register('email')}
+              className={`form-control ${errors.email ? 'is-invalid' : ''}`}
             />
-            <div className="invalid-feedback">{errors.username?.message}</div>
+            <div className="invalid-feedback">{errors.email?.message}</div>
           </div>
           <div className="form-group">
             <InputLabel>Password</InputLabel>
