@@ -9,6 +9,7 @@ import com.seb40pre023.domain.question.service.QuestionService;
 import com.seb40pre023.domain.questionvote.entity.QuestionVote;
 import com.seb40pre023.domain.questionvote.entity.QuestionVoteCalculator;
 import com.seb40pre023.global.common.dto.MultiResponseDto;
+import com.seb40pre023.global.security.argumentresolver.LoginAccountId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,8 @@ public class QuestionController {
     *             2. @Requestbody - QuestionPostDto
     * return : QuestionResDto (Question 응답 형식)
     * */
-    @PostMapping("/questions/ask/{memberId}")
-    public ResponseEntity postQuestion(@PathVariable Long memberId,
+    @PostMapping("/questions/ask")
+    public ResponseEntity postQuestion(@LoginAccountId Long memberId,
             @RequestBody QuestionPostDto questionPostDto) {
 
         Question request = mapper.questionPostDtoToQuestion(questionPostDto);
@@ -82,7 +83,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/questions/{questionId}")
-    public String deleteQuestion(Long memberId,
+    public String deleteQuestion(@LoginAccountId Long memberId,
             @PathVariable Long questionId) {
 
         questionService.deleteQuestion(memberId, questionId);
@@ -93,7 +94,7 @@ public class QuestionController {
     @PostMapping("/questions/vote/{questionId}")
     public int postVote(@RequestParam int voteType,
                         @PathVariable Long questionId,
-                        @RequestParam Long memberId) {
+                        @LoginAccountId Long memberId) {
 
         int voteScore = questionService.voteEvent(voteType, questionId, memberId);
 

@@ -4,6 +4,7 @@ import com.seb40pre023.domain.answer.dto.AnswerDto;
 import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.answer.mapper.AnswerMapper;
 import com.seb40pre023.domain.answer.service.AnswerService;
+import com.seb40pre023.global.security.argumentresolver.LoginAccountId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,9 @@ public class AnswerController {
 
     //질문글에 답변을 쓸 때 답변 생성
     @PostMapping
-    public ResponseEntity postAnswer(@RequestBody AnswerDto.Post requestBody) {
+    public ResponseEntity postAnswer(@LoginAccountId Long memberId,
+                                     @RequestBody AnswerDto.Post requestBody) {
+        requestBody.setMemberId(memberId);
         Answer answer = mapper.answerPostToAnswer(requestBody);
         Answer response = answerService.createAnswer(requestBody.getMemberId(), requestBody.getQuestionId(), answer);
 
@@ -61,8 +64,9 @@ public class AnswerController {
 
     // 답변 삭제
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id") Long answerId) {
-        answerService.deleteAnswer(answerId);
+    public ResponseEntity deleteAnswer(@LoginAccountId Long memberId,
+                                       @PathVariable("answer-id") Long answerId) {
+        answerService.deleteAnswer(memberId, answerId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

@@ -9,6 +9,7 @@ import com.seb40pre023.domain.question.service.QuestionService;
 import com.seb40pre023.global.error.exception.BusinessLogicException;
 import com.seb40pre023.global.error.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,9 +57,17 @@ public class AnswerService {
         return answers;
     }
 
-    public void deleteAnswer(Long answerId) {
+    public void deleteAnswer(Long memberId, Long answerId) {
         System.out.println("success delete answer : " + answerId);
-        answerRepository.deleteById(answerId);
+        Answer findAnswer = findVerifiedAnswer(answerId);
+
+        if (findAnswer.getMember().getMemberId().equals(memberId)) {
+            answerRepository.deleteById(answerId);
+        }else {
+            throw new NoSuchMessageException("삭제 권한이 없습니다.");
+        }
+
+
     }
 
     public Answer findVerifiedAnswer(Long answerId) {
