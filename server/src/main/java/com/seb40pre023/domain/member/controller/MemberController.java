@@ -44,9 +44,9 @@ public class MemberController {
 
 
     //회원 정보 수정
-    @PatchMapping("/members/edit")
-    public ResponseEntity patchMember(@LoginAccountId Long memberId,
-                                      @Valid @RequestBody MemberDto.Patch requestBody) {
+    @PatchMapping("/members/edit/{memberId}")
+    public ResponseEntity patchMember(@Valid @RequestBody MemberDto.Patch requestBody,
+                                      @PathVariable Long memberId) {
 
         requestBody.setMemberId(memberId);
 
@@ -88,8 +88,8 @@ public class MemberController {
     }
 
     //회원 탈퇴
-    @DeleteMapping("/members")
-    public ResponseEntity deleteMember(@LoginAccountId Long memberId) {
+    @DeleteMapping("/members/{memberId}")
+    public ResponseEntity deleteMember(@PathVariable Long memberId) {
         memberService.deleteMember(memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

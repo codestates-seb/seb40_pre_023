@@ -23,9 +23,8 @@ public class AnswerController {
 
     //질문글에 답변을 쓸 때 답변 생성
     @PostMapping
-    public ResponseEntity postAnswer(@LoginAccountId Long memberId,
-                                     @RequestBody AnswerDto.Post requestBody) {
-        requestBody.setMemberId(memberId);
+    public ResponseEntity postAnswer(@RequestBody AnswerDto.Post requestBody) {
+
         Answer answer = mapper.answerPostToAnswer(requestBody);
         Answer response = answerService.createAnswer(requestBody.getMemberId(), requestBody.getQuestionId(), answer);
 
@@ -64,9 +63,8 @@ public class AnswerController {
 
     // 답변 삭제
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@LoginAccountId Long memberId,
-                                       @PathVariable("answer-id") Long answerId) {
-        answerService.deleteAnswer(memberId, answerId);
+    public ResponseEntity deleteAnswer(@PathVariable("answer-id") Long answerId) {
+        answerService.deleteAnswer(answerId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
