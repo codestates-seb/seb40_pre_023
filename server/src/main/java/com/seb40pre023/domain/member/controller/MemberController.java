@@ -6,6 +6,7 @@ import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.service.MemberService;
 import com.seb40pre023.global.common.dto.SingleResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,7 @@ public class MemberController {
     private MemberService memberService;
     private MemberMapper mapper;
 
+    @Autowired
     public MemberController(MemberService memberService, MemberMapper mapper) {
         this.memberService = memberService;
         this.mapper = mapper;
