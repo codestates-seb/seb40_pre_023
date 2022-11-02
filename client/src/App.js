@@ -20,8 +20,6 @@ import isLoginState from './_state/isLoginState';
 import { useRecoilValue } from 'recoil';
 import Main from './pages/Main';
 import { authAtom } from './_state/auth';
-import { Users } from './users/Users';
-import { Account } from './_account';
 import { Register } from './pages/Register/Register';
 export { App };
 function App() {
@@ -45,8 +43,6 @@ function App() {
           <Route path="/questions/:id/edit" element={<QuestionEdit />} />
           <Route path="/questions/ask" element={<QuestionWrite />} />
           <Route path="/answers/:id/edit" element={<AnswerEdit />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/account" element={<Account />} />
           <Route path="/account/register" element={<Register />} />
           <Route path="/account/login" element={<Login />} />
           <Route
