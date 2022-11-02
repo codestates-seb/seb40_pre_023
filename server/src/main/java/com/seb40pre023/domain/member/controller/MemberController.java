@@ -7,6 +7,7 @@ import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.service.MemberService;
 import com.seb40pre023.global.common.dto.SingleResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.seb40pre023.global.security.argumentresolver.LoginAccountId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -45,8 +46,8 @@ public class MemberController {
 
 
     //회원 정보 수정
-    @PatchMapping("/members/edit/{memberId}")
-    public ResponseEntity patchMember(@PathVariable("memberId") Long memberId,
+    @PatchMapping("/members/edit")
+    public ResponseEntity patchMember(@LoginAccountId Long memberId,
                                       @Valid @RequestBody MemberDto.Patch requestBody) {
 
         requestBody.setMemberId(memberId);
@@ -89,8 +90,8 @@ public class MemberController {
     }
 
     //회원 탈퇴
-    @DeleteMapping("/members/{memberId}")
-    public ResponseEntity deleteMember(@PathVariable Long memberId) {
+    @DeleteMapping("/members")
+    public ResponseEntity deleteMember(@LoginAccountId Long memberId) {
         memberService.deleteMember(memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
