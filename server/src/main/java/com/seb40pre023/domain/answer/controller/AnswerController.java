@@ -23,9 +23,8 @@ public class AnswerController {
 
     //질문글에 답변을 쓸 때 답변 생성
     @PostMapping
-    public ResponseEntity postAnswer(@LoginAccountId Long memberId,
-                                     @RequestBody AnswerDto.Post requestBody) {
-        requestBody.setMemberId(memberId);
+    public ResponseEntity postAnswer(@RequestBody AnswerDto.Post requestBody) {
+
         Answer answer = mapper.answerPostToAnswer(requestBody);
         Answer response = answerService.createAnswer(requestBody.getMemberId(), requestBody.getQuestionId(), answer);
 
