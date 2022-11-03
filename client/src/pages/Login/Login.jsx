@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Container,
@@ -10,7 +9,6 @@ import {
   SignUp,
 } from './style';
 import axios from 'axios';
-import axiosInstance from '../../axiosconfig/Axiosconfig';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/Logo';
 import { Cookies } from 'react-cookie';
@@ -30,7 +28,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    setFocus,
     formState: { isSubmitting, errors },
   } = useForm();
   const emailRegister = register('email', {
