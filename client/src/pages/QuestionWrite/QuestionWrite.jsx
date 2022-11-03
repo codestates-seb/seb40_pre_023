@@ -75,7 +75,9 @@ const QuestionWrite = () => {
     });
 
     postQuestion(postBody)
-      .then((res) => console.log(res))
+      .then((res) => {
+        navigate('/', { replace: true });
+      })
       .catch((error) => alert(`글 작성에 실패하였습니다!🥲`));
   };
 
