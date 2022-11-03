@@ -31,7 +31,7 @@ const Main = () => {
     <>
       <LayoutContainer>
         <PageContainer>
-          <main style={{ width: '100%' }}>
+          <main>
             <PageTitle title="All Questions" button="Ask Question" />
             <Filter totalQuestion={totalQuestion} type="questions"></Filter>
             <QuestionList questions={data} />

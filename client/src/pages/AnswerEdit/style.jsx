@@ -20,6 +20,7 @@ export const EditContainer = styled.div`
   width: 100%;
   padding: 16px;
   padding-top: 20px;
+  box-sizing: border-box;
 
   > article {
     width: 100%;
@@ -40,6 +41,7 @@ export const QuestionViewSec = styled.section`
   }
   > pre {
     max-height: 250px;
+    overflow: auto;
   }
 `;
 

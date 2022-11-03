@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import Aside from '../../components/Aside/Aside';
@@ -31,13 +31,15 @@ import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 
-// TODO: 테스트용 더미 데이터 연결후 지워야함
-import { qArticle, aArticle, qdetail } from './dummy';
+import { useRecoilState } from 'recoil';
+import { authAtom } from '../../_state';
 
 //TODO: postAnswer로 answerpost 보내야함
-import { getQuestionDetail, postAnswer } from '../../api/api';
+import { getDetail, postAnswer } from '../../api/api';
 
 const QuestionDetail = () => {
+  //TODO: 답변 등록시 보낼 memberId, nickname 가져오기
+  const [userInfo, setUserInfo] = useRecoilState(authAtom);
   //TODO: 질문 작성자 아이디와 비교해서 해당 글을 수정할 수 있는지 여부 체크 필요
   const [editable, setEditable] = useState(true);
 
@@ -52,9 +54,10 @@ const QuestionDetail = () => {
   const postBtnRef = useRef();
   const sanitizer = dompurify.sanitize;
   const location = useLocation();
+  const { id } = useParams();
 
   useEffect(() => {
-    getQuestionDetail(`${location.pathname}`).then((res) => {
+    getDetail(`${location.pathname}`).then((res) => {
       setData(res.data);
       setMember(res.data.member);
       setAnswerList(res.data.answerList);
@@ -63,13 +66,18 @@ const QuestionDetail = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    // CHECK: 내 닉넴 받아오기
-    // TODO: 답변 포스트 성공시 해당부분만 추가하기 (question 전체 리로드 x)
-    // postAnswer(닉네임, answerContent)
-    //   .then((res) => {
-    //     setAnswerList([...answerList, res.data]);
-    //   })
-    //   .catch((error) => alert(`글 작성에 실패하였습니다!🥲`));
+    const patchBody = JSON.stringify({
+      memberId: 1, //auth 멤버 아이디
+      questionId: id,
+      nickname: '', //auth 닉넴
+      content: answerContent,
+    });
+    postAnswer(patchBody)
+      .then((res) => {
+        // setAnswerList([...answerList, res.data]);
+        console.log(res);
+      })
+      .catch((error) => alert(`답변 작성에 실패하였습니다!🥲`));
   };
 
   const onChange = (html, text) => {

@@ -35,7 +35,6 @@ const PaginationGroup = ({ page, size, setPage, setSize, totalPage }) => {
     <Section>
       <PageLocation>
         <Stack spacing={2}>
-          {/* TODO: count에 전체 페이지 수 넣어야 함 */}
           <Pagination
             count={totalPage}
             variant="outlined"

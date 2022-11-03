@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import Aside from '../../components/Aside/Aside';
 import Rside from '../../components/Rside/Rside';
@@ -8,7 +8,6 @@ import ReactQuill from 'react-quill';
 import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
-//html 태그 문서 삽입 시 보안을 위한 sanitizer
 import dompurify from 'dompurify';
 import {
   EditPageContainer,
@@ -18,18 +17,41 @@ import {
   EditBtn,
   CancelBtn,
 } from './style';
-//TODO: API 연결후 더미 삭제
-import { qdetail, adetail } from './dummy';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { getDetail, patchAnswer } from '../../api/api';
 
 const AnswerEdit = () => {
   const [body, setBody] = useState('');
+  const [questionId, setQustionId] = useState('');
   const sanitizer = dompurify.sanitize;
   const navigate = useNavigate();
+  let { id } = useParams();
 
   useEffect(() => {
-    document.querySelector('.ql-editor').innerHTML = adetail.content;
+    getDetail(`/answers/${id}`).then((res) => {
+      //답변 정보 끌어오기
+      document.querySelector('.ql-editor').innerHTML = sanitizer(
+        res.data.content
+      );
+      setQustionId(res.data.questionId);
+      //답변 정보에서 질문 아이디 추출해서 질문 정보 끌어오기
+      getDetail(`/questions/${res.data.questionId}`).then((res) => {
+        document.querySelector('.question-content').innerHTML = sanitizer(
+          res.data.content
+        );
+        document.querySelector('.question-title').innerHTML = sanitizer(
+          res.data.title
+        );
+      });
+    });
   }, []);
+
+  const onSubmit = () => {
+    const jsonBody = JSON.stringify(body);
+    patchAnswer(id, jsonBody).then((res) => {
+      navigate(`/quesitons/${questionId}`, { replace: true });
+    });
+  };
 
   return (
     <>
@@ -38,12 +60,8 @@ const AnswerEdit = () => {
           <main>
             <EditContainer>
               <QuestionViewSec>
-                <h3>{qdetail.title}</h3>
-                <QlViewer
-                  dangerouslySetInnerHTML={{
-                    __html: sanitizer(qdetail.content),
-                  }}
-                ></QlViewer>
+                <h3 className="question-title"> </h3>
+                <QlViewer className="question-content"></QlViewer>
               </QuestionViewSec>
               <AnswerEditSec>
                 <h2>Answer</h2>
@@ -51,7 +69,6 @@ const AnswerEdit = () => {
                   <ReactQuill
                     theme="snow"
                     modules={editorModules}
-                    // ref={editorRef}
                     onChange={(content, delta, source, editor) =>
                       setBody(editor.getHTML())
                     }
@@ -59,7 +76,7 @@ const AnswerEdit = () => {
                 </EditorContainer>
               </AnswerEditSec>
               <div>
-                <EditBtn>Save edits</EditBtn>
+                <EditBtn onClick={onSubmit}>Save edits</EditBtn>
                 <CancelBtn
                   onClick={() => {
                     navigate(-1);
