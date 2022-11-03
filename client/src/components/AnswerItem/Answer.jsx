@@ -7,6 +7,7 @@ import dompurify from 'dompurify';
 
 const AnswerItem = ({ answer, editable }) => {
   const sanitizer = dompurify.sanitize;
+
   return (
     <AnswerContainer key={answer.answerId}>
       <VoteBtns votes={answer.numberOfTotalVote} answerId={answer.answerId} />
@@ -21,7 +22,7 @@ const AnswerItem = ({ answer, editable }) => {
           createAt={displayCreatedAt(answer.createdAt)}
           modifiedAt={displayCreatedAt(answer.modifiedAt)}
           // CHECK: 답변자 이름이 안들어오고 있음()
-          name={'이름'}
+          name={answer.nickname}
           editable={editable}
           avatar={''}
           itemId={answer.answerId}

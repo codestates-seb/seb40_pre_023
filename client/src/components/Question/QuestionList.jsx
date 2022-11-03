@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   QList,
   QDetail,
@@ -19,12 +19,6 @@ import { Link } from 'react-router-dom';
 import { getData } from '../../api/api';
 import { useState } from 'react';
 const QuestionList = ({ questions }) => {
-  // const [data, setData] = useState([]);
-  // getData().then((res) => {
-  //   setData(res.data.data);
-  //   console.log(res.data.data);
-  // });
-
   return (
     <QList>
       {questions.map((item, idx) => (
@@ -34,7 +28,7 @@ const QuestionList = ({ questions }) => {
               {item.questionVote.voteCount ? item.questionVote.voteCount : 0}{' '}
               votes
             </p>
-            <p>{item.answers ? item.answers : 0} answers</p>
+            <p>{item.answerList ? item.answerList.length : 0} answers</p>
             <p>{item.views ? item.views : 0} views</p>
           </QHead>
           <QRightDetail key={item.questionId}>

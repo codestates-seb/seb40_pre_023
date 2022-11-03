@@ -20,7 +20,6 @@ export const LoginAPI = async (data) => {
 
 // 1 검색 키워드가 있을때 if 아님 else
 export const getQuestions = async (pageNum, pageSize, keyword) => {
-  //리스트 초기화 & pagination 누를시 받아오는 데이터
   if (keyword) {
     const response = await axios.get(
       URL + `questions/search?&q=${keyword}&page=${pageNum}&size=${pageSize}`
@@ -34,16 +33,14 @@ export const getQuestions = async (pageNum, pageSize, keyword) => {
   }
 };
 
-export const getQuestionDetail = async (parameter) => {
+export const getDetail = async (parameter) => {
+  //질문 답변 통용
   const response = await axios.get(URL + `${parameter}`);
   return response;
 };
 
-export const postAnswer = async (nickname, content) => {
-  const response = await axios.post(URL + `/answers`, {
-    nickname,
-    content,
-  });
+export const postAnswer = async (body) => {
+  const response = await axios.post(`${URL}/answers`, body);
   return response;
 };
 
@@ -93,7 +90,18 @@ export const voteQuestion = async (Id, vote) => {
 };
 
 export const patchQuestion = async (questionId, body) => {
+  //질문 수정하기
   const response = axios.patch(`${URL}/questions/${questionId}/edit`, body, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response;
+};
+
+export const patchAnswer = async (answerId, body) => {
+  //답변 수정하기
+  const response = axios.patch(`${URL}/answers/${answerId}/edit`, body, {
     headers: {
       'Content-Type': 'application/json',
     },

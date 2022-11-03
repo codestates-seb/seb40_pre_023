@@ -21,7 +21,8 @@ import 'react-quill/dist/quill.snow.css';
 import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
-import { patchQuestion, getQuestionDetail } from '../../api/api';
+import { patchQuestion, getDetail } from '../../api/api';
+import dompurify from 'dompurify';
 
 const makeTag = (arr) => {
   const tagObjs = [];
@@ -46,7 +47,9 @@ const QuestionEdit = () => {
   const tagInputRef = useRef();
   const editorRef = useRef();
   let nextTagId = useRef(tags.length);
+
   const navigate = useNavigate();
+  const sanitizer = dompurify.sanitize;
 
   const onTagFocused = useCallback((e) => {
     e.target.closest('label').classList.add('focused');
@@ -57,11 +60,13 @@ const QuestionEdit = () => {
   }, []);
 
   useEffect(() => {
-    getQuestionDetail(`/questions/${id}`).then((res) => {
+    getDetail(`/questions/${id}`).then((res) => {
       setTitle(res.data.title);
       setTags(makeTag(res.data.tags));
       setContent(res.data.content);
-      document.querySelector('.ql-editor').innerHTML = res.data.content;
+      document.querySelector('.ql-editor').innerHTML = sanitizer(
+        res.data.content
+      );
     });
   }, []);
 

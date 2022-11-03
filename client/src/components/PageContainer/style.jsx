@@ -13,4 +13,8 @@ export const Container = styled.div`
     display: flex;
     justify-content: space-between;
   }
+  > main {
+    width: 100%;
+    padding-right: 16px;
+  }
 `;

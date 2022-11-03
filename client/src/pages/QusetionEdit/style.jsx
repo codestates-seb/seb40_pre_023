@@ -17,6 +17,7 @@ export const EditPageContainer = styled.div`
 
 export const EditContainer = styled.div`
   width: 100%;
+  box-sizing: border-box;
   padding: 16px;
   padding-top: 20px;
   border-bottom: 1px solid #e3e6e8;
@@ -62,7 +63,6 @@ export const TitleEditInput = styled.input`
   }
 `;
 
-// TODO: 정리필요(현재 태그 오류 스타일 적용안되고 있음)
 export const TagsInputGroup = styled.label`
   display: flex;
   align-items: center;

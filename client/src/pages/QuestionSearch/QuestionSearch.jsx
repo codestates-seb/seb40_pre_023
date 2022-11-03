@@ -26,9 +26,6 @@ const QuestionSearch = () => {
     //검색화면 초기화 & 검색 페이지에서 페이지 네이션 눌를 경우
     getQuestions(page, size, keyword).then((res) => {
       navigate(`/search/${keyword}/${page}/${size}`);
-      //TODO: 현재 임시로 pageNum과 pageSize를 응답받도록 설정해 놓음 추후, 페이지에 해당하는 데이터 받아야함
-      // setData(res);
-      // console.log(res);
       setTotalPage(res.data.pageInfo.totalPages);
     });
   }, [page, size, keyword]);
