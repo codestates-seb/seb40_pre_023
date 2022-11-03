@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { useRecoilState } from 'recoil';
+import isLoginState from '../../_state/isLoginState';
 import {
   Container,
   Wrapper,
@@ -11,7 +13,12 @@ import {
 } from './style';
 
 const Logout = () => {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
+  const handleLogout = () => {
+    setIsLogin(false);
+    navigate('/');
+  };
   return (
     <>
       <Container>
@@ -99,7 +106,7 @@ const Logout = () => {
               <span>Log out on all devices</span>
             </GroupCheck>
             <div>
-              <EditBtn>Log out</EditBtn>
+              <EditBtn onClick={handleLogout}>Log out</EditBtn>
               <CancelBtn
                 onClick={() => {
                   navigate(-1);
