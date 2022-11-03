@@ -37,10 +37,20 @@ public class AnswerMapper {
                 answer.getMember().getMemberId(),
                 answer.getQuestion().getQuestionId(),
                 answer.getContent(),
-                answer.getAnswerVoteList().size(),
+                answer.getMember().getNickname(),
                 answer.getAnswerVoteList().stream()
-                        .map(answerVoteMapper::answerVoteToAnswerVoteResponse)
+                        .mapToInt(answerVote -> answerVote.getVoteState())
+                        .sum(),
+                answer.getAnswerVoteList().stream()
+                        .mapToInt(answerVote -> answerVote.getVoteState())
+                        .filter(n -> n != 0)
+                        .count(),
+                answer.getAnswerVoteList().stream()
+                        .map(answerVote -> answerVoteMapper.answerVoteToAnswerVoteResponse(answerVote))
                         .collect(Collectors.toList()),
+//                answer.getAnswerVoteList().stream()
+//                        .map(answerVoteMapper::answerVoteToAnswerVoteResponse)
+//                        .collect(Collectors.toList()),
                 answer.getCreatedAt(),
                 answer.getModifiedAt()
         );

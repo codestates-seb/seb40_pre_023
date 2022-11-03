@@ -36,7 +36,8 @@ public class AnswerVoteDto {
     public static class response {
         private Long voteId;
         private Long memberId;
-        private Long answerId;
+        private String nickname;
+        //        private Long answerId;
         private int voteState;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
