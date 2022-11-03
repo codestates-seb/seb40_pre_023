@@ -22,25 +22,27 @@ public class QuestionMapper {
     private final MemberMapper memberMapper;
     private final AnswerMapper answerMapper;
 
-    public Question questionPostDtoToQuestion(QuestionPostDto questionPostDto) {
+    public Question questionPostDtoToQuestion(QuestionDto.Post questionPostDto) {
         if (questionPostDto == null) return null;
 
         Question question = new Question();
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
-        question.setTagList(questionPostDto.getTagList());
+        question.setText(questionPostDto.getText());
+        question.setTagList(questionPostDto.getTags());
 
         return question;
     }
 
-    public Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto) {
+    public Question questionPatchDtoToQuestion(QuestionDto.Patch questionPatchDto) {
         if (questionPatchDto == null) return null;
 
         Question question = new Question();
         question.setQuestionId(questionPatchDto.getQuestionId());
         question.setTitle(questionPatchDto.getTitle());
         question.setContent(questionPatchDto.getContent());
-        question.setTagList(questionPatchDto.getTagList());
+        question.setText(questionPatchDto.getText());
+        question.setTagList(questionPatchDto.getTags());
 
         return question;
     }
@@ -52,6 +54,7 @@ public class QuestionMapper {
                 memberMapper.memberToMemberResponse(question.getMember()),
                 question.getTitle(),
                 question.getContent(),
+                question.getText(),
                 question.getQuestionStatus(),
                 question.getAnswerList().stream()
                         .map(answerMapper::answerToAnswerResponse)
@@ -61,6 +64,8 @@ public class QuestionMapper {
                         question.getQuestionVote().getVoteId(),
                         question.getQuestionVote().getVoteStatus(),
                         question.getQuestionVote().getVoteCount()),
+                question.getAnswerList().size(),
+                question.getViews(),
                 question.getCreatedAt(),
                 question.getModifiedAt());
 
