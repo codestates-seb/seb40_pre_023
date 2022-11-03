@@ -23,6 +23,7 @@ public class QuestionDto {
 
         private String title;
         private String content;
+        private String text;
         private List<QuestionTag> tags;
 
     }
@@ -35,6 +36,7 @@ public class QuestionDto {
         private Long questionId;
         private String title;
         private String content;
+        private String text;
         private List<QuestionTag> tags;
 
     }
@@ -48,10 +50,13 @@ public class QuestionDto {
         private MemberDto.Response member;
         private String title;
         private String content;
+        private String text;
         private Question.QuestionStatus status;
         private List<AnswerDto.response> answerList;
         private List<QuestionTag> tags;
         private QuestionVoteDto.Response questionVote;
+        private int answerNumber;
+        private int views;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
