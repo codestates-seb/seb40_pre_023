@@ -16,7 +16,8 @@ import {
 } from './style';
 import { displayCreatedAt } from '../../utils/displayCreatedAt';
 import { Link } from 'react-router-dom';
-
+import { getData } from '../../api/api';
+import { useState } from 'react';
 const QuestionList = ({ questions }) => {
   // const [data, setData] = useState([]);
   // getData().then((res) => {
@@ -29,7 +30,10 @@ const QuestionList = ({ questions }) => {
       {questions.map((item, idx) => (
         <QDetail key={idx}>
           <QHead>
-            <p>{item.vote ? item.vote : 0} votes</p>
+            <p>
+              {item.questionVote.voteCount ? item.questionVote.voteCount : 0}{' '}
+              votes
+            </p>
             <p>{item.answers ? item.answers : 0} answers</p>
             <p>{item.views ? item.views : 0} views</p>
           </QHead>
