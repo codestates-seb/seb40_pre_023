@@ -55,6 +55,7 @@ const QuestionDetail = () => {
 
   useEffect(() => {
     getQuestionDetail(`${location.pathname}`).then((res) => {
+      console.log(res.data);
       setData(res.data);
       setMember(res.data.member);
       setAnswerList(res.data.answerList);
@@ -104,7 +105,6 @@ const QuestionDetail = () => {
           <main>
             <DetailContents>
               <QuestionContainer>
-                {/* CHECK: 질문 투표수가 안들어오고 있음 */}
                 <VoteBtns
                   votes={
                     data.questionVote?.voteCount === undefined
