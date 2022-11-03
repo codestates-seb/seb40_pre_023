@@ -47,10 +47,8 @@ public class AnswerMapper {
                         .count(),
                 answer.getAnswerVoteList().stream()
                         .map(answerVote -> answerVoteMapper.answerVoteToAnswerVoteResponse(answerVote))
+                        .filter(answerVote -> answerVote.getVoteState() != 0)
                         .collect(Collectors.toList()),
-//                answer.getAnswerVoteList().stream()
-//                        .map(answerVoteMapper::answerVoteToAnswerVoteResponse)
-//                        .collect(Collectors.toList()),
                 answer.getCreatedAt(),
                 answer.getModifiedAt()
         );

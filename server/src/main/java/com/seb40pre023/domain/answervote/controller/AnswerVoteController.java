@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/vote")
+@RequestMapping("/answers/vote")
 @RequiredArgsConstructor
 @CrossOrigin
 public class AnswerVoteController {
