@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -14,28 +14,25 @@ import {
   LickGroup,
 } from './style';
 import SignupSideInfo from '../../components/SignupSideInfo/SignupSideInfo';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import YupPassword from 'yup-password';
 import axios from 'axios';
-YupPassword(Yup);
 
 function Register() {
-  const navigate = useNavigate();
-
-  const validationSchema = Yup.object().shape({
-    nickname: Yup.string().required('Username is required'),
-    password: Yup.string()
-      .required('Password is required')
-      .min(12, 'Password must be at least 12 characters')
-      .minUppercase(1, 'Password must contain one uppercase')
-      .minSymbols(1, 'Password must contain a symbol'),
-  });
-  const formOptions = { resolver: yupResolver(validationSchema) };
-
-  // get functions to build form with useForm() hook
-  const { register, handleSubmit, formState } = useForm(formOptions);
-  const { errors, isSubmitting } = formState;
+   const navigate = useNavigate();
+   const EMAIL_REGEX = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/;
+   const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z]).{8,}/;
+  // form validation rules
+  const { register, handleSubmit, formState: { isSubmitting, errors} } = useForm();
+  const emailRegister = register('email', {
+		required: { value: true, message: '이메일을 입력해주세요.' },
+		pattern: { value: EMAIL_REGEX, message: '이메일 형식을 입력해주세요.' },
+	});
+  const passwordRegister = register('password', {
+		required: { value: true, message: '비밀번호를 입력해주세요.' },
+		pattern: { value: PASSWORD_REGEX, message: '비밀번호 형식을 입력해주세요.' },
+	});
+    const nicknameRegister = register('nickname', {
+		required: { value: true, message: '닉네임을 입력해주세요.' },
+	});
   const URL = process.env.REACT_APP_URL;
 
   const onSubmit = async (data) => {
@@ -49,11 +46,11 @@ function Register() {
           navigate('/');
           console.log(res);
         });
-    } catch (err) {
+    }catch (err) {
       console.log(err);
     }
   };
-
+  
   return (
     <Container>
       <SideContainer>
@@ -67,11 +64,11 @@ function Register() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <div className="form-group">
-                <InputLabel>Nickname</InputLabel>
+                <InputLabel>Display name</InputLabel>
                 <InputText
                   name="nickname"
                   type="text"
-                  {...register('nickname')}
+                  {...nicknameRegister}
                   className={`form-control ${
                     errors.nickname ? 'is-invalid' : ''
                   }`}
@@ -84,7 +81,7 @@ function Register() {
               <InputText
                 name="email"
                 type="text"
-                {...register('email')}
+                {...emailRegister}
                 className={`form-control ${errors.email ? 'is-invalid' : ''}`}
               />
               <div className="invalid-feedback">{errors.email?.message}</div>
@@ -95,7 +92,7 @@ function Register() {
               <InputText
                 name="password"
                 type="password"
-                {...register('password')}
+                {...passwordRegister}
                 className={`form-control ${
                   errors.password ? 'is-invalid' : ''
                 }`}

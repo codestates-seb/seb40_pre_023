@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 import {
   Container,
   InputLabel,
@@ -11,47 +10,50 @@ import {
   SignUp,
 } from './style';
 import axios from 'axios';
+import axiosInstance from '../../axiosconfig/Axiosconfig';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/Logo';
+import { Cookies } from 'react-cookie';
+
 
 function Login() {
+  const cookies = new Cookies();
   const navigate = useNavigate();
+  // const URL = process.env.REACT_APP_URL;
+  const EMAIL_REGEX = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/;
+  const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z]).{8,}/;
   // form validation rules
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required'),
-    password: Yup.string().required('Password is required'),
-  });
-  const formOptions = { resolver: yupResolver(validationSchema) };
-
-  // get functions to build form with useForm() hook
-  const { register, handleSubmit, formState } = useForm(formOptions);
-  const { errors, isSubmitting } = formState;
-  const URL = process.env.REACT_APP_URL;
-//   const onSubmit = (data) => {
-//     axios.get(URL + `/members/login`,
-//     data)
-//     .then((res) => {
-//       navigate('/');
-//       console.log(res)
-//     })
-// }
+  const { register, handleSubmit, setFocus, formState: { isSubmitting, errors} } = useForm();
+  const emailRegister = register('email', {
+		required: { value: true, message: '이메일을 입력해주세요.' },
+		pattern: { value: EMAIL_REGEX, message: '이메일 형식을 입력해주세요.' },
+	});
+  const passwordRegister = register('password', {
+		required: { value: true, message: '비밀번호를 입력해주세요.' },
+		pattern: { value: PASSWORD_REGEX, message: '비밀번호 형식을 입력해주세요.' },
+	});
+  
 const onSubmit = async (data) => {
   try{
-  console.log(data)
   const req = JSON.stringify(data);
-  console.log(req)
-  axios.get(URL + `/login`,
-  req, {
-      headers: { "Content-Type": `application/json`}
-      })
+  axiosInstance.post(`http://ec2-43-201-114-190.ap-northeast-2.compute.amazonaws.com:8080/login`,
+  req)
   .then(res => {
-    navigate('/');
-  console.log(res)})
+  console.log(res)
+  cookies.set("accessToken", res.accessTokean, {
+    secure: true,
+  })
+  navigate("/")
+})
   } catch (err){
   console.log(err);
   }
-  
 }
+
+
+
+
+
   return (
     <Container>
       <Logo />
@@ -60,22 +62,14 @@ const onSubmit = async (data) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
             <InputLabel>Email</InputLabel>
-            <InputText
-              name="username"
-              type="text"
-              {...register('email')}
-              className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-            />
+            <InputText name="email" type="text"defaultValue={
+            cookies.get("user_save_email") && cookies.get("user_save_email")
+          }{...emailRegister} />
             <div className="invalid-feedback">{errors.email?.message}</div>
           </div>
           <div className="form-group">
             <InputLabel>Password</InputLabel>
-            <InputText
-              name="password"
-              type="password"
-              {...register('password')}
-              className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-            />
+            <InputText name="password" type="password" {...passwordRegister} />
             <div className="invalid-feedback">{errors.password?.message}</div>
           </div>
           <InputButton disabled={isSubmitting} className="btn btn-primary">
@@ -84,6 +78,7 @@ const onSubmit = async (data) => {
             )}
             Login
           </InputButton>
+          
         </form>
       </InputDiv>
       <SignUp>
