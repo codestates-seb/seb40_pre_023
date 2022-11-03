@@ -1,26 +1,22 @@
 package com.seb40pre023.domain.member.service;
 
-import com.seb40pre023.domain.member.dto.MemberDto;
-import com.seb40pre023.domain.member.dto.MemberPostDto;
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.global.error.exception.BusinessLogicException;
 import com.seb40pre023.global.error.exception.ExceptionCode;
 import com.seb40pre023.domain.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-
 @Service
 //@RequiredArgsConstructor
 public class MemberService {
 
     private MemberRepository memberRepository;
-//    private MemberMapper mapper;
+    //    private MemberMapper mapper;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
