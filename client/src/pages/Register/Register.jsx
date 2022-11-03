@@ -3,12 +3,15 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   Container,
+  Main,
   InputLabel,
   InputText,
-  InputDiv,
   InputButton,
-  SignUp,
   SideContainer,
+  MobileTitle,
+  Card,
+  Desc,
+  LickGroup,
 } from './style';
 import SignupSideInfo from '../../components/SignupSideInfo/SignupSideInfo';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -56,8 +59,11 @@ function Register() {
       <SideContainer>
         <SignupSideInfo />
       </SideContainer>
-      <SideContainer>
-        <InputDiv>
+      <Main>
+        <MobileTitle>
+          Create your Stack Overflow account. It’s free and only takes a minute.
+        </MobileTitle>
+        <Card>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <div className="form-group">
@@ -104,11 +110,22 @@ function Register() {
               Register
             </InputButton>
           </form>
-          <SignUp>
-            {/* Already have an account? <Link to="login">Login</Link> */}
-          </SignUp>
-        </InputDiv>
-      </SideContainer>
+          <Desc>
+            By clicking “Sign up”, you agree to our{' '}
+            <span>terms of service, privacy policy</span> and{' '}
+            <span>cookie policy</span>
+          </Desc>
+        </Card>
+        <LickGroup>
+          <p>
+            Already have an account?
+            <Link to="/account/login">Log in</Link>
+          </p>
+          <p>
+            Are you an employer? <span>Sign up on Talent</span>
+          </p>
+        </LickGroup>
+      </Main>
     </Container>
   );
 }
