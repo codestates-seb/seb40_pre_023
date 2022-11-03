@@ -92,11 +92,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withClaim("email", principalDetails.getMember().getEmail())
                 .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
 
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization");
         response.addHeader(Jwtsecret.HEADER, jwtToken);
         response.setHeader("content-type", "application/json");
 
 //        response.getWriter().write("success login");
     }
-
-
 }

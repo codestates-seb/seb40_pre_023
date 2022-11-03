@@ -24,7 +24,7 @@ public class QuestionDto {
         private String title;
         private String content;
         private String text;
-        private List<QuestionTag> tags;
+        private List<String> tags;
 
     }
 
@@ -37,7 +37,7 @@ public class QuestionDto {
         private String title;
         private String content;
         private String text;
-        private List<QuestionTag> tags;
+        private List<String> tags;
 
     }
 
@@ -53,7 +53,7 @@ public class QuestionDto {
         private String text;
         private Question.QuestionStatus status;
         private List<AnswerDto.response> answerList;
-        private List<QuestionTag> tags;
+        private List<String> tags;
         private QuestionVoteDto.Response questionVote;
         private int answerNumber;
         private int views;
