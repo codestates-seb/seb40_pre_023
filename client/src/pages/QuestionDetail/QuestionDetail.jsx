@@ -60,7 +60,7 @@ const QuestionDetail = () => {
       setAnswerList(res.data.answerList);
     });
   }, []);
-
+  console.log(data);
   const onSubmit = (e) => {
     e.preventDefault();
     // CHECK: 내 닉넴 받아오기
@@ -105,7 +105,14 @@ const QuestionDetail = () => {
             <DetailContents>
               <QuestionContainer>
                 {/* CHECK: 질문 투표수가 안들어오고 있음 */}
-                <VoteBtns votes={0} questionId={data.questionId}></VoteBtns>
+                <VoteBtns
+                  votes={
+                    data.questionVote?.voteCount === undefined
+                      ? 0
+                      : data.questionVote.voteCount
+                  }
+                  questionId={data.questionId}
+                ></VoteBtns>
                 <article>
                   <div className="ql-snow">
                     <QlViewer

@@ -48,5 +48,29 @@ export const voteAnswer = async (Id, vote) => {
 
 export const voteQuestion = async (Id, vote) => {
   //Question에 투표하기
-  return `${Id} question의 좋아요 = ${vote}개`;
+  //axios post로 URL+ /questions/${Id}?voteType=${vote} 보내기
+  if (vote === 1) {
+    try {
+      const response = await axios.post(
+        URL + `/questions/vote/${Id}?voteType=1&memberId=7`
+      );
+      console.log(response, 'vote success');
+      return response;
+    } catch (e) {
+      console.log(e, 'vote fail');
+      console.log(Id, vote);
+    }
+  }
+
+  if (vote === -1) {
+    try {
+      const response = await axios.post(
+        URL + `/questions/vote/${Id}?voteType=2`
+      );
+      console.log(response, 'vote success');
+      return response;
+    } catch (e) {
+      console.log(e, 'vote fail');
+    }
+  }
 };
