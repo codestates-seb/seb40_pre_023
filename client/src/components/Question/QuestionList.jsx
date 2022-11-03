@@ -41,7 +41,7 @@ const QuestionList = ({ questions }) => {
             <Link to={`/questions/${item.questionId}`}>
               <QTitle>{item.title}</QTitle>
             </Link>
-            <QContent>{item.content}</QContent>
+            <QContent>{item.text}</QContent>
             <QUser>
               <QTagList>
                 {item.tags.map((tag, idx) => (
