@@ -14,6 +14,7 @@ import Logo from '../../components/Logo';
 import { Cookies } from 'react-cookie';
 import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';
+import { LoginAPI } from '../../api/api';
 
 function Login() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -42,26 +43,19 @@ function Login() {
   });
 
   const onSubmit = async (data) => {
-    try {
-      const req = JSON.stringify(data);
-      axios
-        .post(
-          `https://287b-119-192-202-235.jp.ngrok.io/login`,
-          req,{
-            headers: { 'Content-Type': `application/json`,withCredentials: true
-          },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-          let jwtToken = res.headers.get("Authorization");
-          localStorage.setItem("Authorization", jwtToken);
-          setIsLogin(true);
-          navigate('/');
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    LoginAPI(data).then(async (res) => {
+      console.log(res.status, 'res.status');
+      if (res.status === 200) {
+        setIsLogin(true);
+        // localStorage.setItem('token', 'aa');
+        console.log(res.data.token);
+        navigate('/');
+      } else if (res.status === 400) {
+        alert('아이디 또는 비밀번호를 확인해주세요.');
+      } else if (res.status === 401) {
+        alert('아이디 또는 비밀번호를 확인해주세요.');
+      }
+    });
   };
 
   return (
@@ -70,9 +64,10 @@ function Login() {
 
       <InputDiv>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-group">
+          <div className="email-form">
             <InputLabel>Email</InputLabel>
             <InputText
+              error={errors.email?.message === undefined ? '' : 'error'}
               name="email"
               type="text"
               defaultValue={
@@ -80,11 +75,59 @@ function Login() {
               }
               {...emailRegister}
             />
+            {errors.email?.message === undefined ? null : (
+              <div className="error-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  width={24}
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  className="icons"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                  />
+                </svg>
+              </div>
+            )}
+
             <div className="invalid-feedback">{errors.email?.message}</div>
           </div>
-          <div className="form-group">
+
+          <div className="password-form">
             <InputLabel>Password</InputLabel>
-            <InputText name="password" type="password" {...passwordRegister} />
+            <div className="input-text">
+              <InputText
+                error={errors.password?.message === undefined ? '' : 'error'}
+                name="password"
+                type="password"
+                {...passwordRegister}
+              />
+              {errors.password?.message === undefined ? null : (
+                <div className="error-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    width={24}
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="icons"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                    />
+                  </svg>
+                </div>
+              )}
+            </div>
+
             <div className="invalid-feedback">{errors.password?.message}</div>
           </div>
           <InputButton disabled={isSubmitting} className="btn btn-primary">

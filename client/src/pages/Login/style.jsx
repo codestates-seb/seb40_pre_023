@@ -15,7 +15,7 @@ export const InputDiv = styled.div`
   -webkit-box-pack: justify;
   justify-content: space-between;
   width: 252px;
-  height: 212px;
+
   padding: 24px;
   margin: 24px 0px;
   background-color: white;
@@ -23,6 +23,26 @@ export const InputDiv = styled.div`
   box-shadow: rgb(0 0 0 / 5%) 0px 10px 24px, rgb(0 0 0 / 5%) 0px 20px 48px,
     rgb(0 0 0 / 10%) 0px 1px 4px;
 
+  .email-form,
+  .password-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    position: relative;
+    .error-icon {
+      position: absolute;
+      right: 3%;
+      top: 36%;
+      color: #de4f54;
+    }
+    .invalid-feedback {
+      padding-top: 0.5em;
+      padding-left: 0.1em;
+      font-size: 0.8em;
+      font-weight: 400;
+      color: #de4f54;
+    }
+  }
   .error {
     color: #d0393e;
     font-size: 12px;
@@ -44,23 +64,28 @@ export const InputLabel = styled.label`
 `;
 
 export const InputText = styled.input`
-  width: 204px;
-  min-width: 204px;
+  width: 238px;
+  min-width: 238px;
   height: 31px;
   min-height: 31px;
   border: 1px solid rgb(186, 191, 196);
   border-radius: 3px;
   padding-left: 10px;
-  border-color: '#de4f54';
-  box-shadow: '0 0 0 4px #f7e1e1, 0 0 0 4px #f7e1e1';
+  border-color: ${(props) => (props.error ? '#de4f54' : '')};
+  box-shadow: ${(props) =>
+    props.error ? '0 0 0 4px #f7e1e1, 0 0 0 4px #f7e1e1' : ''};
   &:focus {
     outline: none;
-    border-color: '#de4f54';
+    border-color: ${(props) => (props.error ? '#de4f54' : '#6bbbf7')};
     border-width: 1px;
-    box-shadow: '0 0 0 4px #f7e1e1, 0 0 0 4px #f7e1e1';
+    box-shadow: ${(props) =>
+      props.error
+        ? '0 0 0 4px #f7e1e1, 0 0 0 4px #f7e1e1'
+        : '0 0 0 4px #cce9fe, 0 0 0 4px #cce9fe'};
   }
-  /* box-shadow: ;
-   */
+  .error-icon {
+    color: #d0393e;
+  }
 `;
 
 export const InputButton = styled.button`

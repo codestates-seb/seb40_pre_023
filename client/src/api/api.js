@@ -2,7 +2,19 @@ import axios from 'axios';
 const URL = process.env.REACT_APP_URL;
 
 export const getData = async () => {
-  const response = await axios.get(URL + `/questions?page=1&size=15`);
+  const response = await axios.get(URL + `/questions?page=1&size=15`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response;
+};
+
+export const LoginAPI = async (data) => {
+  const response = await axios.post(URL + `/login`, data).catch((error) => {
+    console.log(error.response, 'res');
+    return error.response;
+  });
   return response;
 };
 
