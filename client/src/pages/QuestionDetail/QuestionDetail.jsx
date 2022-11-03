@@ -55,13 +55,12 @@ const QuestionDetail = () => {
 
   useEffect(() => {
     getQuestionDetail(`${location.pathname}`).then((res) => {
-      console.log(res.data);
       setData(res.data);
       setMember(res.data.member);
       setAnswerList(res.data.answerList);
     });
   }, []);
-  console.log(data);
+
   const onSubmit = (e) => {
     e.preventDefault();
     // CHECK: 내 닉넴 받아오기

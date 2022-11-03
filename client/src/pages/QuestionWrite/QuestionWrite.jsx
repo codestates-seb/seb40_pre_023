@@ -33,8 +33,10 @@ const QuestionWrite = () => {
   // post 요청으로 보낼 값 에선 introduce + expand -> content로 보내야 함
   const [body, setBody] = useState({
     title: '',
-    introduce: '',
+    intro: '',
     expand: '',
+    introText: '',
+    expandText: '',
     tags: [],
   });
 
@@ -70,7 +72,8 @@ const QuestionWrite = () => {
 
     const postBody = JSON.stringify({
       title: body.title,
-      content: `${body.introduce}<p><br></p>${body.expand}`,
+      content: `${body.intro}<p><br></p>${body.expand}`,
+      text: `${body.introText}\n${body.expandText}`,
       tags: [...body.tags],
     });
 
@@ -80,6 +83,10 @@ const QuestionWrite = () => {
       })
       .catch((error) => alert(`글 작성에 실패하였습니다!🥲`));
   };
+
+  useEffect(() => {
+    console.log(body);
+  }, [body]);
 
   // 설명 박스 등장을 제어함
   const onHelperHandler = useCallback((e) => {
@@ -157,6 +164,7 @@ const QuestionWrite = () => {
     setBody({
       ...body,
       [currentType]: htmlStr,
+      [`${currentType}Text`]: text,
     });
     let isFit = text.length > 20;
     let nextBtn;
@@ -297,11 +305,7 @@ const QuestionWrite = () => {
                       className={titleError ? 'error' : ''}
                     ></InputText>
                     <small>Minimum 15 characters.</small>
-                    <NextBtn
-                      ref={titleNextRef}
-                      // onClick={openIntroduce}
-                      disabled
-                    >
+                    <NextBtn ref={titleNextRef} disabled>
                       Next
                     </NextBtn>
                   </InputSec>

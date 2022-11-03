@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import {
   EditPageContainer,
@@ -20,7 +21,7 @@ import 'react-quill/dist/quill.snow.css';
 import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
-import { qdetail } from '../QuestionDetail/dummy';
+import { patchQuestion, getQuestionDetail } from '../../api/api';
 
 const makeTag = (arr) => {
   const tagObjs = [];
@@ -34,12 +35,13 @@ const makeTag = (arr) => {
 };
 
 const QuestionEdit = () => {
-  const defaultTag = makeTag(qdetail.tags);
+  let { id } = useParams();
 
-  const [tags, setTags] = useState(defaultTag);
-  const [title, setTitle] = useState(qdetail.title);
+  const [tags, setTags] = useState([]);
+  const [title, setTitle] = useState('');
   const [tag, setTag] = useState('');
-  const [body, setBody] = useState('');
+  const [content, setContent] = useState();
+  const [text, setText] = useState();
 
   const tagInputRef = useRef();
   const editorRef = useRef();
@@ -55,7 +57,33 @@ const QuestionEdit = () => {
   }, []);
 
   useEffect(() => {
-    document.querySelector('.ql-editor').innerHTML = qdetail.content;
+    getQuestionDetail(`/questions/${id}`).then((res) => {
+      setTitle(res.data.title);
+      setTags(makeTag(res.data.tags));
+      setContent(res.data.content);
+      document.querySelector('.ql-editor').innerHTML = res.data.content;
+    });
+  }, []);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const patchBody = JSON.stringify({
+      questionId: id,
+      title: title,
+      content: content,
+      text: text,
+      tags: tags.map((tag) => tag.name),
+    });
+
+    patchQuestion(id, patchBody)
+      .then((res) => {
+        navigate(`/questions/${id}`, { replace: true });
+      })
+      .catch((error) => alert(`글 수정에 실패하였습니다!🥲`));
+  };
+
+  useEffect(() => {
     tagInputRef.current.addEventListener('focus', onTagFocused);
     tagInputRef.current.addEventListener('focusout', onTagFocusedOut);
   }, [onTagFocused, onTagFocusedOut]);
@@ -92,9 +120,10 @@ const QuestionEdit = () => {
                   theme="snow"
                   modules={editorModules}
                   ref={editorRef}
-                  onChange={(content, delta, source, editor) =>
-                    setBody(editor.getHTML())
-                  }
+                  onChange={(content, delta, source, editor) => {
+                    setContent(editor.getHTML());
+                    setText(editor.getText());
+                  }}
                 />
               </EditorContainer>
             </InputUnit>
@@ -119,7 +148,7 @@ const QuestionEdit = () => {
                 ></input>
               </TagsInputGroup>
               <div>
-                <EditBtn>Save edits</EditBtn>
+                <EditBtn onClick={onSubmit}>Save edits</EditBtn>
                 <CancelBtn
                   onClick={() => {
                     navigate(-1);

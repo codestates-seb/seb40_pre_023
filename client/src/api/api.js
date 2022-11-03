@@ -52,6 +52,7 @@ export const postQuestion = async (body) => {
   const response = axios.post(`${URL}/questions/ask/1`, body, {
     headers: {
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
     },
   });
   return response;
@@ -89,4 +90,13 @@ export const voteQuestion = async (Id, vote) => {
       console.log(e, 'vote fail');
     }
   }
+};
+
+export const patchQuestion = async (questionId, body) => {
+  const response = axios.patch(`${URL}/questions/${questionId}/edit`, body, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response;
 };
