@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Container,
@@ -10,7 +9,6 @@ import {
   SignUp,
 } from './style';
 import axios from 'axios';
-import axiosInstance from '../../axiosconfig/Axiosconfig';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/Logo';
 import { Cookies } from 'react-cookie';
@@ -29,7 +27,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    setFocus,
     formState: { isSubmitting, errors },
   } = useForm();
   const emailRegister = register('email', {
@@ -47,16 +44,18 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const req = JSON.stringify(data);
-      axiosInstance
+      axios
         .post(
-          `http://ec2-43-201-114-190.ap-northeast-2.compute.amazonaws.com:8080/login`,
-          req
+          `https://287b-119-192-202-235.jp.ngrok.io/login`,
+          req,{
+            headers: { 'Content-Type': `application/json`,withCredentials: true
+          },
+          }
         )
         .then((res) => {
           console.log(res);
-          cookies.set('accessToken', res.accessTokean, {
-            secure: true,
-          });
+          let jwtToken = res.headers.get("Authorization");
+          localStorage.setItem("Authorization", jwtToken);
           setIsLogin(true);
           navigate('/');
         });

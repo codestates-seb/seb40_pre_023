@@ -16,6 +16,7 @@ const Logout = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
   const handleLogout = () => {
+    localStorage.removeItem("Authorization")
     setIsLogin(false);
     navigate('/');
   };

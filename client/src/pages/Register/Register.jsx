@@ -33,13 +33,13 @@ function Register() {
     const nicknameRegister = register('nickname', {
 		required: { value: true, message: '닉네임을 입력해주세요.' },
 	});
-  const URL = process.env.REACT_APP_URL;
+  
 
   const onSubmit = async (data) => {
     try {
       const req = JSON.stringify(data);
       axios
-        .post(URL + `/members/signup`, req, {
+        .post(`https://287b-119-192-202-235.jp.ngrok.io/members/signup`, req, {
           headers: { 'Content-Type': `application/json` },
         })
         .then((res) => {
