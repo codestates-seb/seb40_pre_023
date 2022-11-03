@@ -20,6 +20,9 @@ public class AnswerVote extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long voteId;
 
+    private Long memberId;
+    private Long answerId;
+
     @Column(nullable = false)
     private int voteState;
 
@@ -27,7 +30,7 @@ public class AnswerVote extends BaseTime {
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "MEMBER_ID")
+//    private Member member;
 }
