@@ -42,6 +42,9 @@ public class Question extends BaseTime {
     @Enumerated(value = EnumType.STRING)
     private QuestionStatus questionStatus = QuestionStatus.UNANSWERED;
 
+    private int views;
+    private String text;
+
     public enum QuestionStatus {
         UNANSWERED("답변이 없는 질문"),
         UNACCEPTED("채택된 답변이 없는 질문"),

@@ -1,5 +1,6 @@
 package com.seb40pre023.domain.question.controller;
 
+import com.seb40pre023.domain.question.dto.QuestionDto;
 import com.seb40pre023.domain.question.dto.QuestionPatchDto;
 import com.seb40pre023.domain.question.dto.QuestionPostDto;
 import com.seb40pre023.domain.question.dto.QuestionResDto;
@@ -10,10 +11,12 @@ import com.seb40pre023.domain.questionvote.entity.QuestionVote;
 import com.seb40pre023.domain.questionvote.entity.QuestionVoteCalculator;
 import com.seb40pre023.global.common.dto.MultiResponseDto;
 import com.seb40pre023.global.security.argumentresolver.LoginAccountId;
+import com.seb40pre023.global.security.auth.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +36,7 @@ public class QuestionController {
     * */
     @PostMapping("/questions/ask/{memberId}")
     public ResponseEntity postQuestion(@PathVariable Long memberId,
-            @RequestBody QuestionPostDto questionPostDto) {
+                                       @RequestBody QuestionDto.Post questionPostDto) {
 
         Question request = mapper.questionPostDtoToQuestion(questionPostDto);
         Question question = questionService.createQuestion(memberId, request);
@@ -49,7 +52,7 @@ public class QuestionController {
     * */
     @PatchMapping("/questions/{questionId}/edit")
     public ResponseEntity patchQuestion(@PathVariable Long questionId,
-                                        @RequestBody QuestionPatchDto questionPatchDto) {
+                                        @RequestBody QuestionDto.Patch questionPatchDto) {
         questionPatchDto.setQuestionId(questionId);
 
         Question question = mapper.questionPatchDtoToQuestion(questionPatchDto);
@@ -64,10 +67,11 @@ public class QuestionController {
     * return : List<QuestionResDto>, Page<Question> (정렬된 Question 을 반환)
     */
     @GetMapping("/questions")
-    public ResponseEntity getQuestions(@RequestParam int page,
-                                       @RequestParam int size) {
+    public ResponseEntity getQuestions(@RequestParam(required = false, defaultValue = "1") int page,
+                                       @RequestParam(required = false, defaultValue = "15") int size,
+                                       @RequestParam(required = false, defaultValue = "questionId") String tab) {
 
-        Page<Question> pageQuestions = questionService.getQuestions(page - 1, size);
+        Page<Question> pageQuestions = questionService.getQuestions(page - 1, size, tab);
         List<Question> questions = pageQuestions.getContent();
 
         return new ResponseEntity<>(
@@ -92,11 +96,11 @@ public class QuestionController {
     }
 
     @PostMapping("/questions/vote/{questionId}")
-    public int postVote(@RequestParam int voteType,
+    public int postVote(@RequestParam int voteTypeId,
                         @PathVariable Long questionId,
                         @RequestParam Long memberId) {
 
-        int voteScore = questionService.voteEvent(voteType, questionId, memberId);
+        int voteScore = questionService.voteEvent(voteTypeId, questionId, memberId);
 
         return voteScore;
     }
