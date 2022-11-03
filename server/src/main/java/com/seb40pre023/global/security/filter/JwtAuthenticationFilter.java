@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,12 +88,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String jwtToken = JWT.create()
                 .withSubject(principalDetails.getUsername())
-                .withExpiresAt(new Date(Jwtsecret.EXPIRATION_MINUTES))
+                .withExpiresAt(new Date(System.currentTimeMillis() + Jwtsecret.EXPIRATION_MINUTES))
                 .withClaim("id", principalDetails.getMember().getMemberId())
                 .withClaim("email", principalDetails.getMember().getEmail())
                 .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
 
-        response.addHeader(Jwtsecret.HEADER, jwtToken);
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader(Jwtsecret.HEADER, "Bearer " + jwtToken);
+
         response.setHeader("content-type", "application/json");
 
 //        response.getWriter().write("success login");
