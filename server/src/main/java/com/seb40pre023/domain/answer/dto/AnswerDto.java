@@ -35,7 +35,7 @@ public class AnswerDto {
         private Long memberId;
         private Long questionId;
         private String content;
-        private String nickName;
+        private String nickname;
         private int scoreUpDownVote;
         private long numberOfTotalVote;
         private List<AnswerVoteDto.response> answerVoteList;

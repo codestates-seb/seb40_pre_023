@@ -24,7 +24,8 @@ public class AnswerService {
     // 회원이 질문글에 답변 생성
     public Answer createAnswer(Long memberId, Long questionId, Answer answer) {
         Member member = memberService.findVerifiedMember(memberId);
-        Question question = questionService.findVerifiedQuestion(questionId);
+        Question question = questionService.findVerifiedQuestion(questionId); // Id 를 통해 질문 가져오기
+        question.setQuestionStatus(Question.QuestionStatus.UNACCEPTED); // 질문 상태 변경
         answer.setMember(member);
         answer.setQuestion(question);
 
@@ -54,7 +55,7 @@ public class AnswerService {
     }
 
     public void deleteAnswer(Long answerId) {
-        System.out.println("success delete answer : " + answerId);
+
         answerRepository.deleteById(answerId);
     }
 
