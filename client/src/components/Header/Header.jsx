@@ -19,9 +19,10 @@ import {
 } from './style';
 import LayoutContainer from '../LayoutContainer/LayoutContainer';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
+import isLoginState from '../../_state/isLoginState';
 // TODO: dummy 지워야 함
 import { userInfo } from './dummy';
+import { useRecoilValue } from 'recoil';
 
 const Header = ({ isSidebar }) => {
   const location = useLocation();
@@ -31,7 +32,8 @@ const Header = ({ isSidebar }) => {
 
   const [isSearch, setIsSearch] = useState(false);
   const [isSidebarOn, setIsSidebarOn] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const isLogin = useRecoilValue(isLoginState);
+  // const [isLogin, setIsLogin] = useState(false);
   const [needSidebar, setNeedSidebar] = useState(isSidebar);
   const [togglePopUp, setTogglePopUp] = useState(false);
 
