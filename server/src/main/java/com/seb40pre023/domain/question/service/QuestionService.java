@@ -57,7 +57,11 @@ public class QuestionService {
     // 질문 조회하는 메서드
     public Question getQuestion(Long questionId) {
 
-        return findVerifiedQuestion(questionId);
+        Question findQuestion = findVerifiedQuestion(questionId);
+        findQuestion.setViews(findQuestion.getViews() + 1);
+        questionRepository.save(findQuestion);
+
+        return findQuestion;
     }
 
     /*
@@ -65,10 +69,12 @@ public class QuestionService {
     * parameter : page, size
     * return : Page<Question>
     */
-    public Page<Question> getQuestions(int page, int size) {
+    public Page<Question> getQuestions(int page, int size, String tab) {
+
+        if (tab.equals("vote")) tab = "questionVote.voteCount";
 
         return questionRepository.findAll(PageRequest.of(page, size,
-                Sort.by("questionId").descending()));
+                Sort.by(tab).descending()));
     }
 
     // 질문이 존재하는지 검증하는 메서드
