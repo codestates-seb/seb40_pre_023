@@ -36,6 +36,8 @@ public class Question extends BaseTime {
     @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
     private List<QuestionTag> tagList;
 
+    @ElementCollection
+    private List<String> tags;
     @OneToOne(mappedBy = "question", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private QuestionVote questionVote;
 

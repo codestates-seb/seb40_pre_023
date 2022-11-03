@@ -87,16 +87,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String jwtToken = JWT.create()
                 .withSubject(principalDetails.getUsername())
-                .withExpiresAt(new Date(Jwtsecret.EXPIRATION_MINUTES))
+                .withExpiresAt(new Date(System.currentTimeMillis() + Jwtsecret.EXPIRATION_TIMES))
                 .withClaim("id", principalDetails.getMember().getMemberId())
                 .withClaim("email", principalDetails.getMember().getEmail())
                 .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
 
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization");
         response.addHeader(Jwtsecret.HEADER, jwtToken);
         response.setHeader("content-type", "application/json");
 
 //        response.getWriter().write("success login");
     }
-
-
 }
