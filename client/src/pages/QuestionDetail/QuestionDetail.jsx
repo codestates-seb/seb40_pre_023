@@ -66,13 +66,14 @@ const QuestionDetail = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const patchBody = JSON.stringify({
-      memberId: 1, //auth 멤버 아이디
+    const postBody = JSON.stringify({
+      memberId: 17, //auth 멤버 아이디
       questionId: id,
-      nickname: '', //auth 닉넴
+      nickname: 'username1234', //auth 닉넴
       content: answerContent,
     });
-    postAnswer(patchBody)
+    console.log(postBody);
+    postAnswer(postBody)
       .then((res) => {
         // setAnswerList([...answerList, res.data]);
         console.log(res);

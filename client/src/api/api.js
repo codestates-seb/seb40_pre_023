@@ -54,7 +54,12 @@ export const getDetail = async (parameter) => {
 };
 
 export const postAnswer = async (body) => {
-  const response = await axios.post(`${URL}/answers`, body);
+  const response = await axios.post(`${URL}/answers`, body, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
   return response;
 };
 
