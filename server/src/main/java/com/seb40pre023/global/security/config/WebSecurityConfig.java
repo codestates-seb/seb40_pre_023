@@ -11,14 +11,13 @@ package com.seb40pre023.global.security.config;
  * JWT 생성 후, 클라이언트의 응답으로 전달
  */
 
-import com.seb40pre023.global.security.filter.JwtAuthenticationFilter;
-import com.seb40pre023.global.security.handler.JwtAuthenticationEntryPoint;
 import com.seb40pre023.global.security.auth.TokenProvider;
+import com.seb40pre023.global.security.filter.JwtAuthenticationFilter;
 import com.seb40pre023.global.security.handler.JwtAccessDeniedHandler;
+import com.seb40pre023.global.security.handler.JwtAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
