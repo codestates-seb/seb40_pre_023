@@ -8,23 +8,33 @@ import Rside from '../components/Rside/Rside';
 import LayoutContainer from '../components/LayoutContainer/LayoutContainer';
 import QuestionList from '../components/Question/QuestionList';
 import PaginationGroup from '../components/PaginationGroup/PaginationGroup';
-import { getData, getQuestions } from '../api/api';
+import { getQuestions, getVoteFilteredData } from '../api/api';
 
 const Main = () => {
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(15);
+  const [size, setSize] = useState('15');
   const [data, setData] = useState([]);
+  const [filtered, setFiltered] = useState(false);
   const [totalPage, setTotalPage] = useState(0);
   const [totalQuestion, setTotalQustion] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getQuestions(page, size).then((res) => {
-      navigate(`/${page}/${size}`);
-      setData(res.data.data);
-      setTotalPage(res.data.pageInfo.totalPages);
-      setTotalQustion(res.data.pageInfo.totalElements);
-    });
+    if (filtered) {
+      getVoteFilteredData(page, size).then((res) => {
+        navigate(`/${page}/${size}/votes`);
+        setData(res.data.data);
+        setTotalPage(res.data.pageInfo.totalPages);
+        setTotalQustion(res.data.pageInfo.totalElements);
+      });
+    } else {
+      getQuestions(page, size).then((res) => {
+        navigate(`/${page}/${size}`);
+        setData(res.data.data);
+        setTotalPage(res.data.pageInfo.totalPages);
+        setTotalQustion(res.data.pageInfo.totalElements);
+      });
+    }
   }, [page, size]);
 
   return (
@@ -33,7 +43,14 @@ const Main = () => {
         <PageContainer>
           <main>
             <PageTitle title="All Questions" button="Ask Question" />
-            <Filter totalQuestion={totalQuestion} type="questions"></Filter>
+            <Filter
+              totalQuestion={totalQuestion}
+              setData={setData}
+              setFiltered={setFiltered}
+              setPage={setPage}
+              setSize={setSize}
+              type="questions"
+            ></Filter>
             <QuestionList questions={data} />
             <PaginationGroup
               totalPage={totalPage}

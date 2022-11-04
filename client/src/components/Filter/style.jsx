@@ -100,6 +100,11 @@ export const FilterCheck = styled.input`
   &:checked + p {
     background-color: hsl(205, 57%, 81%);
   }
+
+  &:disabled + p {
+    opacity: 0.3;
+    cursor: not-allowed !important;
+  }
 `;
 export const FilterBtn = styled.p`
   display: inline-block;

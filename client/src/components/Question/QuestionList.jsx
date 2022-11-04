@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   QList,
   QDetail,
@@ -16,8 +16,7 @@ import {
 } from './style';
 import { displayCreatedAt } from '../../utils/displayCreatedAt';
 import { Link } from 'react-router-dom';
-import { getData } from '../../api/api';
-import { useState } from 'react';
+
 const QuestionList = ({ questions }) => {
   return (
     <QList>
@@ -39,7 +38,7 @@ const QuestionList = ({ questions }) => {
             <QUser>
               <QTagList>
                 {item.tags.map((tag, idx) => (
-                  <QTag key={idx}>{tag.content}</QTag>
+                  <QTag key={idx}>{tag}</QTag>
                 ))}
               </QTagList>
               <QInfo>

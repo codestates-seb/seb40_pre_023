@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Section, PageLocation, PageSize } from './style';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
@@ -16,7 +16,6 @@ const PaginationGroup = ({ page, size, setPage, setSize, totalPage }) => {
         const regex = /[^0-9]/g;
         const result = nowPage.ariaLabel.replace(regex, '');
         const pageNumber = parseInt(result);
-
         setPage(pageNumber);
       }
     }
@@ -48,12 +47,13 @@ const PaginationGroup = ({ page, size, setPage, setSize, totalPage }) => {
         <fieldset>
           <p>
             <input
+              // ref={defaultSize}
               type="radio"
               id="15"
               name="page-size"
               value="15"
-              checked={size === 15}
               onChange={handleChangePageSize}
+              checked={size === '15'}
             />
             <label htmlFor="15">15</label>
           </p>
@@ -64,6 +64,7 @@ const PaginationGroup = ({ page, size, setPage, setSize, totalPage }) => {
               name="page-size"
               value="30"
               onChange={handleChangePageSize}
+              checked={size === '30'}
             />
             <label htmlFor="30">30</label>
           </p>
@@ -74,6 +75,7 @@ const PaginationGroup = ({ page, size, setPage, setSize, totalPage }) => {
               name="page-size"
               value="50"
               onChange={handleChangePageSize}
+              checked={size === '50'}
             />
             <label htmlFor="50">50</label>
           </p>
