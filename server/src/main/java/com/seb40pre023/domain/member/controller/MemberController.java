@@ -1,10 +1,12 @@
 package com.seb40pre023.domain.member.controller;
 
-
 import com.seb40pre023.domain.member.dto.MemberDto;
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.service.MemberService;
+import com.seb40pre023.domain.question.dto.QuestionDto;
+import com.seb40pre023.domain.question.entity.Question;
+import com.seb40pre023.domain.question.mapper.QuestionMapper;
 import com.seb40pre023.global.common.dto.SingleResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.seb40pre023.global.security.argumentresolver.LoginAccountId;
@@ -14,10 +16,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -27,11 +30,13 @@ public class MemberController {
 
     private MemberService memberService;
     private MemberMapper mapper;
+    private QuestionMapper questionMapper;
 
     @Autowired
-    public MemberController(MemberService memberService, MemberMapper mapper) {
+    public MemberController(MemberService memberService, MemberMapper mapper, QuestionMapper questionMapper) {
         this.memberService = memberService;
         this.mapper = mapper;
+        this.questionMapper = questionMapper;
     }
 
     //회원가입
@@ -66,10 +71,23 @@ public class MemberController {
         return new ResponseEntity(new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
 
+    @GetMapping("/members/user/{memberId}")
+    public ResponseEntity getMyInfo(@PathVariable Long memberId) {
+        Member member = memberService.findMember(memberId);
+        List<QuestionDto.SimpleResponse> questions = memberService.findQuestions(memberId)
+                .stream().map(question -> questionMapper.questionToQuestionSimpleRes(question)).collect(Collectors.toList());
 
-//    @GetMapping("/login/{memberId}")
+        int answerCount = memberService.findAnswers(memberId);
+
+        MemberDto.Response response = mapper.memberToMemberResponse(member);
+        response.setQuestionList(questions);
+        response.setAnswerCount(answerCount);
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    //로그인
+//    @GetMapping("/members/login")
 //    public ResponseEntity login(@Valid @RequestBody MemberDto.Login loginDto,
-//                                @PathVariable Long memberId,
 //                                HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        Member loginMember = memberService.login(loginDto);
 //
@@ -96,5 +114,4 @@ public class MemberController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
