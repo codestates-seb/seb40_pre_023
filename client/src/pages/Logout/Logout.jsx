@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router';
 import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';

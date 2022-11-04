@@ -104,6 +104,9 @@ export const PostAnswerBtn = styled.button`
 `;
 
 export const TagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
   margin: 30px 0;
 `;
 
@@ -115,7 +118,6 @@ export const Tag = styled.p`
   height: 19px;
   font-size: 12px;
   padding: 7px;
-  margin-right: 0.4em;
   border-radius: 3px;
   background-color: hsl(205, 46%, 92%);
   color: #39739d !important;

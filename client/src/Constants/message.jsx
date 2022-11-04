@@ -1,4 +1,3 @@
-import React from 'react';
 export const ERROR_MSG_01 = 'Checking for invalid email address.';
 export const ERROR_MSG_02 = 'Title must be at least 15 characters.';
 export const ERROR_MSG_03 = 'Password must be at least 8 characters.';

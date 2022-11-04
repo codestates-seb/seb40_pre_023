@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { VoteContainer, Vote } from './style';
 import { voteAnswer, voteQuestion } from '../../api/api';
 

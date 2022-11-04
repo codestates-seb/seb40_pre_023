@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   Gnb,
   MobileMenuBtn,
@@ -16,26 +16,31 @@ import {
   AvatarBlock,
   Row,
   Lshape,
+  MyPageBtn,
 } from './style';
 import LayoutContainer from '../LayoutContainer/LayoutContainer';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import isLoginState from '../../_state/isLoginState';
 // TODO: dummy 지워야 함
-import { userInfo } from './dummy';
-import { useRecoilValue } from 'recoil';
+// import { userInfo } from './dummy';
+import { useRecoilState } from 'recoil';
+import isLoginState from '../../_state/isLoginState';
+import memberIdState from '../../_state/memberIdState';
+import { getMemberInfo } from '../../api/api';
 
 const Header = ({ isSidebar }) => {
   const location = useLocation();
   const sideBar = useRef();
   const navigate = useNavigate();
-  // const needSidebar = isSidebar;
 
   const [isSearch, setIsSearch] = useState(false);
   const [isSidebarOn, setIsSidebarOn] = useState(false);
-  const isLogin = useRecoilValue(isLoginState);
-  // const [isLogin, setIsLogin] = useState(false);
+
   const [needSidebar, setNeedSidebar] = useState(isSidebar);
   const [togglePopUp, setTogglePopUp] = useState(false);
+
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [userInfo, setUserInfo] = useState();
 
   const ignorePaths = [
     '/account/login',
@@ -61,6 +66,12 @@ const Header = ({ isSidebar }) => {
   };
 
   useEffect(() => {
+    if (isLogin) {
+      getMemberInfo(memberId).then((res) => {
+        setUserInfo(res.data.data);
+      });
+    }
+
     window.addEventListener('click', handleCloseToggle);
   }, []);
 
@@ -69,6 +80,7 @@ const Header = ({ isSidebar }) => {
       navigate(`/search/${e.target.value}/1/5`);
     }
   };
+
   function changeLocation(placeToGo) {
     navigate('/', { replace: true });
   }
@@ -157,11 +169,11 @@ const Header = ({ isSidebar }) => {
             ></Search>
             {isLogin ? (
               <ul>
-                <li>
+                <MyPageBtn>
                   <Link to="/mypage">
                     <HeaderAvatar img={''}></HeaderAvatar>
                   </Link>
-                </li>
+                </MyPageBtn>
                 <li
                   className="popup-btn prevent-popup"
                   onClick={() => {
@@ -197,7 +209,6 @@ const Header = ({ isSidebar }) => {
                       <MenuRows>
                         <Row>
                           <div>
-                            {/* TODO: avatar들어오면 연결 필요 */}
                             <AvatarBlock img={userInfo.img}></AvatarBlock>
                             <p>{userInfo.nickname}</p>
                           </div>

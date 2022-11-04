@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { Section, PageLocation, PageSize } from './style';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';

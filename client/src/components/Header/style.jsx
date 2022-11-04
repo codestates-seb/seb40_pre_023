@@ -20,12 +20,8 @@ export const Gnb = styled.header`
     box-sizing: border-box;
     width: 100%;
     max-width: 1215px;
-    padding: 0 12px;
+    padding: 0 12px 0 0;
     margin: 0 auto;
-
-    @media screen and (min-width: 641px) {
-      padding-left: 10px;
-    }
   }
 `;
 
@@ -82,8 +78,12 @@ export const Logo = styled.div`
 
   @media screen and (min-width: 641px) {
     width: 150px;
-    padding: 0;
+    padding: 0 8px;
     margin-left: 0;
+  }
+
+  &:hover {
+    background-color: hsl(210, 8%, 90%);
   }
 
   > p {
@@ -172,6 +172,16 @@ export const LoginNav = styled.nav`
         }
       }
     }
+  }
+`;
+
+export const MyPageBtn = styled.li`
+  padding: 0;
+  > a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
   }
 `;
 
