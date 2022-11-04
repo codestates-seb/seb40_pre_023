@@ -165,9 +165,17 @@ export const LoginNav = styled.nav`
       &:hover {
         background-color: hsl(210, 8%, 90%);
       }
+
       svg {
         opacity: 0.7;
         &:hover {
+          opacity: 1;
+        }
+      }
+
+      &.green {
+        svg {
+          fill: #3d8f58;
           opacity: 1;
         }
       }
@@ -197,7 +205,7 @@ export const SearchIcon = styled.div`
   display: ${(props) => (props.visible ? 'block' : 'none')};
 
   position: absolute;
-  left: 5vw;
+  left: 19px;
   top: 65px;
   z-index: 1;
   opacity: 0.5;
@@ -206,16 +214,16 @@ export const SearchIcon = styled.div`
     display: block;
     position: unset;
     left: unset;
-    top: unset;
-    transform: translateX(177%);
+    top: 1px;
+    transform: translate(177%, 1px);
   }
 `;
 
 export const Search = styled.input`
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 150%);
-  width: 95%;
+  position: fixed;
+  left: 10px;
+  top: 61px;
+  width: calc(100% - 20px);
   height: 32.6px;
   box-sizing: border-box;
   padding-left: 34px;
@@ -224,16 +232,152 @@ export const Search = styled.input`
   display: ${(props) => (props.visible ? 'block' : 'none')};
 
   &:focus-visible {
+    width: 100%;
     border: none;
     outline: 1px solid hsl(206, 90%, 69.5%);
     box-shadow: 0 0 0 4px #d7e5f2;
   }
 
+  &::placeholder {
+    color: hsl(210, 8%, 75%);
+  }
+
   @media screen and (min-width: 641px) {
     position: relative;
+    top: unset;
     left: unset;
     display: inline-block;
     transform: unset;
+    width: 100%;
+  }
+
+  &:focus ~ div {
+    display: block;
+  }
+`;
+
+export const SearchGroup = styled.div`
+  position: relative;
+  @media screen and (min-width: 641px) {
+    width: 100%;
+  }
+`;
+
+export const SearchDropDown = styled.div`
+  display: none;
+  position: fixed;
+  left: 10px;
+  top: 100px;
+  width: 96vw;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.06), 0 2px 6px hsla(0, 0%, 0%, 0.06),
+    0 3px 8px hsla(0, 0%, 0%, 0.09);
+
+  @media screen and (min-width: 641px) {
+    position: absolute;
+    bottom: -179px;
+    top: unset;
+    left: 0;
+    width: 100%;
+    min-width: 420px;
+  }
+
+  > div {
+    display: flex;
+    padding: 12px;
+
+    @media screen and (min-width: 641px) {
+      display: unset;
+    }
+
+    &:first-child {
+      display: flex;
+      flex-direction: column;
+      @media screen and (min-width: 641px) {
+        flex-direction: row;
+      }
+      ul:first-child {
+        margin-bottom: 12px;
+      }
+    }
+
+    &:nth-child(2) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid hsl(210, 8%, 90%);
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 50%;
+      font-size: 12px;
+
+      li {
+        white-space: nowrap;
+        cursor: auto;
+
+        :hover {
+          background-color: unset;
+        }
+
+        span {
+          margin-left: 5px;
+          color: #6a737c;
+        }
+      }
+    }
+
+    p {
+      padding: 0.6em;
+      background-color: #e1ecf4;
+      color: #39739d;
+      border: 1px solid #39739d;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: hsl(205, 57%, 81%);
+      }
+    }
+
+    small {
+      font-size: 11px;
+      color: #0074cc;
+    }
+  }
+`;
+
+export const SearchArrow = styled.div`
+  display: none;
+  position: fixed;
+  left: 10px;
+  top: 92px;
+  width: calc(100% - 20px);
+
+  @media screen and (min-width: 641px) {
+    position: unset;
+    left: unset;
+    top: unset;
+    width: auto;
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 28%) rotate(45deg);
+    background-color: #fff;
+  }
+  &::before {
+    box-shadow: -1px -1px 1px 0 hsl(0deg 0% 0% / 12%);
   }
 `;
 
