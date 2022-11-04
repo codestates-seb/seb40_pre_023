@@ -19,11 +19,6 @@ public class CorsConfig {
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.addExposedHeader("Authorization");
-<<<<<<< HEAD
-//        config.addAllowedOriginPattern("http://localhost:3001");
-=======
-
->>>>>>> eb9f044221b786d369c01a25b72e254112807f7b
 
         source.registerCorsConfiguration("/**", config);
         source.registerCorsConfiguration("/members/**", config);
