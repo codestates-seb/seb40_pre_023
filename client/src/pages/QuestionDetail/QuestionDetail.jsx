@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useParams, useNavigate } from 'react-router';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import Aside from '../../components/Aside/Aside';
@@ -58,6 +58,7 @@ const QuestionDetail = () => {
   const sanitizer = dompurify.sanitize;
   const location = useLocation();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -165,6 +166,7 @@ const QuestionDetail = () => {
                         editable={questionMember === memberId}
                         avatar={memeber.img}
                         itemId={data.questionId}
+                        token={token}
                       ></QaFooter>
                     </article>
                   </QuestionContainer>
@@ -174,6 +176,7 @@ const QuestionDetail = () => {
                         key={a.answerId}
                         answer={a}
                         editable={a.memberId === memberId}
+                        token={token}
                       ></AnswerItem>
                     );
                   })}

@@ -133,3 +133,23 @@ export const getMemberInfo = async (memberId) => {
   const response = axios.get(`${URL}/members/${memberId}`);
   return response;
 };
+
+export const deleteQuestion = async (questionId, token) => {
+  const response = axios.delete(`${URL}/questions/${questionId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${token}`,
+    },
+  });
+  return response;
+};
+
+export const deleteAnswer = async (answerId, token) => {
+  const response = axios.delete(`${URL}/answers/${answerId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${token}`,
+    },
+  });
+  return response;
+};

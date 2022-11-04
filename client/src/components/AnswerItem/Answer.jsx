@@ -5,7 +5,7 @@ import { displayCreatedAt } from '../../utils/displayCreatedAt';
 import VoteBtns from '../VoteBtns/VoteBtns';
 import dompurify from 'dompurify';
 
-const AnswerItem = ({ answer, editable }) => {
+const AnswerItem = ({ answer, editable, questionId, token }) => {
   const sanitizer = dompurify.sanitize;
 
   return (
@@ -25,6 +25,7 @@ const AnswerItem = ({ answer, editable }) => {
           editable={editable}
           avatar={''}
           itemId={answer.answerId}
+          token={token}
         ></QaFooter>
       </article>
     </AnswerContainer>
