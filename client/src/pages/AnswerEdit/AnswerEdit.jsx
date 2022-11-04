@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import Aside from '../../components/Aside/Aside';
 import Rside from '../../components/Rside/Rside';
@@ -26,7 +26,7 @@ const AnswerEdit = () => {
   const [token, setToken] = useRecoilState(tokenState);
 
   const [body, setBody] = useState('');
-  const [questionId, setQustionId] = useState('');
+  const [questionId, setQuestionId] = useState('');
   const sanitizer = dompurify.sanitize;
   const navigate = useNavigate();
   let { id } = useParams();
@@ -37,7 +37,7 @@ const AnswerEdit = () => {
       document.querySelector('.ql-editor').innerHTML = sanitizer(
         res.data.content
       );
-      setQustionId(res.data.questionId);
+      setQuestionId(res.data.questionId);
       //답변 정보에서 질문 아이디 추출해서 질문 정보 끌어오기
       getDetail(`/questions/${res.data.questionId}`).then((res) => {
         document.querySelector('.question-content').innerHTML = sanitizer(
@@ -55,7 +55,7 @@ const AnswerEdit = () => {
       content: body,
     });
     patchAnswer(id, jsonBody, token).then((res) => {
-      navigate(`/quesitons/${questionId}`, { replace: true });
+      navigate(`/questions/${questionId}`);
     });
   };
 

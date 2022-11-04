@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import PageTitle from '../../components/PageTitle/PageTitle';
@@ -39,7 +39,6 @@ import tokenState from '../../_state/tokenState';
 import memberIdState from '../../_state/memberIdState';
 import Loading from '../../components/Loading/Loading';
 const QuestionDetail = () => {
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [token, setToken] = useRecoilState(tokenState);
   const [isLoading, setIsLoading] = useState(false);
