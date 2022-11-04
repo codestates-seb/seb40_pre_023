@@ -1,18 +1,13 @@
 package com.seb40pre023.global.security.filter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seb40pre023.domain.member.dto.MemberLoginDto;
-import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.global.security.auth.Jwtsecret;
 import com.seb40pre023.global.security.auth.PrincipalDetails;
 import com.seb40pre023.global.security.auth.TokenProvider;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.SneakyThrows;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,11 +18,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
+
 
 /**
  * JWT 인증 2.
@@ -85,18 +76,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
 
-        String jwtToken = JWT.create()
-                .withSubject(principalDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + Jwtsecret.EXPIRATION_TIMES))
-                .withClaim("id", principalDetails.getMember().getMemberId())
-                .withClaim("email", principalDetails.getMember().getEmail())
-                .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
+//        String jwtToken = JWT.create()
+//                .withSubject(principalDetails.getUsername())
+//                .withExpiresAt(new Date(System.currentTimeMillis() + Jwtsecret.EXPIRATION_TIMES))
+//                .withClaim("id", principalDetails.getMember().getMemberId())
+//                .withClaim("email", principalDetails.getMember().getEmail())
+//                .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
+
+        String jwtToken = tokenProvider.createToken(principalDetails);
 
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization");
-        response.addHeader(Jwtsecret.HEADER, jwtToken);
+        response.addHeader(Jwtsecret.HEADER, "Bearer " + jwtToken);
         response.setHeader("content-type", "application/json");
 
-//        response.getWriter().write("success login");
+        response.getWriter().write(principalDetails.getMember().getMemberId().toString());
     }
 }
