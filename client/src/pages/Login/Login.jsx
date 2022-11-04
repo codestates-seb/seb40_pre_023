@@ -15,11 +15,13 @@ import { Cookies } from 'react-cookie';
 import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';
 import memberIdState from '../../_state/memberIdState';
+import tokenState from '../../_state/tokenState';
 import { LoginAPI } from '../../api/api';
 
 function Login() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [isToken, setIsToken] = useRecoilState(tokenState);
   const cookies = new Cookies();
   const navigate = useNavigate();
   // const URL = process.env.REACT_APP_URL;
@@ -51,8 +53,7 @@ function Login() {
       if (res.status === 200) {
         setIsLogin(true);
         setMemberId(res.data);
-        // localStorage.setItem('token', 'aa');
-        console.log(res.data.token);
+        setIsToken(res.headers.authorization);
         navigate('/');
       } else if (res.status === 400) {
         alert('아이디 또는 비밀번호를 확인해주세요.');
