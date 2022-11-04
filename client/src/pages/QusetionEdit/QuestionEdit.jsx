@@ -22,7 +22,6 @@ import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 import { patchQuestion, getDetail } from '../../api/api';
-import { useRecoilState } from 'recoil';
 import dompurify from 'dompurify';
 
 const makeTag = (arr) => {
@@ -61,10 +60,6 @@ const QuestionEdit = () => {
   }, []);
 
   useEffect(() => {
-    console.log(tags);
-  }, [tags]);
-
-  useEffect(() => {
     getDetail(`/questions/${id}`).then((res) => {
       setTitle(res.data.title);
       setTags(makeTag(res.data.tags));
@@ -85,8 +80,6 @@ const QuestionEdit = () => {
       text: text,
       tags: tags.map((tag) => tag.name),
     });
-
-    console.log(patchBody);
 
     patchQuestion(id, patchBody)
       .then((res) => {

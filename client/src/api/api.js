@@ -63,9 +63,9 @@ export const postAnswer = async (body, token) => {
   return response;
 };
 
-export const postQuestion = async (memberId, body, token) => {
+export const postQuestion = async (body, token) => {
   //json 형태로 body 받아옴
-  const response = axios.post(`${URL}/questions/ask/${memberId}`, body, {
+  const response = axios.post(`${URL}/questions/ask`, body, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `${token}`,
