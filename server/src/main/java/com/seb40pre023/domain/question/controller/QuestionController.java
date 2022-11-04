@@ -34,8 +34,8 @@ public class QuestionController {
     *             2. @Requestbody - QuestionPostDto
     * return : QuestionResDto (Question 응답 형식)
     * */
-    @PostMapping("/questions/ask/{memberId}")
-    public ResponseEntity postQuestion(@PathVariable Long memberId,
+    @PostMapping("/questions/ask")
+    public ResponseEntity postQuestion(@LoginAccountId Long memberId,
                                        @RequestBody QuestionDto.Post questionPostDto) {
 
         Question request = mapper.questionPostDtoToQuestion(questionPostDto);
@@ -96,11 +96,11 @@ public class QuestionController {
     }
 
     @PostMapping("/questions/vote/{questionId}")
-    public int postVote(@RequestParam int voteTypeId,
+    public int postVote(@RequestParam int voteType,
                         @PathVariable Long questionId,
-                        @RequestParam Long memberId) {
+                        @LoginAccountId Long memberId) {
 
-        int voteScore = questionService.voteEvent(voteTypeId, questionId, memberId);
+        int voteScore = questionService.voteEvent(voteType, questionId, memberId);
 
         return voteScore;
     }

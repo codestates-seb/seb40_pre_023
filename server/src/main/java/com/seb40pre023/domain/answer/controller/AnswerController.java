@@ -4,6 +4,7 @@ import com.seb40pre023.domain.answer.dto.AnswerDto;
 import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.answer.mapper.AnswerMapper;
 import com.seb40pre023.domain.answer.service.AnswerService;
+import com.seb40pre023.global.security.argumentresolver.LoginAccountId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,10 @@ public class AnswerController {
 
     //질문글에 답변을 쓸 때 답변 생성
     @PostMapping
-    public ResponseEntity postAnswer(@RequestBody AnswerDto.Post requestBody) {
+    public ResponseEntity postAnswer(@RequestBody AnswerDto.Post requestBody,
+                                     @LoginAccountId Long memberId) {
+        requestBody.setMemberId(memberId);
+
         Answer answer = mapper.answerPostToAnswer(requestBody);
         Answer response = answerService.createAnswer(requestBody.getMemberId(), requestBody.getQuestionId(), answer);
 
@@ -32,9 +36,11 @@ public class AnswerController {
     // 질문글에 작성한 답변 내용 수정하기
     @PatchMapping("/{answer-id}/edit")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") Long answerId,
-                                      @RequestBody AnswerDto.Patch requestBody) {
+                                      @RequestBody AnswerDto.Patch requestBody,
+                                      @LoginAccountId Long memberId) {
         requestBody.setAnswerId(answerId);
-        Answer response = answerService.updateAnswer(mapper.answerPatchToAnswer(requestBody));
+
+        Answer response = answerService.updateAnswer(mapper.answerPatchToAnswer(requestBody), memberId);
 
         return new ResponseEntity<>(mapper.answerToAnswerResponse(response), HttpStatus.OK);
     }
@@ -61,8 +67,9 @@ public class AnswerController {
 
     // 답변 삭제
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id") Long answerId) {
-        answerService.deleteAnswer(answerId);
+    public ResponseEntity deleteAnswer(@PathVariable("answer-id") Long answerId,
+                                       @LoginAccountId Long memberId) {
+        answerService.deleteAnswer(answerId, memberId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

@@ -61,6 +61,7 @@ public class TokenProvider implements InitializingBean {
 //                .map(GrantedAuthority::getAuthority)
 //                .collect(Collectors.toList());
 
+        claims.put("memberId", principalDetails.getMember().getMemberId());
         claims.put("email", principalDetails.getMember().getEmail());
 //        claims.put("role", roleList);
         return claims;
@@ -69,24 +70,28 @@ public class TokenProvider implements InitializingBean {
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts
                 .parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(Jwtsecret.SECRET.getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
 
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("email").toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+//        Collection<? extends GrantedAuthority> authorities =
+//                Arrays.stream(claims.get("email").toString().split(","))
+//                        .map(SimpleGrantedAuthority::new)
+//                        .collect(Collectors.toList());
 
-        User principal = new User(claims.getSubject(), "", authorities);
+        Principal principal = new Principal(Long.valueOf(claims.getSubject()), (String) claims.get("email"));
 
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        return new UsernamePasswordAuthenticationToken(principal, token, null);
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(Jwtsecret.SECRET.getBytes()).build().parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(Jwtsecret.SECRET.getBytes())
+                    .build()
+                    .parseClaimsJws(token);
+
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             logger.info("잘못된 JWT 서명입니다.");
