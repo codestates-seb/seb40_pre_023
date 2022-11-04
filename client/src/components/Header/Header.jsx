@@ -20,8 +20,6 @@ import {
 } from './style';
 import LayoutContainer from '../LayoutContainer/LayoutContainer';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// TODO: dummy 지워야 함
-// import { userInfo } from './dummy';
 import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';
 import memberIdState from '../../_state/memberIdState';

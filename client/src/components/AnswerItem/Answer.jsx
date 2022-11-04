@@ -21,7 +21,6 @@ const AnswerItem = ({ answer, editable }) => {
           type="answer"
           createAt={displayCreatedAt(answer.createdAt)}
           modifiedAt={displayCreatedAt(answer.modifiedAt)}
-          // CHECK: 답변자 이름이 안들어오고 있음()
           name={answer.nickname}
           editable={editable}
           avatar={''}
