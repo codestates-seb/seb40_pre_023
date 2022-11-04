@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';
+import memberIdState from '../../_state/memberIdState';
 import {
   Container,
   Wrapper,
@@ -14,10 +15,12 @@ import {
 
 const Logout = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.removeItem("Authorization")
+    localStorage.removeItem('Authorization');
     setIsLogin(false);
+    setMemberId(null);
     navigate('/');
   };
   return (

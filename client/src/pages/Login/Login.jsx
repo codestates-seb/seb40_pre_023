@@ -14,11 +14,12 @@ import Logo from '../../components/Logo';
 import { Cookies } from 'react-cookie';
 import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';
+import memberIdState from '../../_state/memberIdState';
 import { LoginAPI } from '../../api/api';
 
 function Login() {
-  
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const cookies = new Cookies();
   const navigate = useNavigate();
   // const URL = process.env.REACT_APP_URL;
@@ -26,6 +27,7 @@ function Login() {
     /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/;
   const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z]).{8,}/;
   // form validation rules
+
   const {
     register,
     handleSubmit,
@@ -48,6 +50,7 @@ function Login() {
       console.log(res.status, 'res.status');
       if (res.status === 200) {
         setIsLogin(true);
+        setMemberId(res.data);
         // localStorage.setItem('token', 'aa');
         console.log(res.data.token);
         navigate('/');
