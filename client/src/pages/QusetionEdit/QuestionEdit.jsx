@@ -22,6 +22,7 @@ import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 import { patchQuestion, getDetail } from '../../api/api';
+import { useRecoilState } from 'recoil';
 import dompurify from 'dompurify';
 
 const makeTag = (arr) => {
@@ -60,16 +61,13 @@ const QuestionEdit = () => {
   }, []);
 
   useEffect(() => {
-    // nextTagId.current = tags.length;
     console.log(tags);
-    // console.log(nextTagId.current);
   }, [tags]);
 
   useEffect(() => {
     getDetail(`/questions/${id}`).then((res) => {
       setTitle(res.data.title);
       setTags(makeTag(res.data.tags));
-      // console.log(tags.length);
       nextTagId.current = res.data.tags.length;
       setContent(res.data.content);
       document.querySelector('.ql-editor').innerHTML = sanitizer(
