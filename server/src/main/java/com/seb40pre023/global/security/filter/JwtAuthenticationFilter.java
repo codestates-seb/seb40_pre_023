@@ -47,21 +47,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         log.info("USERNAMEPASSWORD_FILTER");
 
         ObjectMapper objectMapper = new ObjectMapper();
-        MemberLoginDto memberLoginDto = null;
-        try {
-            memberLoginDto = objectMapper.readValue(request.getInputStream(), MemberLoginDto.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        MemberLoginDto loginDto = objectMapper.readValue(request.getInputStream(), MemberLoginDto.class);
+        MemberLoginDto loginDto = objectMapper.readValue(request.getInputStream(), MemberLoginDto.class);
         //클라이언트에서 전송한 email과 password를 LoginDto 클래스로 역직렬화
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(memberLoginDto.getEmail(), memberLoginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
         //Member email과 password 정보 포함된 UsernamePasswordAuthenticationToken 생성
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+
         return authentication;
         //위에 AuthenticationToken을 AuthenticationManager에게 전달하면서 인증 처리를 위임함
     }
@@ -75,18 +68,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) throws IOException {
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
-
-//        String jwtToken = JWT.create()
-//                .withSubject(principalDetails.getUsername())
-//                .withExpiresAt(new Date(System.currentTimeMillis() + Jwtsecret.EXPIRATION_TIMES))
-//                .withClaim("id", principalDetails.getMember().getMemberId())
-//                .withClaim("email", principalDetails.getMember().getEmail())
-//                .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
-
         String jwtToken = tokenProvider.createToken(principalDetails);
 
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization");
         response.addHeader(Jwtsecret.HEADER, "Bearer " + jwtToken);
         response.setHeader("content-type", "application/json");
 
