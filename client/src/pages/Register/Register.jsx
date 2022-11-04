@@ -6,6 +6,7 @@ import {
   Main,
   InputLabel,
   InputText,
+  InputDiv,
   InputButton,
   SideContainer,
   MobileTitle,
@@ -17,6 +18,7 @@ import SignupSideInfo from '../../components/SignupSideInfo/SignupSideInfo';
 import axios from 'axios';
 
 function Register() {
+  const URL = process.env.REACT_APP_URL;
    const navigate = useNavigate();
    const EMAIL_REGEX = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/;
    const PASSWORD_REGEX = /(?=.*\d)(?=.*[a-z]).{8,}/;
@@ -39,7 +41,7 @@ function Register() {
     try {
       const req = JSON.stringify(data);
       axios
-        .post(`https://287b-119-192-202-235.jp.ngrok.io/members/signup`, req, {
+        .post(URL + `members/signup`, req, {
           headers: { 'Content-Type': `application/json` },
         })
         .then((res) => {
@@ -60,59 +62,119 @@ function Register() {
         <MobileTitle>
           Create your Stack Overflow account. It’s free and only takes a minute.
         </MobileTitle>
-        <Card>
+    
+        <InputDiv>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="form-group">
-              <div className="form-group">
+              <div className="nickname-form">
                 <InputLabel>Display name</InputLabel>
                 <InputText
                   name="nickname"
                   type="text"
+                  error={errors.nickname?.message === undefined ? '' : 'error'}
                   {...nicknameRegister}
-                  className={`form-control ${
-                    errors.nickname ? 'is-invalid' : ''
-                  }`}
+                  
                 />
-                <div className="invalid-feedback">
-                  {errors.nickname?.message}
+                {errors.nickname?.message === undefined ? null : (
+                <div className="error-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    width={24}
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="icons"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                    />
+                  </svg>
                 </div>
+              )} 
+               <div className="invalid-feedback">{errors.nickname?.message}</div>
               </div>
+            
+              <div className="email-form">
               <InputLabel>Email</InputLabel>
               <InputText
                 name="email"
                 type="text"
                 {...emailRegister}
-                className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                error={errors.email?.message === undefined ? '' : 'error'}
               />
-              <div className="invalid-feedback">{errors.email?.message}</div>
-            </div>
+              {errors.email?.message === undefined ? null : (
+              <div className="error-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  width={24}
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  className="icons"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                  />
+                </svg>
+                
+              </div>
+            )}
+            <div className="invalid-feedback">{errors.email?.message}</div>
+          </div>
 
-            <div className="form-group">
+          <div className="password-form">
               <InputLabel>Password</InputLabel>
               <InputText
                 name="password"
                 type="password"
+                error={errors.password?.message === undefined ? '' : 'error'}
                 {...passwordRegister}
-                className={`form-control ${
-                  errors.password ? 'is-invalid' : ''
-                }`}
+                
               />
+              {errors.password?.message === undefined ? null : (
+                <div className="error-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    width={24}
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    stroke="currentColor"
+                    className="icons"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                    />
+                  </svg>
+                  
+                </div>
+              )}
               <div className="invalid-feedback">{errors.password?.message}</div>
             </div>
 
-            <InputButton disabled={isSubmitting} className="btn btn-primary">
+            <InputButton disabled={isSubmitting} >
               {isSubmitting && (
                 <span className="spinner-border spinner-border-sm mr-1"></span>
               )}
               Register
             </InputButton>
           </form>
+      
           <Desc>
             By clicking “Sign up”, you agree to our{' '}
             <span>terms of service, privacy policy</span> and{' '}
             <span>cookie policy</span>
           </Desc>
-        </Card>
+         
+      
+        </InputDiv>
         <LickGroup>
           <p>
             Already have an account?
