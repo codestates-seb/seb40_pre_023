@@ -1,6 +1,8 @@
 package com.seb40pre023.domain.member.service;
 
+import com.seb40pre023.domain.member.dto.MemberDto;
 import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.global.error.exception.BusinessLogicException;
 import com.seb40pre023.global.error.exception.ExceptionCode;
 import com.seb40pre023.domain.member.repository.MemberRepository;
@@ -16,7 +18,7 @@ import java.util.Optional;
 public class MemberService {
 
     private MemberRepository memberRepository;
-    //    private MemberMapper mapper;
+//        private MemberMapper mapper;
     private PasswordEncoder passwordEncoder;
 
     @Autowired

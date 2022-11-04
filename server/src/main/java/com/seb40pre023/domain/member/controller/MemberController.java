@@ -14,8 +14,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 
 
 @RestController
@@ -64,9 +66,10 @@ public class MemberController {
         return new ResponseEntity(new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
 
-    //로그인
-//    @GetMapping("/members/login")
+
+//    @GetMapping("/login/{memberId}")
 //    public ResponseEntity login(@Valid @RequestBody MemberDto.Login loginDto,
+//                                @PathVariable Long memberId,
 //                                HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        Member loginMember = memberService.login(loginDto);
 //

@@ -16,7 +16,6 @@ import javax.validation.constraints.Pattern;
 public class MemberLoginDto {
     @NotBlank
     private String email;
-
     private String password;
     private Member.Roles roles = Member.Roles.MEMBER_ACTIVE;
 }
