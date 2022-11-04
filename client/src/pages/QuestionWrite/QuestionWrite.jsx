@@ -30,11 +30,9 @@ import { postQuestion } from '../../api/api';
 
 import { useRecoilState } from 'recoil';
 import tokenState from '../../_state/tokenState';
-import memberIdState from '../../_state/memberIdState';
 
 const QuestionWrite = () => {
   const navigate = useNavigate();
-  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [token, setToken] = useRecoilState(tokenState);
   const [body, setBody] = useState({
     title: '',
@@ -82,17 +80,12 @@ const QuestionWrite = () => {
       tags: [...body.tags],
     });
 
-    console.log(memberId, postBody, token);
-    postQuestion(memberId, postBody, token)
+    postQuestion(postBody, token)
       .then((res) => {
         navigate('/', { replace: true });
       })
       .catch((error) => alert(`글 작성에 실패하였습니다!🥲`));
   };
-
-  useEffect(() => {
-    console.log(body);
-  }, [body]);
 
   // 설명 박스 등장을 제어함
   const onHelperHandler = useCallback((e) => {

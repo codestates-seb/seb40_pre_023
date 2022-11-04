@@ -31,7 +31,6 @@ import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 
-//TODO: postAnswer로 answerpost 보내야함
 import { getDetail, postAnswer, getMemberInfo } from '../../api/api';
 
 import { useRecoilState } from 'recoil';
@@ -44,10 +43,7 @@ const QuestionDetail = () => {
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [token, setToken] = useRecoilState(tokenState);
 
-  //TODO: 답변 등록시 보낼 memberId, nickname 가져오기
   const [userInfo, setUserInfo] = useState();
-  //TODO: 질문 작성자 아이디와 비교해서 해당 글을 수정할 수 있는지 여부 체크 필요
-  // const [editable, setEditable] = useState(false);
 
   const [data, setData] = useState({});
   const [memeber, setMember] = useState({});
@@ -82,9 +78,9 @@ const QuestionDetail = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const postBody = JSON.stringify({
-      memberId: memberId, //auth 멤버 아이디
+      memberId: memberId,
       questionId: id,
-      nickname: userInfo.nickname, //auth 닉넴
+      nickname: userInfo.nickname,
       content: answerContent,
     });
     postAnswer(postBody, token)
