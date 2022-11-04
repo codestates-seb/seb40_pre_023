@@ -48,8 +48,8 @@ public class QuestionService {
                 .ifPresent(findQuestion::setTitle);
         Optional.ofNullable(question.getContent())
                 .ifPresent(findQuestion::setContent);
-        Optional.ofNullable(question.getTagList())
-                .ifPresent(findQuestion::setTagList);
+        Optional.ofNullable(question.getTags())
+                .ifPresent(findQuestion::setTags);
 
         return findQuestion;
     }
