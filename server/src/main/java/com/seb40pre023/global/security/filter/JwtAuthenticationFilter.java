@@ -1,5 +1,4 @@
 package com.seb40pre023.global.security.filter;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,16 +87,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String jwtToken = JWT.create()
                 .withSubject(principalDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + Jwtsecret.EXPIRATION_TIMES))
+                .withExpiresAt(new Date(System.currentTimeMillis() + Jwtsecret.EXPIRATION_MINUTES))
                 .withClaim("id", principalDetails.getMember().getMemberId())
                 .withClaim("email", principalDetails.getMember().getEmail())
                 .sign(Algorithm.HMAC512(Jwtsecret.SECRET));
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization");
-        response.addHeader(Jwtsecret.HEADER, jwtToken);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader(Jwtsecret.HEADER, "Bearer " + jwtToken);
+
         response.setHeader("content-type", "application/json");
 
 //        response.getWriter().write("success login");
     }
+
+
 }

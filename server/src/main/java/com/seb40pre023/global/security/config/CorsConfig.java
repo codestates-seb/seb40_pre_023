@@ -18,7 +18,8 @@ public class CorsConfig {
         config.addAllowedOriginPattern("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-
+        config.addExposedHeader("Authorization");
+//        config.addAllowedOriginPattern("http://localhost:3001");
 
         source.registerCorsConfiguration("/**", config);
         source.registerCorsConfiguration("/members/**", config);
