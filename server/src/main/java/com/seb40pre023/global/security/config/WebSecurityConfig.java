@@ -16,6 +16,7 @@ import com.seb40pre023.global.security.handler.JwtAuthenticationEntryPoint;
 import com.seb40pre023.global.security.auth.TokenProvider;
 import com.seb40pre023.global.security.handler.JwtAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -84,13 +85,13 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
                 .antMatchers("/members/**").permitAll()
                 .antMatchers("/login").permitAll()
 //                .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/questions/**").permitAll()
                 .antMatchers("/answers/**").permitAll()
                 .antMatchers("/vote/**").permitAll()
-
 
                 .anyRequest().authenticated()
 

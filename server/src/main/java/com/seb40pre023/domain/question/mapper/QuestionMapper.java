@@ -29,7 +29,7 @@ public class QuestionMapper {
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
         question.setText(questionPostDto.getText());
-        question.setTagList(questionPostDto.getTags());
+        question.setTags(questionPostDto.getTags());
 
         return question;
     }
@@ -42,7 +42,7 @@ public class QuestionMapper {
         question.setTitle(questionPatchDto.getTitle());
         question.setContent(questionPatchDto.getContent());
         question.setText(questionPatchDto.getText());
-        question.setTagList(questionPatchDto.getTags());
+        question.setTags(questionPatchDto.getTags());
 
         return question;
     }
@@ -59,7 +59,7 @@ public class QuestionMapper {
                 question.getAnswerList().stream()
                         .map(answerMapper::answerToAnswerResponse)
                         .collect(Collectors.toList()),
-                question.getTagList(),
+                question.getTags(),
                 new QuestionVoteDto.Response(
                         question.getQuestionVote().getVoteId(),
                         question.getQuestionVote().getVoteStatus(),
