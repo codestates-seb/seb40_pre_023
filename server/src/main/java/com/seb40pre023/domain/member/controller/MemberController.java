@@ -44,9 +44,9 @@ public class MemberController {
 
 
     //회원 정보 수정
-    @PatchMapping("/members/edit/{memberId}")
+    @PatchMapping("/members/edit")
     public ResponseEntity patchMember(@Valid @RequestBody MemberDto.Patch requestBody,
-                                      @PathVariable Long memberId) {
+                                      @LoginAccountId Long memberId) {
 
         requestBody.setMemberId(memberId);
 

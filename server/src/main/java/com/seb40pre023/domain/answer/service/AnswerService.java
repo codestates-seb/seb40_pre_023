@@ -33,8 +33,13 @@ public class AnswerService {
     }
 
     // 회원이 질문글에 작성한 답변 수정
-    public Answer updateAnswer(Answer answer) {
+    public Answer updateAnswer(Answer answer, Long memberId) {
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
+
+        if (findAnswer.getMember().getMemberId() != memberId){
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+
         Optional.ofNullable(answer.getContent())
                 .ifPresent(content -> findAnswer.setContent(content));
 
@@ -54,7 +59,13 @@ public class AnswerService {
         return answers;
     }
 
-    public void deleteAnswer(Long answerId) {
+    public void deleteAnswer(Long answerId, Long memberId) {
+
+        Answer findAnswer = findVerifiedAnswer(answerId);
+
+        if (findAnswer.getMember().getMemberId() != memberId){
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
 
         answerRepository.deleteById(answerId);
     }
