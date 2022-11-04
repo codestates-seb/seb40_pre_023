@@ -40,16 +40,32 @@ function App() {
             element={<QuestionSearch />}
           />
           <Route path="/questions/:id" element={<QuestionDetail />} />
-          <Route path="/questions/:id/edit" element={<QuestionEdit />} />
-          <Route path="/questions/ask" element={<QuestionWrite />} />
-          <Route path="/answers/:id/edit" element={<AnswerEdit />} />
+
+          <Route
+            path="/questions/:id/edit"
+            element={<PrivateRoute component={<QuestionEdit />} />}
+          />
+
+          <Route
+            path="/questions/ask"
+            element={<PrivateRoute component={<QuestionWrite />} />}
+          />
+
+          <Route
+            path="/answers/:id/edit"
+            element={<PrivateRoute component={<AnswerEdit />} />}
+          />
           <Route path="/account/register" element={<Register />} />
           <Route path="/account/login" element={<Login />} />
-          <Route path="/account/logout" element={<Logout />} />
+          <Route
+            path="/account/logout"
+            element={<PrivateRoute component={<Logout />} />}
+          />
           <Route
             path="/mypage"
             element={<PrivateRoute component={<MyPage />} />}
           />
+
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
