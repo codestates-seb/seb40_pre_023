@@ -1,6 +1,8 @@
 import axios from 'axios';
 const URL = process.env.REACT_APP_URL;
 
+//filter 기능 구현중 getQuestions로 통일하려했지만 axios 오류가 나는 관게로 그대로둠
+//현재 filter부분에서 쓰고 있음
 export const getData = async () => {
   const response = await axios.get(URL + `/questions?page=1&size=15`, {
     headers: {
@@ -31,6 +33,18 @@ export const getQuestions = async (pageNum, pageSize, keyword) => {
     );
     return response;
   }
+};
+
+export const getVoteFilteredData = async (pageNum = 1, pageSize = 15) => {
+  const response = await axios.get(
+    URL + `/questions?page=${pageNum}&size=${pageSize}&tab=vote`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  return response;
 };
 
 export const getDetail = async (parameter) => {

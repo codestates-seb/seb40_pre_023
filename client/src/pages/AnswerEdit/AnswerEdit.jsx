@@ -47,7 +47,9 @@ const AnswerEdit = () => {
   }, []);
 
   const onSubmit = () => {
-    const jsonBody = JSON.stringify(body);
+    const jsonBody = JSON.stringify({
+      content: body,
+    });
     patchAnswer(id, jsonBody).then((res) => {
       navigate(`/quesitons/${questionId}`, { replace: true });
     });

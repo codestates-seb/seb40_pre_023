@@ -70,8 +70,7 @@ const Header = ({ isSidebar }) => {
     }
   };
   function changeLocation(placeToGo) {
-    navigate(placeToGo, { replace: true });
-    navigate('/');
+    navigate('/', { replace: true });
   }
   return (
     <>
@@ -95,9 +94,9 @@ const Header = ({ isSidebar }) => {
               </svg>
               <span>Questions</span>
             </li>
-            <li>Tags</li>
-            <li>Users</li>
-            <li>Companies</li>
+            <li className="disabled">Tags</li>
+            <li className="disabled">Users</li>
+            <li className="disabled">Companies</li>
           </ul>
         </SideMenu>
       </LayoutContainer>
@@ -116,9 +115,9 @@ const Header = ({ isSidebar }) => {
             <p></p>
           </Logo>
           <MenuNav>
-            <p>About</p>
-            <p>Products</p>
-            <p>For Teams</p>
+            <p className="disabled">About</p>
+            <p className="disabled">Products</p>
+            <p className="disabled">For Teams</p>
           </MenuNav>
           <LoginNav>
             <MobileSearchButton
