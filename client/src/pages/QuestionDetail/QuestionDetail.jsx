@@ -69,9 +69,11 @@ const QuestionDetail = () => {
         setQuestionMember(res.data.member.memberId);
       })
       .then((res) => {
-        getMemberInfo(memberId).then((res) => {
-          setUserInfo(res.data.data);
-        });
+        if (memberId) {
+          getMemberInfo(memberId).then((res) => {
+            setUserInfo(res.data.data);
+          });
+        }
       });
   }, []);
 
