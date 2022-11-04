@@ -46,7 +46,7 @@ const QuestionEdit = () => {
 
   const tagInputRef = useRef();
   const editorRef = useRef();
-  let nextTagId = useRef(tags.length);
+  let nextTagId = useRef();
 
   const navigate = useNavigate();
   const sanitizer = dompurify.sanitize;
@@ -60,9 +60,17 @@ const QuestionEdit = () => {
   }, []);
 
   useEffect(() => {
+    // nextTagId.current = tags.length;
+    console.log(tags);
+    // console.log(nextTagId.current);
+  }, [tags]);
+
+  useEffect(() => {
     getDetail(`/questions/${id}`).then((res) => {
       setTitle(res.data.title);
       setTags(makeTag(res.data.tags));
+      // console.log(tags.length);
+      nextTagId.current = res.data.tags.length;
       setContent(res.data.content);
       document.querySelector('.ql-editor').innerHTML = sanitizer(
         res.data.content
@@ -74,12 +82,13 @@ const QuestionEdit = () => {
     e.preventDefault();
 
     const patchBody = JSON.stringify({
-      questionId: id,
       title: title,
       content: content,
       text: text,
       tags: tags.map((tag) => tag.name),
     });
+
+    console.log(patchBody);
 
     patchQuestion(id, patchBody)
       .then((res) => {
