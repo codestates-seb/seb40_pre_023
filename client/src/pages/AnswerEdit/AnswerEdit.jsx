@@ -19,8 +19,12 @@ import {
 } from './style';
 import { useNavigate, useParams } from 'react-router';
 import { getDetail, patchAnswer } from '../../api/api';
+import { useRecoilState } from 'recoil';
+import tokenState from '../../_state/tokenState';
 
 const AnswerEdit = () => {
+  const [token, setToken] = useRecoilState(tokenState);
+
   const [body, setBody] = useState('');
   const [questionId, setQustionId] = useState('');
   const sanitizer = dompurify.sanitize;
@@ -30,8 +34,6 @@ const AnswerEdit = () => {
   useEffect(() => {
     getDetail(`/answers/${id}`).then((res) => {
       //답변 정보 끌어오기
-      console.log(res.data);
-      console.log(id);
       document.querySelector('.ql-editor').innerHTML = sanitizer(
         res.data.content
       );
@@ -48,17 +50,11 @@ const AnswerEdit = () => {
     });
   }, []);
 
-  useEffect(() => {
-    // console.log(body);
-  }, [body]);
-
   const onSubmit = () => {
     const jsonBody = JSON.stringify({
       content: body,
     });
-    console.log(jsonBody);
-    patchAnswer(id, jsonBody).then((res) => {
-      console.log(res);
+    patchAnswer(id, jsonBody, token).then((res) => {
       navigate(`/quesitons/${questionId}`, { replace: true });
     });
   };

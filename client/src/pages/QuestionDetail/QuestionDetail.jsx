@@ -31,52 +31,69 @@ import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 
-import { useRecoilState } from 'recoil';
-import { authAtom } from '../../_state';
-
 //TODO: postAnswer로 answerpost 보내야함
-import { getDetail, postAnswer } from '../../api/api';
+import { getDetail, postAnswer, getMemberInfo } from '../../api/api';
+
+import { useRecoilState } from 'recoil';
+import isLoginState from '../../_state/isLoginState';
+import tokenState from '../../_state/tokenState';
+import memberIdState from '../../_state/memberIdState';
 
 const QuestionDetail = () => {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [token, setToken] = useRecoilState(tokenState);
+
   //TODO: 답변 등록시 보낼 memberId, nickname 가져오기
-  const [userInfo, setUserInfo] = useRecoilState(authAtom);
+  const [userInfo, setUserInfo] = useState();
   //TODO: 질문 작성자 아이디와 비교해서 해당 글을 수정할 수 있는지 여부 체크 필요
-  const [editable, setEditable] = useState(true);
+  // const [editable, setEditable] = useState(false);
 
   const [data, setData] = useState({});
   const [memeber, setMember] = useState({});
   const [answerList, setAnswerList] = useState([]);
+  const [questionMember, setQuestionMember] = useState();
 
   //html answer 컨텐츠
   const [answerContent, setAnswerContent] = useState('');
   const [isAnswerFit, setIsAnswerFit] = useState(true);
 
   const postBtnRef = useRef();
+  const editorRef = useRef();
   const sanitizer = dompurify.sanitize;
   const location = useLocation();
   const { id } = useParams();
 
   useEffect(() => {
-    getDetail(`${location.pathname}`).then((res) => {
-      setData(res.data);
-      setMember(res.data.member);
-      setAnswerList(res.data.answerList);
-    });
+    getDetail(`${location.pathname}`)
+      .then((res) => {
+        setData(res.data);
+        setMember(res.data.member);
+        setAnswerList(res.data.answerList);
+        setQuestionMember(res.data.member.memberId);
+      })
+      .then((res) => {
+        getMemberInfo(memberId).then((res) => {
+          setUserInfo(res.data.data);
+        });
+      });
   }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
     const postBody = JSON.stringify({
-      memberId: 17, //auth 멤버 아이디
+      memberId: memberId, //auth 멤버 아이디
       questionId: id,
-      nickname: 'username1234', //auth 닉넴
+      nickname: userInfo.nickname, //auth 닉넴
       content: answerContent,
     });
-    console.log(postBody);
-    postAnswer(postBody)
+    postAnswer(postBody, token)
       .then((res) => {
-        // setAnswerList([...answerList, res.data]);
-        console.log(res);
+        setAnswerList([...answerList, res.data]);
+        document.querySelector('.ql-editor').innerHTML = sanitizer('');
+      })
+      .then((res) => {
+        setIsAnswerFit(true);
       })
       .catch((error) => alert(`답변 작성에 실패하였습니다!🥲`));
   };
@@ -141,7 +158,7 @@ const QuestionDetail = () => {
                     createAt={displayCreatedAt(data.createdAt)}
                     modifiedAt={displayCreatedAt(data.modifiedAt)}
                     name={memeber.nickname}
-                    editable={editable}
+                    editable={questionMember === memberId}
                     avatar={memeber.img}
                     itemId={data.questionId}
                   ></QaFooter>
@@ -152,7 +169,7 @@ const QuestionDetail = () => {
                   <AnswerItem
                     key={a.answerId}
                     answer={a}
-                    editable={editable}
+                    editable={a.memberId === memberId}
                   ></AnswerItem>
                 );
               })}
@@ -161,6 +178,7 @@ const QuestionDetail = () => {
                 <EditorContainer className={isAnswerFit ? '' : 'error'}>
                   <ReactQuill
                     theme="snow"
+                    ref={editorRef}
                     modules={editorModules}
                     onChange={(content, delta, source, editor) =>
                       onChange(editor.getHTML(), editor.getText())

@@ -28,9 +28,14 @@ import {
 import Tag from '../../components/Tag/Tag';
 import { postQuestion } from '../../api/api';
 
+import { useRecoilState } from 'recoil';
+import tokenState from '../../_state/tokenState';
+import memberIdState from '../../_state/memberIdState';
+
 const QuestionWrite = () => {
   const navigate = useNavigate();
-  // post 요청으로 보낼 값 에선 introduce + expand -> content로 보내야 함
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [token, setToken] = useRecoilState(tokenState);
   const [body, setBody] = useState({
     title: '',
     intro: '',
@@ -77,7 +82,8 @@ const QuestionWrite = () => {
       tags: [...body.tags],
     });
 
-    postQuestion(postBody)
+    console.log(memberId, postBody, token);
+    postQuestion(memberId, postBody, token)
       .then((res) => {
         navigate('/', { replace: true });
       })

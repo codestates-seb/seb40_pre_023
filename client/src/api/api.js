@@ -53,22 +53,22 @@ export const getDetail = async (parameter) => {
   return response;
 };
 
-export const postAnswer = async (body) => {
+export const postAnswer = async (body, token) => {
   const response = await axios.post(`${URL}/answers`, body, {
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      Authorization: `${token}`,
     },
   });
   return response;
 };
 
-export const postQuestion = async (body) => {
+export const postQuestion = async (memberId, body, token) => {
   //json 형태로 body 받아옴
-  const response = axios.post(`${URL}/questions/ask/1`, body, {
+  const response = axios.post(`${URL}/questions/ask/${memberId}`, body, {
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      Authorization: `${token}`,
     },
   });
   return response;
@@ -118,12 +118,18 @@ export const patchQuestion = async (questionId, body) => {
   return response;
 };
 
-export const patchAnswer = async (answerId, body) => {
+export const patchAnswer = async (answerId, body, token) => {
   //답변 수정하기
   const response = axios.patch(`${URL}/answers/${answerId}/edit`, body, {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `${token}`,
     },
   });
+  return response;
+};
+
+export const getMemberInfo = async (memberId) => {
+  const response = axios.get(`${URL}/members/${memberId}`);
   return response;
 };
