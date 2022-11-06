@@ -25,7 +25,7 @@ import java.util.*;
 public class MemberService {
 
     private MemberRepository memberRepository;
-//    private MemberMapper mapper;
+    //    private MemberMapper mapper;
     private PasswordEncoder passwordEncoder;
     private QuestionRepository questionRepository;
     private AnswerRepository answerRepository;

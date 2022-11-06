@@ -20,7 +20,6 @@ public class CorsConfig {
         config.addAllowedMethod("*");
         config.addExposedHeader("Authorization");
 
-
         source.registerCorsConfiguration("/**", config);
         source.registerCorsConfiguration("/members/**", config);
         return new CorsFilter(source);

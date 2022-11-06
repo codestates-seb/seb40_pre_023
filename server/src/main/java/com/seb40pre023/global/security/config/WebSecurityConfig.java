@@ -16,7 +16,6 @@ import com.seb40pre023.global.security.filter.JwtAuthenticationFilter;
 import com.seb40pre023.global.security.handler.JwtAccessDeniedHandler;
 import com.seb40pre023.global.security.handler.JwtAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,57 +45,58 @@ public class WebSecurityConfig {
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
         this.authenticationConfiguration = authenticationConfiguration;
     }
-        @Bean
-        public PasswordEncoder passwordEncoder () {
-            return new BCryptPasswordEncoder();
-        }
-
-        @Bean
-        public WebSecurityCustomizer webSecurityCustomizer () {
-            return (web) -> web.ignoring().antMatchers("/h2-console/**"
-                    , "/favicon.ico"
-                    , "/error");
-        }
-
-        @Bean
-        public SecurityFilterChain filterChain (HttpSecurity httpSecurity) throws Exception {
-            httpSecurity
-                    .csrf().disable()
-
-                    .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-
-
-                    .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), tokenProvider))
-                    .exceptionHandling()
-                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                    .accessDeniedHandler(jwtAccessDeniedHandler)
-
-                    // enable h2-console
-                    .and()
-                    .headers()
-                    .frameOptions()
-                    .sameOrigin()
-
-                    // 세션을 사용하지 않기 때문에 STATELESS로 설정
-                    .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                    .and()
-                    .authorizeRequests()
-                    .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
-                    .antMatchers("/members/**").permitAll()
-                    .antMatchers("/login").permitAll()
-//                .antMatchers("/api/authenticate").permitAll()
-                    .antMatchers("/questions/**").permitAll()
-                    .antMatchers("/answers/**").permitAll()
-                    .antMatchers("/vote/**").permitAll()
-
-                    .anyRequest().authenticated()
-
-                    .and()
-                    .apply(new JwtSecurityConfig(tokenProvider));
-
-            return httpSecurity.build();
-        }
+    @Bean
+    public PasswordEncoder passwordEncoder () {
+        return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer () {
+        return (web) -> web.ignoring().antMatchers("/h2-console/**"
+                , "/favicon.ico"
+                , "/error");
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain (HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .csrf().disable()
+
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+
+
+                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), tokenProvider))
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+
+                // enable h2-console
+                .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+
+                // 세션을 사용하지 않기 때문에 STATELESS로 설정
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .and()
+                .authorizeRequests()
+                .antMatchers("/members/signup").permitAll()
+                .antMatchers("/members/**").permitAll()
+                .antMatchers("/login").permitAll()
+////                .antMatchers("/api/authenticate").permitAll()
+//                    .antMatchers("/questions/**").permitAll()
+//                    .antMatchers("/answers/**").permitAll()
+//                    .antMatchers("/vote/**").permitAll()
+
+
+                .anyRequest().authenticated()
+
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
+
+        return httpSecurity.build();
+    }
+}
