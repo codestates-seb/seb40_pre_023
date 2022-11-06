@@ -82,6 +82,7 @@ public class MemberController {
         MemberDto.Response response = mapper.memberToMemberResponse(member);
         response.setQuestionList(questions);
         response.setAnswerCount(answerCount);
+
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 

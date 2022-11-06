@@ -14,7 +14,7 @@ server:
 
 spring:
   profiles:
-    include: db, file
+    include: db, file, local
   jpa:
     hibernate:
       naming:
