@@ -47,7 +47,6 @@ const PaginationGroup = ({ page, size, setPage, setSize, totalPage }) => {
         <fieldset>
           <p>
             <input
-              // ref={defaultSize}
               type="radio"
               id="15"
               name="page-size"

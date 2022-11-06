@@ -73,18 +73,16 @@ const Header = ({ isSidebar }) => {
         setUserInfo(res.data.data);
       });
     }
-
     window.addEventListener('click', handleCloseToggle);
   }, []);
 
   const onKeyPress = (e) => {
     if (e.key === 'Enter' && e.target.value.length > 0) {
       navigate(`/search/${e.target.value}/1/5`);
-      inputRef.current.value = '';
     }
   };
 
-  function changeLocation(placeToGo) {
+  function changeLocation() {
     navigate('/', { replace: true });
   }
 

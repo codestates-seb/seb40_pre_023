@@ -16,7 +16,7 @@ const Main = () => {
   const [data, setData] = useState([]);
   const [filtered, setFiltered] = useState(false);
   const [totalPage, setTotalPage] = useState(0);
-  const [totalQuestion, setTotalQustion] = useState(0);
+  const [totalQuestion, setTotalQuestion] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const Main = () => {
         navigate(`/${page}/${size}/votes`);
         setData(res.data.data);
         setTotalPage(res.data.pageInfo.totalPages);
-        setTotalQustion(res.data.pageInfo.totalElements);
+        setTotalQuestion(res.data.pageInfo.totalElements);
         setIsLoading(false);
       });
     } else {
@@ -36,7 +36,7 @@ const Main = () => {
         navigate(`/${page}/${size}`);
         setData(res.data.data);
         setTotalPage(res.data.pageInfo.totalPages);
-        setTotalQustion(res.data.pageInfo.totalElements);
+        setTotalQuestion(res.data.pageInfo.totalElements);
         setIsLoading(false);
       });
     }

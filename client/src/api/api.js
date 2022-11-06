@@ -24,7 +24,8 @@ export const LoginAPI = async (data) => {
 export const getQuestions = async (pageNum, pageSize, keyword) => {
   if (keyword) {
     const response = await axios.get(
-      URL + `questions/search?&q=${keyword}&page=${pageNum}&size=${pageSize}`
+      // URL + `questions/search?&q=${keyword}&page=${pageNum}&size=${pageSize}`
+      URL + `/questions/search?&q=${keyword}&page=${pageNum}&size=${pageSize}`
     );
     return response;
   } else {
