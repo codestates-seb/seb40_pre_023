@@ -112,8 +112,7 @@ public class MemberService {
     }
 
     public List<Question> findQuestions(Long memberId) {
-        return questionRepository.findByMemberMemberId(memberId).orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return questionRepository.findByMemberMemberId(memberId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public int findAnswers(Long memberId) {
