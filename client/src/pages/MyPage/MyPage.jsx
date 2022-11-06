@@ -8,17 +8,19 @@ import { useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
 import Loading from '../../components/Loading/Loading';
 import { InfoAPI } from '../../api/infoapi';
+import tokenState from '../../_state/tokenState';
 
 const MyPage = () => {
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useRecoilState(tokenState);
   // 여기서 api 호출 함수 작성해주세요
   // api 연결전 상단에 isloading true 해주세요
   const [user, setUser] = useState({ data: {} });
 
   useEffect(() => {
     setIsLoading(true);
-    InfoAPI(memberId).then((res) =>{
+    InfoAPI(token).then((res) =>{
       console.log(res.data);
       setUser(res.data);
       setIsLoading(false);

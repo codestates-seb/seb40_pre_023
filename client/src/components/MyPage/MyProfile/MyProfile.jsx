@@ -21,23 +21,23 @@ const MyProfile = ({user}) => {
   const URL = process.env.REACT_APP_URL;
   const [isAbout, setIsAbout] = useState(false);
   const [isPost, setIsPost] = useState(false);
-
+ 
   useEffect(() => {
     
-    if ((user.data.nickname) && (user.data.email)){
+    if ((user.data.about) && (user.data.questionList)){
       setIsAbout(true);
       setIsPost(true);
     }
-    else if ((!user.data.nickname) && (user.data.email)){
+    else if ((!user.data.about) && (user.data.questionList)){
       setIsPost(true);
     }
-    else if ((user.data.nickname) && (!user.data.email)){
+    else if ((user.data.about) && (!user.data.questionList)){
       setIsAbout(true);
     }
 
     },[]);
 
- 
+  
 
   return (
     <Container>
@@ -75,7 +75,7 @@ const MyProfile = ({user}) => {
           <div className="title">About</div>
           <div className="about-content">
             {isAbout ? (
-             <div>{user.data.nickname}</div>
+             <div>{user.data.about}</div>
            
             ) : (
               <>
@@ -95,7 +95,9 @@ const MyProfile = ({user}) => {
           <div className="title">Posts</div>
           <div className="posts-content">
             {isPost ? (
-              <div>{user.data.email}</div>
+              
+            <Link to={`/questions/${user.data.questionList[0].questionId}`}> <div>{user.data.questionList[0].title}</div></Link>
+             
         
             ) : (
               <>
