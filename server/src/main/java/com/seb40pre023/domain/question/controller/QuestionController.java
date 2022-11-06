@@ -105,4 +105,16 @@ public class QuestionController {
         return voteScore;
     }
 
+    @GetMapping("/questions/search")
+    public ResponseEntity searchQuestions(@RequestParam(required = false, defaultValue = "1") int page,
+                                          @RequestParam(required = false, defaultValue = "15") int size,
+                                          @RequestParam(required = false, defaultValue = "questionId") String tab,
+                                          @RequestParam String q) {
+
+        Page<Question> pageQuestions = questionService.searchQuestions(page - 1, size, tab, q);
+        List<Question> questions = pageQuestions.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.questionsToQuestionsResList(questions), pageQuestions), HttpStatus.OK);
+    }
 }
