@@ -1,6 +1,10 @@
 package com.seb40pre023.domain.member.dto;
 
+import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.member.entity.Member;
+import com.seb40pre023.domain.question.dto.QuestionDto;
+import com.seb40pre023.domain.question.dto.QuestionResDto;
+import com.seb40pre023.domain.question.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +12,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 public class MemberDto {
 
@@ -60,7 +65,10 @@ public class MemberDto {
         private String about;
         private String img;
         private Member.Roles roles;
-
+        @Setter
+        private List<QuestionDto.SimpleResponse> questionList;
+        @Setter
+        private Integer answerCount;
     }
 
 }

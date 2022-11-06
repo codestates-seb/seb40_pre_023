@@ -60,4 +60,12 @@ public class QuestionDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class SimpleResponse{
+
+        private Long questionId;
+        private String title;
+    }
 }

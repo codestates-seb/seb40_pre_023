@@ -71,6 +71,11 @@ public class QuestionMapper {
 
         return questionResDto;
     }
+    public QuestionDto.SimpleResponse questionToQuestionSimpleRes(Question question) {
+        return new QuestionDto.SimpleResponse(
+                question.getQuestionId(),
+                question.getTitle());
+    }
 
     public List<QuestionDto.Response> questionsToQuestionsResList(List<Question> questions) {
 
