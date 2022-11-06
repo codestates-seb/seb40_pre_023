@@ -117,7 +117,7 @@ export const Tag = styled.p`
   gap: 2px;
   height: 19px;
   font-size: 12px;
-  padding: 7px;
+  padding: 2px 7px;
   border-radius: 3px;
   background-color: hsl(205, 46%, 92%);
   color: #39739d !important;

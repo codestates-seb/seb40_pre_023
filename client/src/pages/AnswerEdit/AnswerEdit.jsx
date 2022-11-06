@@ -26,6 +26,8 @@ const AnswerEdit = () => {
   const [token, setToken] = useRecoilState(tokenState);
 
   const [body, setBody] = useState('');
+  const [editorError, setEditorError] = useState(false);
+
   const [questionId, setQuestionId] = useState('');
   const sanitizer = dompurify.sanitize;
   const navigate = useNavigate();
@@ -59,6 +61,15 @@ const AnswerEdit = () => {
     });
   };
 
+  const onChangeEditor = (content, text) => {
+    setBody(content);
+    if (text.length <= 20) {
+      setEditorError(true);
+    } else {
+      setEditorError(false);
+    }
+  };
+
   return (
     <>
       <LayoutContainer>
@@ -71,18 +82,21 @@ const AnswerEdit = () => {
               </QuestionViewSec>
               <AnswerEditSec>
                 <h2>Answer</h2>
-                <EditorContainer>
+                <EditorContainer className={editorError ? 'error' : ''}>
                   <ReactQuill
                     theme="snow"
                     modules={editorModules}
                     onChange={(content, delta, source, editor) =>
-                      setBody(editor.getHTML())
+                      onChangeEditor(editor.getHTML(), editor.getText())
                     }
                   />
                 </EditorContainer>
+                <small>Minimum 20 characters.</small>
               </AnswerEditSec>
               <div>
-                <EditBtn onClick={onSubmit}>Save edits</EditBtn>
+                <EditBtn onClick={onSubmit} disabled={editorError}>
+                  Save edits
+                </EditBtn>
                 <CancelBtn
                   onClick={() => {
                     navigate(-1);
