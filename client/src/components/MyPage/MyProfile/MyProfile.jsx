@@ -12,10 +12,33 @@ import {
 } from './style';
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { InfoAPI } from '../../../api/infoapi';
 
-const MyProfile = () => {
+
+const MyProfile = ({user}) => {
+  const URL = process.env.REACT_APP_URL;
   const [isAbout, setIsAbout] = useState(false);
   const [isPost, setIsPost] = useState(false);
+
+  useEffect(() => {
+    
+    if ((user.data.nickname) && (user.data.email)){
+      setIsAbout(true);
+      setIsPost(true);
+    }
+    else if ((!user.data.nickname) && (user.data.email)){
+      setIsPost(true);
+    }
+    else if ((user.data.nickname) && (!user.data.email)){
+      setIsAbout(true);
+    }
+
+    },[]);
+
+ 
+
   return (
     <Container>
       <LContent>
@@ -52,7 +75,8 @@ const MyProfile = () => {
           <div className="title">About</div>
           <div className="about-content">
             {isAbout ? (
-              '자기 소개가 있어요'
+             <div>{user.data.nickname}</div>
+           
             ) : (
               <>
                 <div className="about-txt">
@@ -71,7 +95,8 @@ const MyProfile = () => {
           <div className="title">Posts</div>
           <div className="posts-content">
             {isPost ? (
-              '작성한 게시물이 있어요'
+              <div>{user.data.email}</div>
+        
             ) : (
               <>
                 <svg

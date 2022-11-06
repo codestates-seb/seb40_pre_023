@@ -41,14 +41,14 @@ function Register() {
     try {
       const req = JSON.stringify(data);
       axios
-        .post(URL + `members/signup`, req, {
+        .post(URL + `/members/signup`, req, {
           headers: { 'Content-Type': `application/json` },
         })
         .then((res) => {
-          navigate('/');
+          navigate('/account/login');
           console.log(res);
         });
-    }catch (err) {
+    } catch (err) {
       console.log(err);
     }
   };
