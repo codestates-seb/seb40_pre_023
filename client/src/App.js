@@ -17,16 +17,15 @@ import { useRecoilState } from 'recoil';
 import isLoginState from './_state/isLoginState';
 import { useRecoilValue } from 'recoil';
 import Main from './pages/Main';
-import { authAtom } from './_state/auth';
 import { Register } from './pages/Register/Register';
 
 export { App };
 function App() {
-  const auth = useRecoilValue(authAtom);
+
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   return (
-    <div className={'app-container' + (auth ? ' bg-light' : '')}>
+    <div>
       <BrowserRouter>
         <ScrollToTop />
         <GlobalStyle />

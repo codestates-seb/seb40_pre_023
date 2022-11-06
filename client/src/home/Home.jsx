@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import { authAtom } from '../_state/auth'; 
-
 export { Home };
 
 function Home() {

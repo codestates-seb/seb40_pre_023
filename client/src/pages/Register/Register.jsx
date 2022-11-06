@@ -10,7 +10,6 @@ import {
   InputButton,
   SideContainer,
   MobileTitle,
-  Card,
   Desc,
   LickGroup,
 } from './style';

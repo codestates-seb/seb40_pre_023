@@ -11,7 +11,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../components/Logo';
-import { Cookies } from 'react-cookie';
+
 import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';
 import memberIdState from '../../_state/memberIdState';
@@ -22,7 +22,7 @@ function Login() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [isToken, setIsToken] = useRecoilState(tokenState);
-  const cookies = new Cookies();
+
   const navigate = useNavigate();
   // const URL = process.env.REACT_APP_URL;
   const EMAIL_REGEX =
@@ -75,9 +75,7 @@ function Login() {
               error={errors.email?.message === undefined ? '' : 'error'}
               name="email"
               type="text"
-              defaultValue={
-                cookies.get('user_save_email') && cookies.get('user_save_email')
-              }
+              
               {...emailRegister}
             />
             {errors.email?.message === undefined ? null : (
