@@ -53,6 +53,17 @@ export const getDetail = async (parameter) => {
   return response;
 };
 
+export const getAnswerDetail = async (parameter, token) => {
+  //질문 답변 통용
+  const response = await axios.get(URL + `${parameter}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${token}`,
+    },
+  });
+  return response;
+};
+
 export const postAnswer = async (body, token) => {
   const response = await axios.post(`${URL}/answers`, body, {
     headers: {

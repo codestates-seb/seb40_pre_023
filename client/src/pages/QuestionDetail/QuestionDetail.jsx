@@ -36,6 +36,7 @@ import { getDetail, postAnswer, getMemberInfo } from '../../api/api';
 import { useRecoilState } from 'recoil';
 import tokenState from '../../_state/tokenState';
 import memberIdState from '../../_state/memberIdState';
+import isLoginState from '../../_state/isLoginState';
 import Loading from '../../components/Loading/Loading';
 
 const QuestionDetail = () => {

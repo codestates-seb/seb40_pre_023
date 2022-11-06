@@ -60,7 +60,6 @@ const VoteBtns = ({ votes, questionId, answerId, isLogin, myVoteStatus }) => {
               })
               .catch((err) => alert('투표에 실패하였습니다!😔'));
           } else if (answerId) {
-            console.log('답변 투표중');
             //answerId)가 들어오면 answer patch 요청
             const answerBody = JSON.stringify({
               memberId: memberId,
@@ -68,7 +67,6 @@ const VoteBtns = ({ votes, questionId, answerId, isLogin, myVoteStatus }) => {
             });
             voteAnswer(1, token, answerBody)
               .then((res) => {
-                console.log('투표성공');
                 UpdateDisplayVote('up');
               })
               .catch((err) => alert('투표에 실패하였습니다!😔'));
@@ -86,7 +84,6 @@ const VoteBtns = ({ votes, questionId, answerId, isLogin, myVoteStatus }) => {
               })
               .catch((err) => alert('투표에 실패하였습니다!😔'));
           } else if (answerId) {
-            console.log('답변 투표중');
             //answerId)가 들어오면 answer patch 요청
             const answerBody = JSON.stringify({
               memberId: memberId,
