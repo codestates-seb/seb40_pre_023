@@ -74,36 +74,72 @@ export const postQuestion = async (body, token) => {
   return response;
 };
 
-export const voteAnswer = async (Id, vote) => {
-  //Answer에 투표하기
-  return `${Id} answer의 좋아요 = ${vote}개`;
-};
-
-export const voteQuestion = async (Id, vote) => {
+export const voteQuestion = async (Id, vote, token) => {
   //Question에 투표하기
-  //axios post로 URL+ /questions/${Id}?voteType=${vote} 보내기
   if (vote === 1) {
     try {
       const response = await axios.post(
-        URL + `/questions/vote/${Id}?voteType=1&memberId=7`
+        URL + `/questions/vote/${Id}?voteType=1`,
+        '',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
+        }
       );
-      console.log(response, 'vote success');
       return response;
     } catch (e) {
-      console.log(e, 'vote fail');
-      console.log(Id, vote);
+      return e;
     }
   }
 
   if (vote === -1) {
     try {
       const response = await axios.post(
-        URL + `/questions/vote/${Id}?voteType=2`
+        URL + `/questions/vote/${Id}?voteType=2`,
+        '',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
+        }
       );
-      console.log(response, 'vote success');
       return response;
     } catch (e) {
-      console.log(e, 'vote fail');
+      return e;
+    }
+  }
+};
+
+export const voteAnswer = async (vote, token, body) => {
+  //Answer에 투표하기
+  if (vote === 1) {
+    try {
+      const response = await axios.post(URL + `/answers/vote/2`, body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+      });
+      return response;
+    } catch (e) {
+      return e;
+    }
+  }
+
+  if (vote === -1) {
+    try {
+      const response = await axios.post(URL + `/answers/vote/3`, body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+      });
+      return response;
+    } catch (e) {
+      return e;
     }
   }
 };

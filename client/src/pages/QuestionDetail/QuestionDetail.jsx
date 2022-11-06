@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import Aside from '../../components/Aside/Aside';
@@ -37,9 +37,11 @@ import { useRecoilState } from 'recoil';
 import tokenState from '../../_state/tokenState';
 import memberIdState from '../../_state/memberIdState';
 import Loading from '../../components/Loading/Loading';
+
 const QuestionDetail = () => {
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [token, setToken] = useRecoilState(tokenState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [isLoading, setIsLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
 
@@ -47,6 +49,7 @@ const QuestionDetail = () => {
   const [memeber, setMember] = useState({});
   const [answerList, setAnswerList] = useState([]);
   const [questionMember, setQuestionMember] = useState();
+  const [myVoteStatus, setmyVoteStatus] = useState('');
 
   //html answer 컨텐츠
   const [answerContent, setAnswerContent] = useState('');
@@ -62,6 +65,7 @@ const QuestionDetail = () => {
     setIsLoading(true);
     getDetail(`${location.pathname}`)
       .then((res) => {
+        setmyVoteStatus(res.data.questionVote.voteStatus[memberId]);
         setData(res.data);
         setMember(res.data.member);
         setAnswerList(res.data.answerList);
@@ -79,21 +83,25 @@ const QuestionDetail = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const postBody = JSON.stringify({
-      memberId: memberId,
-      questionId: id,
-      nickname: userInfo.nickname,
-      content: answerContent,
-    });
-    postAnswer(postBody, token)
-      .then((res) => {
-        setAnswerList([...answerList, res.data]);
-        document.querySelector('.ql-editor').innerHTML = sanitizer('');
-      })
-      .then((res) => {
-        setIsAnswerFit(true);
-      })
-      .catch((error) => alert(`답변 작성에 실패하였습니다!🥲`));
+    if (!isLogin) {
+      alert('로그인 이후에 이용하실 수 있습니다🫠');
+    } else {
+      const postBody = JSON.stringify({
+        memberId: memberId,
+        questionId: id,
+        nickname: userInfo.nickname,
+        content: answerContent,
+      });
+      postAnswer(postBody, token)
+        .then((res) => {
+          setAnswerList([...answerList, res.data]);
+          document.querySelector('.ql-editor').innerHTML = sanitizer('');
+        })
+        .then((res) => {
+          setIsAnswerFit(true);
+        })
+        .catch((error) => alert(`답변 작성에 실패하였습니다!🥲`));
+    }
   };
 
   const onChange = (html, text) => {
@@ -140,6 +148,8 @@ const QuestionDetail = () => {
                           : data.questionVote.voteCount
                       }
                       questionId={data.questionId}
+                      isLogin={isLogin}
+                      myVoteStatus={myVoteStatus}
                     ></VoteBtns>
                     <article>
                       <div className="ql-snow">
