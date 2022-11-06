@@ -44,9 +44,17 @@ const QuestionEdit = () => {
   const [content, setContent] = useState();
   const [text, setText] = useState();
 
+  //에러 메세지 관리
+  const [titleError, setTitleError] = useState(false);
+  const [editorError, setEditorError] = useState(false);
+  const [tagError, setTagError] = useState(false);
+
+  let nextTagId = useRef();
   const tagInputRef = useRef();
   const editorRef = useRef();
-  let nextTagId = useRef();
+  const tagMinimumRef = useRef();
+  const tagMaximumRef = useRef();
+  const tagOutBox = useRef();
 
   const navigate = useNavigate();
   const sanitizer = dompurify.sanitize;
@@ -104,6 +112,48 @@ const QuestionEdit = () => {
     }
   };
 
+  const onChangeTitle = (e) => {
+    let isFit = e.target.value.length > 15;
+    setTitle(e.target.value);
+    if (!isFit) {
+      setTitleError(true);
+    } else {
+      setTitleError(false);
+    }
+  };
+
+  const onChangeEditor = (content, text) => {
+    setContent(content);
+    setText(text);
+    if (text.length <= 20) {
+      setEditorError(true);
+    } else {
+      setEditorError(false);
+    }
+  };
+
+  const onTagChange = () => {
+    if (tags.length < 1) {
+      setTagError(true);
+      tagOutBox.current.classList.add('error');
+      tagMinimumRef.current.classList.add('on');
+    } else if (tags.length === 5) {
+      tagOutBox.current.classList.add('error');
+      tagMaximumRef.current.classList.add('on');
+    } else {
+      setTagError(false);
+      if (tagOutBox.current.classList.contains('error')) {
+        tagOutBox.current.classList.remove('error');
+      }
+      if (tagMinimumRef.current.classList.contains('on')) {
+        tagMinimumRef.current.classList.remove('on');
+      }
+      if (tagMaximumRef.current.classList.contains('on')) {
+        tagMaximumRef.current.classList.remove('on');
+      }
+    }
+  };
+
   return (
     <LayoutContainer>
       <EditPageContainer>
@@ -113,28 +163,28 @@ const QuestionEdit = () => {
               <h3>Title</h3>
               <TitleEditInput
                 value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
+                onChange={onChangeTitle}
+                className={titleError ? 'error' : ''}
               ></TitleEditInput>
+              <small>Minimum 15 characters.</small>
             </InputUnit>
             <InputUnit>
               <h3>Body</h3>
-              <EditorContainer>
+              <EditorContainer className={editorError ? 'error' : ''}>
                 <ReactQuill
                   theme="snow"
                   modules={editorModules}
                   ref={editorRef}
                   onChange={(content, delta, source, editor) => {
-                    setContent(editor.getHTML());
-                    setText(editor.getText());
+                    onChangeEditor(editor.getHTML(), editor.getText());
                   }}
                 />
               </EditorContainer>
+              <small>Minimum 20 characters.</small>
             </InputUnit>
             <InputUnit>
               <h3>Tags</h3>
-              <TagsInputGroup htmlFor="tag-input">
+              <TagsInputGroup htmlFor="tag-input" ref={tagOutBox}>
                 {tags.map((t) => {
                   return (
                     <Tag key={t.id} tag={t} tags={tags} setTags={setTags}></Tag>
@@ -148,12 +198,22 @@ const QuestionEdit = () => {
                   ref={tagInputRef}
                   onChange={(e) => {
                     setTag(e.target.value);
+                    onTagChange(e);
                   }}
                   onKeyPress={onKeyPress}
                 ></input>
               </TagsInputGroup>
+              <small ref={tagMinimumRef}>Minimum 1 tag.</small>
+              <small ref={tagMaximumRef}>Maximum 5 tag.</small>
               <div>
-                <EditBtn onClick={onSubmit}>Save edits</EditBtn>
+                <EditBtn
+                  onClick={onSubmit}
+                  disabled={
+                    tags.length === 0 || titleError || editorError || tagError
+                  }
+                >
+                  Save edits
+                </EditBtn>
                 <CancelBtn
                   onClick={() => {
                     navigate(-1);

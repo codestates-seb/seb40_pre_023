@@ -61,6 +61,27 @@ export const TitleEditInput = styled.input`
     outline: 1px solid hsl(206, 90%, 69.5%);
     box-shadow: 0 0 0 4px #d7e5f2;
   }
+
+  & + small {
+    margin-top: 6px;
+    display: none;
+    font-size: 12px;
+    color: #de4f54;
+  }
+
+  &.error {
+    border-color: #de4f54;
+
+    &:focus-visible {
+      border: 1px solid #de4f54;
+      outline: 1px solid #de4f54;
+      box-shadow: 0 0 0 4px rgba(222, 79, 84, 0.2);
+    }
+
+    & + small {
+      display: block;
+    }
+  }
 `;
 
 export const TagsInputGroup = styled.label`
@@ -88,7 +109,7 @@ export const TagsInputGroup = styled.label`
     }
   }
 
-  & + small {
+  & ~ small {
     margin-top: 6px;
     display: none;
     font-size: 12px;
@@ -98,7 +119,7 @@ export const TagsInputGroup = styled.label`
   &.error {
     border-color: #de4f54;
 
-    & + small {
+    & ~ small.on {
       display: block;
     }
   }
