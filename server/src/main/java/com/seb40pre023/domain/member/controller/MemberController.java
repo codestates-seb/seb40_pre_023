@@ -6,7 +6,6 @@ import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.member.mapper.MemberMapper;
 import com.seb40pre023.domain.member.service.MemberService;
 import com.seb40pre023.domain.question.dto.QuestionDto;
-import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.domain.question.mapper.QuestionMapper;
 import com.seb40pre023.global.common.dto.SingleResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -72,8 +70,9 @@ public class MemberController {
         return new ResponseEntity(new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
 
-    @GetMapping("/members/user/{memberId}")
-    public ResponseEntity getMyInfo(@PathVariable Long memberId) {
+    @GetMapping("/members/user")
+    public ResponseEntity getMyInfo(@LoginAccountId Long memberId) {
+
         Member member = memberService.findMember(memberId);
         List<QuestionDto.SimpleResponse> questions = memberService.findQuestions(memberId)
                 .stream().map(question -> questionMapper.questionToQuestionSimpleRes(question)).collect(Collectors.toList());
