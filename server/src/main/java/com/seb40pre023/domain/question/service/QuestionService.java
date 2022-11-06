@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -122,5 +124,16 @@ public class QuestionService {
         questionRepository.save(findQuestion);
 
         return QuestionVoteCalculator.calQuestionVote(findQuestion.getQuestionVote());
+    }
+
+    public Page<Question> searchQuestions(int page, int size, String tab, String q) {
+
+        if (tab.equals("vote")) tab = "questionVote.voteCount";
+//        String[] wordList = word.split("/+");
+
+        Page<Question> questions = questionRepository.findByTitleContaining(q, PageRequest.of(page, size,
+                Sort.by(tab).descending()));
+
+        return questions;
     }
 }
