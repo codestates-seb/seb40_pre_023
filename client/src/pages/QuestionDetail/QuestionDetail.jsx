@@ -34,7 +34,6 @@ import 'highlight.js/styles/stackoverflow-light.css';
 import { getDetail, postAnswer, getMemberInfo } from '../../api/api';
 
 import { useRecoilState } from 'recoil';
-import isLoginState from '../../_state/isLoginState';
 import tokenState from '../../_state/tokenState';
 import memberIdState from '../../_state/memberIdState';
 import Loading from '../../components/Loading/Loading';
@@ -58,7 +57,6 @@ const QuestionDetail = () => {
   const sanitizer = dompurify.sanitize;
   const location = useLocation();
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);

@@ -12,33 +12,24 @@ import {
 } from './style';
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { InfoAPI } from '../../../api/infoapi';
 
-
-const MyProfile = ({user}) => {
+const MyProfile = ({ user }) => {
   const URL = process.env.REACT_APP_URL;
   const [isAbout, setIsAbout] = useState(false);
   const [isPost, setIsPost] = useState(false);
- 
+
   useEffect(() => {
-    
-    if ((user.data.about) && (user.data.questionList)){
+    if (user.data.about && user.data.questionList) {
       setIsAbout(true);
       setIsPost(true);
-    }
-    else if ((!user.data.about) && (user.data.questionList)){
+    } else if (!user.data.about && user.data.questionList) {
       setIsPost(true);
-    }
-    else if ((user.data.about) && (!user.data.questionList)){
+    } else if (user.data.about && !user.data.questionList) {
       setIsAbout(true);
     }
-
-    },[]);
-
-  
-
+  }, []);
+  console.log(user.data);
   return (
     <Container>
       <LContent>
@@ -58,12 +49,16 @@ const MyProfile = ({user}) => {
             </StatTop>
             <StatBottom>
               <StatDiv>
-                <StatNum>0</StatNum>
+                <StatNum>
+                  {user.data.answerCount ? user.data.answerCount : 0}
+                </StatNum>
                 <StatMsg>answers</StatMsg>
               </StatDiv>
 
               <StatDiv>
-                <StatNum>0</StatNum>
+                <StatNum>
+                  {user.data.questionList ? user.data.questionList.length : 0}
+                </StatNum>
                 <StatMsg>questions</StatMsg>
               </StatDiv>
             </StatBottom>
@@ -75,8 +70,7 @@ const MyProfile = ({user}) => {
           <div className="title">About</div>
           <div className="about-content">
             {isAbout ? (
-             <div>{user.data.about}</div>
-           
+              <div>{user.data.about}</div>
             ) : (
               <>
                 <div className="about-txt">
@@ -95,10 +89,22 @@ const MyProfile = ({user}) => {
           <div className="title">Posts</div>
           <div className="posts-content">
             {isPost ? (
-              
-            <Link to={`/questions/${user.data.questionList[0].questionId}`}> <div>{user.data.questionList[0].title}</div></Link>
-             
-        
+              user.data.questionList.map((question, idx) => {
+                return (
+                  <div className="post-item" key={idx}>
+                    <div className="post-idx">{idx + 1} .</div>
+                    <div className="post-title">
+                      <Link
+                        className="post-link"
+                        to={`/question/${question.questionId}`}
+                      >
+                        {question.title}
+                      </Link>
+                    </div>
+                    <div className="post-date">{question.createdAt}</div>
+                  </div>
+                );
+              })
             ) : (
               <>
                 <svg
