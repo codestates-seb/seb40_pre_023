@@ -18,7 +18,7 @@ import {
   CancelBtn,
 } from './style';
 import { useNavigate, useParams } from 'react-router';
-import { getDetail, patchAnswer } from '../../api/api';
+import { getAnswerDetail, getDetail, patchAnswer } from '../../api/api';
 import { useRecoilState } from 'recoil';
 import tokenState from '../../_state/tokenState';
 
@@ -32,13 +32,13 @@ const AnswerEdit = () => {
   let { id } = useParams();
 
   useEffect(() => {
-    getDetail(`/answers/${id}`).then((res) => {
+    getAnswerDetail(`/answers/${id}`, token).then((res) => {
       //답변 정보 끌어오기
       document.querySelector('.ql-editor').innerHTML = sanitizer(
         res.data.content
       );
       setQuestionId(res.data.questionId);
-      //답변 정보에서 질문 아이디 추출해서 질문 정보 끌어오기
+      // //답변 정보에서 질문 아이디 추출해서 질문 정보 끌어오기
       getDetail(`/questions/${res.data.questionId}`).then((res) => {
         document.querySelector('.question-content').innerHTML = sanitizer(
           res.data.content

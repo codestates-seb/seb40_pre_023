@@ -15,7 +15,6 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 const MyProfile = ({ user }) => {
-  const URL = process.env.REACT_APP_URL;
   const [isAbout, setIsAbout] = useState(false);
   const [isPost, setIsPost] = useState(false);
 
@@ -29,7 +28,6 @@ const MyProfile = ({ user }) => {
       setIsAbout(true);
     }
   }, []);
-  console.log(user.data);
   return (
     <Container>
       <LContent>
