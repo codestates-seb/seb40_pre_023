@@ -1,8 +1,10 @@
 import GlobalStyle from './styles/GlobalStyle';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import Main from './pages/Main';
 import Login from './pages/Login/Login';
 import Logout from './pages/Logout/Logout';
+import { Register } from './pages/Register/Register';
 import NotFound from './pages/NotFound/NotFound';
 import MyPage from './pages/MyPage/MyPage';
 import ScrollToTop from './utils/ScrollTop';
@@ -13,17 +15,10 @@ import AnswerEdit from './pages/AnswerEdit/AnswerEdit';
 import PrivateRoute from './utils/PrivateRoute';
 import QuestionSearch from './pages/QuestionSearch/QuestionSearch';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import isLoginState from './_state/isLoginState';
-import { useRecoilValue } from 'recoil';
-import Main from './pages/Main';
-import { Register } from './pages/Register/Register';
 
 export { App };
+
 function App() {
-
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-
   return (
     <div>
       <BrowserRouter>
@@ -38,6 +33,7 @@ function App() {
             path="/search/:keyword/:page/:size"
             element={<QuestionSearch />}
           />
+
           <Route path="/questions/:id" element={<QuestionDetail />} />
 
           <Route
