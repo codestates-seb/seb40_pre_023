@@ -22,7 +22,7 @@
 ## ☎️ team *23#
 team|members
 :---:|:---:
-FE|[김다혜](https://github.com/roin09), [이수련](https://github.com/SuRyeon-Lee), [오경준](SkyRain1225)
+FE|[김다혜](https://github.com/roin09), [이수련](https://github.com/SuRyeon-Lee), [오경준](https://github.com/SkyRain1225)
 BE|[김아리](https://github.com/lielocks), [박민우](https://github.com/paquantum), [홍승재](https://github.com/Grooomit)
 
 <br/>
