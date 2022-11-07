@@ -5,7 +5,6 @@ import com.seb40pre023.domain.member.dto.MemberLoginDto;
 import com.seb40pre023.global.security.auth.Jwtsecret;
 import com.seb40pre023.global.security.auth.PrincipalDetails;
 import com.seb40pre023.global.security.auth.TokenProvider;
-import io.jsonwebtoken.security.Keys;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,8 +30,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
 
     private final TokenProvider tokenProvider;
-
-//    private final JwtTokenizer jwtTokenizer; 생략
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
         this.setFilterProcessesUrl("/login");

@@ -57,13 +57,9 @@ public class TokenProvider implements InitializingBean {
     private Map<String, Object> createClaims(PrincipalDetails principalDetails) {
 
         Map<String, Object> claims = new HashMap<>();
-//        List<String> roleList = principalDetails.getAuthorities().stream()
-//                .map(GrantedAuthority::getAuthority)
-//                .collect(Collectors.toList());
 
         claims.put("memberId", principalDetails.getMember().getMemberId());
         claims.put("email", principalDetails.getMember().getEmail());
-//        claims.put("role", roleList);
         return claims;
     }
 
@@ -74,11 +70,6 @@ public class TokenProvider implements InitializingBean {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
-//        Collection<? extends GrantedAuthority> authorities =
-//                Arrays.stream(claims.get("email").toString().split(","))
-//                        .map(SimpleGrantedAuthority::new)
-//                        .collect(Collectors.toList());
 
         Principal principal = new Principal(Long.valueOf(claims.getSubject()), (String) claims.get("email"));
 

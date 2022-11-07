@@ -1,7 +1,6 @@
 package com.seb40pre023.domain.answervote.entity;
 
 import com.seb40pre023.domain.answer.entity.Answer;
-import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,8 +28,4 @@ public class AnswerVote extends BaseTime {
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
-
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    private Member member;
 }

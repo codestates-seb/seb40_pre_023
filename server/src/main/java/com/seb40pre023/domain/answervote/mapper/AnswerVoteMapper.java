@@ -1,7 +1,5 @@
 package com.seb40pre023.domain.answervote.mapper;
 
-import com.seb40pre023.domain.answer.entity.Answer;
-import com.seb40pre023.domain.answer.service.AnswerService;
 import com.seb40pre023.domain.answervote.dto.AnswerVoteDto;
 import com.seb40pre023.domain.answervote.entity.AnswerVote;
 import com.seb40pre023.domain.member.service.MemberService;

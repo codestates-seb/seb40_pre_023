@@ -2,7 +2,6 @@ package com.seb40pre023.domain.answer.entity;
 
 import com.seb40pre023.domain.answervote.entity.AnswerVote;
 import com.seb40pre023.domain.member.entity.Member;
-import com.seb40pre023.domain.member.repository.MemberRepository;
 import com.seb40pre023.domain.question.entity.Question;
 import com.seb40pre023.global.common.auditing.BaseTime;
 import lombok.*;
@@ -10,7 +9,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @Setter

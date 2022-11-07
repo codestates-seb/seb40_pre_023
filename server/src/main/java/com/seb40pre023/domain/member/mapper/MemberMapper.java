@@ -12,5 +12,6 @@ public interface MemberMapper {
     Member memberPatchToMember(MemberDto.Patch requestBody);
     Member memberLoginToMember(MemberDto.Login loginDto);
     MemberDto.Response memberToMemberResponse(Member member);
+    MemberDto.MyPageResponse memberToMemberInfoResponse(Member member);
 
 }
