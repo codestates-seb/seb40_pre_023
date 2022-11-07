@@ -17,7 +17,7 @@ const MyPage = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   useEffect(() => {
     setIsLoading(true);
-    InfoAPI(token).then((res) => {
+    InfoAPI(memberId, token).then((res) => {
       if (res.status === 404) {
         alert('로그인이 필요한 서비스입니다.');
         setIsLogin(false);

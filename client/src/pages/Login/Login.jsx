@@ -49,7 +49,7 @@ function Login() {
 
   const onSubmit = async (data) => {
     LoginAPI(data).then(async (res) => {
-      console.log(res.status, 'res.status');
+      
       if (res.status === 200) {
         setIsLogin(true);
         setMemberId(res.data);
