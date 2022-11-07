@@ -10,7 +10,7 @@ const PageTitle = ({ title, button }) => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const handleAsk = () => {
-    InfoAPI(token).then((res) => {
+    InfoAPI(memberId, token).then((res) => {
       if (res.status === 404) {
         alert('로그인이 필요한 서비스입니다.');
         setIsLogin(false);

@@ -52,7 +52,7 @@ function Register() {
         })
         .then((res) => {
           navigate('/account/login');
-          console.log(res);
+       
         });
     } catch (err) {
       console.log(err);
