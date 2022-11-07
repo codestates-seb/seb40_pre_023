@@ -45,7 +45,6 @@ public class MemberService {
         verifyExistsEmail(member.getEmail());
         String encryptedPassword = passwordEncoder.encode(member.getPassword()); //패스워드 암호화
         member.setPassword(encryptedPassword); //암호화된 패스워드 password 필드에 다시 할당
-        member.setAbout("test about mock data");
 
         Member savedMember = memberRepository.save(member);
 

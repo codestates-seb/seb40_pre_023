@@ -1,10 +1,7 @@
 package com.seb40pre023.domain.member.dto;
 
-import com.seb40pre023.domain.answer.entity.Answer;
 import com.seb40pre023.domain.member.entity.Member;
 import com.seb40pre023.domain.question.dto.QuestionDto;
-import com.seb40pre023.domain.question.dto.QuestionResDto;
-import com.seb40pre023.domain.question.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +21,7 @@ public class MemberDto {
         private String email;
 
         @NotBlank(message = "비밀번호 입력은 필수입니다.")
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "비밀번호 입력은 필수입니다.")
         private String password;
 
         @NotBlank
@@ -40,10 +38,6 @@ public class MemberDto {
         private String img;
         private String about;
         private Member.Roles roles;
-
-//        public void setMemberId(Long memberId) {
-//            this.setMemberId(memberId);
-//        }
     }
 
     @AllArgsConstructor
@@ -64,7 +58,16 @@ public class MemberDto {
         private String nickname;
         private String about;
         private String img;
-        private Member.Roles roles;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MyPageResponse {
+        private Long memberId;
+        private String email;
+        private String nickname;
+        private String about;
+        private String img;
         @Setter
         private List<QuestionDto.SimpleResponse> questionList;
         @Setter

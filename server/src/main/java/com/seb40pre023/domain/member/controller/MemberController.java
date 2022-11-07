@@ -70,8 +70,8 @@ public class MemberController {
         return new ResponseEntity(new SingleResponseDto<>(mapper.memberToMemberResponse(member)), HttpStatus.OK);
     }
 
-    @GetMapping("/members/user")
-    public ResponseEntity getMyInfo(@LoginAccountId Long memberId) {
+    @GetMapping("/members/user/{memberId}")
+    public ResponseEntity getMyInfo(@PathVariable Long memberId) {
 
         Member member = memberService.findMember(memberId);
         List<QuestionDto.SimpleResponse> questions = memberService.findQuestions(memberId)
@@ -79,23 +79,12 @@ public class MemberController {
 
         int answerCount = memberService.findAnswers(memberId);
 
-        MemberDto.Response response = mapper.memberToMemberResponse(member);
+        MemberDto.MyPageResponse response = mapper.memberToMemberInfoResponse(member);
+
         response.setQuestionList(questions);
         response.setAnswerCount(answerCount);
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
-
-    //로그인
-//    @GetMapping("/members/login")
-//    public ResponseEntity login(@Valid @RequestBody MemberDto.Login loginDto,
-//                                HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        Member loginMember = memberService.login(loginDto);
-//
-////        HttpSession session = request.getSession(true);
-////        session.setAttribute("LOGIN_MEMBER", loginMember);
-//        return new ResponseEntity(new SingleResponseDto<>(mapper.memberLoginToMember(loginDto)), HttpStatus.OK);
-//    }
-
 
     //로그아웃
     @GetMapping("/members/logout")
