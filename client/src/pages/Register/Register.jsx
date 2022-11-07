@@ -52,7 +52,6 @@ function Register() {
         })
         .then((res) => {
           navigate('/account/login');
-       
         });
     } catch (err) {
       console.log(err);
@@ -136,6 +135,7 @@ function Register() {
               <InputText
                 name="password"
                 type="password"
+                placeholder="영문+숫자 포함 8글자(특수문자제외)"
                 error={errors.password?.message === undefined ? '' : 'error'}
                 {...passwordRegister}
               />

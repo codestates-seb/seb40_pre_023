@@ -220,3 +220,13 @@ export const StatMsg = styled.p`
     font-size: 0.8em;
   }
 `;
+
+export const PostContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+  padding: 3em;
+`;
