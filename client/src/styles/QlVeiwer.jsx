@@ -4,7 +4,7 @@ export const QlViewer = styled.pre`
   font-size: 15px;
   line-height: 22px;
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: keep-all;
   white-space: pre-wrap;
   .ql-syntax {
     background-color: hsl(210, 8%, 95%);
@@ -26,6 +26,10 @@ export const QlViewer = styled.pre`
     border-radius: 3px;
     font-size: 85%;
     padding: 2px 4px;
+  }
+
+  pre {
+    overflow: auto !important;
   }
 
   ol,

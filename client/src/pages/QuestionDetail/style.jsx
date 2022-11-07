@@ -10,7 +10,9 @@ export const DetailPageContainer = styled.div`
     margin-left: 164px;
   }
   > main {
-    display: flex;
+    @media screen and (min-width: 1100px) {
+      display: flex;
+    }
   }
 `;
 
@@ -22,7 +24,7 @@ export const QuestionContainer = styled.div`
   border-bottom: 1px solid #e3e6e8;
 
   > article {
-    width: 100%;
+    width: calc(100% - 55px);
     @media screen and (min-width: 1100px) {
       width: calc(100% - 36px);
     }
@@ -93,4 +95,31 @@ export const PostAnswerBtn = styled.button`
   &:hover {
     background-color: hsl(206, 100%, 40%);
   }
+  &:focus {
+    outline: none;
+  }
+  &:disabled {
+    opacity: 0.3;
+  }
+`;
+
+export const TagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 30px 0;
+`;
+
+export const Tag = styled.p`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 19px;
+  font-size: 12px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background-color: hsl(205, 46%, 92%);
+  color: #39739d !important;
+  white-space: nowrap;
 `;

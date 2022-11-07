@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import {
   EditPageContainer,
@@ -20,7 +21,8 @@ import 'react-quill/dist/quill.snow.css';
 import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
-import { qdetail } from '../QuestionDetail/dummy';
+import { patchQuestion, getDetail } from '../../api/api';
+import dompurify from 'dompurify';
 
 const makeTag = (arr) => {
   const tagObjs = [];
@@ -34,17 +36,28 @@ const makeTag = (arr) => {
 };
 
 const QuestionEdit = () => {
-  const defaultTag = makeTag(qdetail.tags);
+  let { id } = useParams();
 
-  const [tags, setTags] = useState(defaultTag);
-  const [title, setTitle] = useState(qdetail.title);
+  const [tags, setTags] = useState([]);
+  const [title, setTitle] = useState('');
   const [tag, setTag] = useState('');
-  const [body, setBody] = useState('');
+  const [content, setContent] = useState();
+  const [text, setText] = useState();
 
+  //에러 메세지 관리
+  const [titleError, setTitleError] = useState(false);
+  const [editorError, setEditorError] = useState(false);
+  const [tagError, setTagError] = useState(false);
+
+  let nextTagId = useRef();
   const tagInputRef = useRef();
   const editorRef = useRef();
-  let nextTagId = useRef(tags.length);
+  const tagMinimumRef = useRef();
+  const tagMaximumRef = useRef();
+  const tagOutBox = useRef();
+
   const navigate = useNavigate();
+  const sanitizer = dompurify.sanitize;
 
   const onTagFocused = useCallback((e) => {
     e.target.closest('label').classList.add('focused');
@@ -55,7 +68,35 @@ const QuestionEdit = () => {
   }, []);
 
   useEffect(() => {
-    document.querySelector('.ql-editor').innerHTML = qdetail.content;
+    getDetail(`/questions/${id}`).then((res) => {
+      setTitle(res.data.title);
+      setTags(makeTag(res.data.tags));
+      nextTagId.current = res.data.tags.length;
+      setContent(res.data.content);
+      document.querySelector('.ql-editor').innerHTML = sanitizer(
+        res.data.content
+      );
+    });
+  }, []);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const patchBody = JSON.stringify({
+      title: title,
+      content: content,
+      text: text,
+      tags: tags.map((tag) => tag.name),
+    });
+
+    patchQuestion(id, patchBody)
+      .then((res) => {
+        navigate(`/questions/${id}`, { replace: true });
+      })
+      .catch((error) => alert(`글 수정에 실패하였습니다!🥲`));
+  };
+
+  useEffect(() => {
     tagInputRef.current.addEventListener('focus', onTagFocused);
     tagInputRef.current.addEventListener('focusout', onTagFocusedOut);
   }, [onTagFocused, onTagFocusedOut]);
@@ -71,6 +112,48 @@ const QuestionEdit = () => {
     }
   };
 
+  const onChangeTitle = (e) => {
+    let isFit = e.target.value.length > 15;
+    setTitle(e.target.value);
+    if (!isFit) {
+      setTitleError(true);
+    } else {
+      setTitleError(false);
+    }
+  };
+
+  const onChangeEditor = (content, text) => {
+    setContent(content);
+    setText(text);
+    if (text.length <= 20) {
+      setEditorError(true);
+    } else {
+      setEditorError(false);
+    }
+  };
+
+  const onTagChange = () => {
+    if (tags.length < 1) {
+      setTagError(true);
+      tagOutBox.current.classList.add('error');
+      tagMinimumRef.current.classList.add('on');
+    } else if (tags.length === 5) {
+      tagOutBox.current.classList.add('error');
+      tagMaximumRef.current.classList.add('on');
+    } else {
+      setTagError(false);
+      if (tagOutBox.current.classList.contains('error')) {
+        tagOutBox.current.classList.remove('error');
+      }
+      if (tagMinimumRef.current.classList.contains('on')) {
+        tagMinimumRef.current.classList.remove('on');
+      }
+      if (tagMaximumRef.current.classList.contains('on')) {
+        tagMaximumRef.current.classList.remove('on');
+      }
+    }
+  };
+
   return (
     <LayoutContainer>
       <EditPageContainer>
@@ -80,27 +163,28 @@ const QuestionEdit = () => {
               <h3>Title</h3>
               <TitleEditInput
                 value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
+                onChange={onChangeTitle}
+                className={titleError ? 'error' : ''}
               ></TitleEditInput>
+              <small>Minimum 15 characters.</small>
             </InputUnit>
             <InputUnit>
               <h3>Body</h3>
-              <EditorContainer>
+              <EditorContainer className={editorError ? 'error' : ''}>
                 <ReactQuill
                   theme="snow"
                   modules={editorModules}
                   ref={editorRef}
-                  onChange={(content, delta, source, editor) =>
-                    setBody(editor.getHTML())
-                  }
+                  onChange={(content, delta, source, editor) => {
+                    onChangeEditor(editor.getHTML(), editor.getText());
+                  }}
                 />
               </EditorContainer>
+              <small>Minimum 20 characters.</small>
             </InputUnit>
             <InputUnit>
               <h3>Tags</h3>
-              <TagsInputGroup htmlFor="tag-input">
+              <TagsInputGroup htmlFor="tag-input" ref={tagOutBox}>
                 {tags.map((t) => {
                   return (
                     <Tag key={t.id} tag={t} tags={tags} setTags={setTags}></Tag>
@@ -114,12 +198,22 @@ const QuestionEdit = () => {
                   ref={tagInputRef}
                   onChange={(e) => {
                     setTag(e.target.value);
+                    onTagChange(e);
                   }}
                   onKeyPress={onKeyPress}
                 ></input>
               </TagsInputGroup>
+              <small ref={tagMinimumRef}>Minimum 1 tag.</small>
+              <small ref={tagMaximumRef}>Maximum 5 tag.</small>
               <div>
-                <EditBtn>Save edits</EditBtn>
+                <EditBtn
+                  onClick={onSubmit}
+                  disabled={
+                    tags.length === 0 || titleError || editorError || tagError
+                  }
+                >
+                  Save edits
+                </EditBtn>
                 <CancelBtn
                   onClick={() => {
                     navigate(-1);

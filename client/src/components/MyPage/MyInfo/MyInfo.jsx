@@ -1,4 +1,3 @@
-import React from 'react';
 import LayoutContainer from '../../../components/LayoutContainer/LayoutContainer';
 import {
   Container,
@@ -8,80 +7,16 @@ import {
   EditMenu,
 } from './style';
 import { Link } from 'react-router-dom';
-const MyInfo = () => {
-  const data = [
-    {
-      createdAt: '2022-10-26T17:00:47.2460054',
-      modifiedAt: '2022-10-26T17:00:47.2460054',
-      questionId: 1,
-      member: {
-        createdAt: '2022-10-26T17:00:47.2460054',
-        modifiedAt: '2022-10-26T17:00:47.2460054',
-        memberId: 1,
-        email: 'hgd1@gmail.com',
-        nickname: 'honggildong',
-        about: '저는 홍길동1입니다.',
-        img: '사진',
-      },
-      vote: '1',
-      answers: '0',
-      views: '0',
-      title:
-        'Test1ffdddsdsdafsddsdadskujfkdlfsghdjfksghkjdsfghkjfdshgkjldsfjfkdsahdskjfadkjsfhsdkjfhdksfjhdhsfjkhfdsfsdakhnfgkjsghdfsjkghjkfdskjghfgdkjlhafjhgjdfskghdfskjghsdkfjghdkfsj',
-      content:
-        '1번째 글입니다djskafhdsjkfhjksdfhjk sddkjdfgh jkdsfghdfkjsghf dkjlghdsfjk hdsjkafhdasjkfhjdsakfhkdsajlfhkdsjalfhskajsdajkhfkfjdslfskadjhdfskaljdskjfhkldasjfhjkdsalfhjksdafhjkkjdsfhjkdasfhkjdlsahfdjksalfhdkjsghfdjksghfdjkshgkjfdshgjkfdshgjkfdshgkjlfsdhgjkfdshgkjdfshgkjlfdshgkjlfdshgkjdfshgjklsdfhhasdkjfhdsakjflhsadjklfhsdshafkjldhsfjklhsdkjldsjkahfkdjsafhdkjsafhksdajlfhdjksfhjklsdkjfhdsakfjlhsadfjkldhskjdsahfjkhdsfajkfhasdkjfhdskjalhfkljfsdahjkfdshajklfdsahkjfhdasksjaflhdshajkfhdsakjlfhdsajklfhjklasfdhjksfhdsjklafhkajsdlhfsjksafnkjdsglkhfdjsgkljdsfgkldshfjkdhsfjkdskjhdsjkghkdjlsfghdfjklsghfdjkslghhdsajklfhdsjakfhdskjdsjkhfjkdashfjkdsahfjkldsahfjkdshfjkldsahfjklsadhfjksdsajkfhdsakjfhsakjdlfhjdksaldshajkfhdsfkjlsdafhnkjsagbsdfjkgbdfsjkghdfsjkgdsfhgkjghsdfaljkhdsajkfhdsjkafhdsjakfhksladfhsdjkdsajklfhsadjklfhksjadlfdsahfjkdshafkjsadhfkjsddsjhfkdsahfkjsdhdshfkjhsdfakjafgbkjhsadgfhjkdasfghjkasdgfjsad.',
-      status: 'unanswered',
-      tags: [
-        {
-          tagId: 1,
-          content: 'java',
-        },
-        {
-          tagId: 2,
-          content: 'javascript',
-        },
-        {
-          tagId: 3,
-          content: 'react',
-        },
-      ],
-    },
-    {
-      createdAt: '2022-10-26T17:00:47.2460054',
-      modifiedAt: '2022-10-26T17:00:47.2460054',
-      questionId: 2,
-      member: {
-        createdAt: '2022-10-26T17:00:47.2460054',
-        modifiedAt: '2022-10-26T17:00:47.2460054',
-        memberId: 2,
-        email: 'hgd2@gmail.com',
-        nickname: 'honggildong223',
-        about: '저는 홍길동2입니다.',
-        img: '사진',
-      },
-      title: 'Test2',
-      content:
-        '2번째 글sadfjksajdfdsafdslkjdlksfjlskdfjklsdjfksdlgjlfasdjhdjksahfsadjklfhsdajklfhsdjkldsjkgfshdfsjkghkfjfjkdghgdksfjlhgfjk입니다.',
-      status: 'unanswered',
-      tags: [
-        {
-          tagId: 1,
-          content: 'java',
-        },
-        {
-          tagId: 2,
-          content: 'javascript',
-        },
-      ],
-    },
-  ];
+import React from 'react';
+
+const MyInfo = ({ user }) => {
   return (
     <LayoutContainer>
       <Container>
         <div className="profile-name">
           <ProfileImg />
           <ProfileInfo>
-            <div className="nickname">SkyRain1225</div>
+            <div className="nickname">{user.data.nickname}</div>
             <ProfileDay>
               <div className="since">
                 <svg
@@ -98,7 +33,7 @@ const MyInfo = () => {
           </ProfileInfo>
         </div>
         <EditMenu>
-          <Link to="/edit" className="Edit">
+          <div className="Edit disabled" disabled>
             <svg
               aria-hidden="true"
               className="icon-edit"
@@ -108,9 +43,9 @@ const MyInfo = () => {
               <path d="m13.68 2.15 2.17 2.17c.2.2.2.51 0 .71L14.5 6.39l-2.88-2.88 1.35-1.36c.2-.2.51-.2.71 0ZM2 13.13l8.5-8.5 2.88 2.88-8.5 8.5H2v-2.88Z"></path>
             </svg>
             <div className="edit-msg">Edit Profile</div>
-          </Link>
+          </div>
 
-          <div className="Network">
+          <div className="Network disabled">
             <svg
               aria-hidden="true"
               className="icon-network"

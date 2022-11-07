@@ -13,10 +13,10 @@ export const Container = styled.div`
     display: flex;
     justify-content: space-between;
   }
-
   > main {
+    width: 100%;
     @media screen and (min-width: 981px) {
-      margin-right: 24px;
+      width: calc(100% - 314px);
     }
   }
 `;

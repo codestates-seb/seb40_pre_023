@@ -1,46 +1,60 @@
 import styled from 'styled-components';
+
 export const Container = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 24px;
+  padding-top: 44px;
   width: 100%;
-  height: calc(100vh - 50px);
+  min-height: 100vh;
   background-color: #f1f2f3;
 `;
 
 export const SideContainer = styled.span`
-  margin: 0px 48px 128px 0px;
-  justify-content: center;
-  align-items: center;
-  width: 411px;
-  height: 285px;
+  display: none;
+  margin-right: 48px;
 
-  h1 {
-    font-size: 27px;
-    margin: 0px 0px 32px;
-    color: var(--fc-dark);
-  }
-
-  @media (max-width: 817px) {
-    h1 {
-      flex-direction: column;
-    }
-
-    @media (max-width: 817px) {
-      display: none;
-    }
+  @media (min-width: 817px) {
+    display: block;
   }
 `;
 
-export const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 316px;
-  height: 934px;
+export const Main = styled.main`
+  max-width: 268px;
+  margin-bottom: -30px;
+`;
+
+export const LickGroup = styled.div`
+  padding: 16px;
+  font-size: 13px;
+  color: #232629;
+  text-align: center;
+
+  p:first-child {
+    margin-bottom: 12px;
+  }
+
+  a {
+    color: #0074cc;
+    margin-left: 5px;
+    &:hover {
+      color: hsl(206, 100%, 52%);
+    }
+  }
+
+  span {
+    color: #0074cc;
+  }
+`;
+
+export const MobileTitle = styled.h1`
+  margin-bottom: 24px;
+  font-size: 19.8px;
+  line-height: 25px;
+  text-align: center;
+  @media (min-width: 817px) {
+    display: none;
+  }
 `;
 
 export const InputDiv = styled.div`
@@ -49,7 +63,7 @@ export const InputDiv = styled.div`
   -webkit-box-pack: justify;
   justify-content: space-between;
   width: 252px;
-  height: 212px;
+
   padding: 24px;
   margin: 24px 0px;
   background-color: white;
@@ -57,6 +71,28 @@ export const InputDiv = styled.div`
   box-shadow: rgb(0 0 0 / 5%) 0px 10px 24px, rgb(0 0 0 / 5%) 0px 20px 48px,
     rgb(0 0 0 / 10%) 0px 1px 4px;
 
+  .email-form,
+  .nickname-form,
+  .password-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    position: relative;
+ 
+    .error-icon {
+      position: absolute;
+      right: 3%;
+      top: 36%;
+      color: #de4f54;
+    }
+    .invalid-feedback {
+      padding-top: 0.5em;
+      padding-left: 0.1em;
+      font-size: 0.8em;
+      font-weight: 400;
+      color: #de4f54;
+    }
+  }
   .error {
     color: #d0393e;
     font-size: 12px;
@@ -68,6 +104,7 @@ export const InputDiv = styled.div`
   }
 `;
 
+
 export const InputLabel = styled.label`
   display: block;
   margin-bottom: 6px;
@@ -78,43 +115,61 @@ export const InputLabel = styled.label`
 `;
 
 export const InputText = styled.input`
-  width: 204px;
-  min-width: 204px;
-  height: 31px;
-  min-height: 31px;
-  border: 1px solid rgb(186, 191, 196);
-  border-radius: 3px;
-  padding-left: 10px;
-  border-color: '#de4f54';
-  box-shadow: '0 0 0 4px #f7e1e1, 0 0 0 4px #f7e1e1';
+width: 238px;
+min-width: 238px;
+height: 31px;
+min-height: 31px;
+border: 1px solid rgb(186, 191, 196);
+border-radius: 3px;
+padding-left: 10px;
+  border-color: ${(props) => (props.error ? '#de4f54' : '')};
+  box-shadow: ${(props) =>
+    props.error ? '0 0 0 4px #f7e1e1, 0 0 0 4px #f7e1e1' : ''};
   &:focus {
     outline: none;
-    border-color: '#de4f54';
+    border-color: ${(props) => (props.error ? '#de4f54' : '#6bbbf7')};
     border-width: 1px;
-    box-shadow: '0 0 0 4px #f7e1e1, 0 0 0 4px #f7e1e1';
+    box-shadow: ${(props) =>
+      props.error
+        ? '0 0 0 4px #f7e1e1, 0 0 0 4px #f7e1e1'
+        : '0 0 0 4px #cce9fe, 0 0 0 4px #cce9fe'};
   }
-  /* box-shadow: ;
-   */
+  .error-icon {
+    color: #d0393e;
+  }
 `;
 
 export const InputButton = styled.button`
   display: flex;
-  -webkit-box-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
   align-items: center;
+
+  width: 100%;
+  height: 35px;
   border-radius: 3px;
   border: 0px;
   padding: 2px 9px;
-  transition: all 0.4s ease 0s;
+  margin-top: 30px;
+
   font-size: 0.85rem;
   color: white;
   background-color: #379fef;
-  width: 100%;
-  height: 35px;
+  transition: all 0.4s ease 0s;
+
   cursor: pointer;
   &:hover {
     background-color: #0074cc;
+  }
+`;
+
+export const Desc = styled.small`
+  display: inline-block;
+  margin-top: 25px;
+  font-size: 11px;
+  color: #6a737c;
+
+  span {
+    color: #0074cc;
   }
 `;
 
@@ -134,4 +189,5 @@ export const SignUp = styled.p`
       color: #379fef;
     }
   }
+  margin-top: 50px;
 `;

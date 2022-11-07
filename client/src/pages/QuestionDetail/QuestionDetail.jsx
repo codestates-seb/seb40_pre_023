@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import Aside from '../../components/Aside/Aside';
@@ -14,6 +15,8 @@ import {
   DetailContents,
   AnswerTitle,
   PostAnswerBtn,
+  TagContainer,
+  Tag,
 } from './style';
 
 //작성한 컨텐츠 보기 위한 스타일
@@ -28,100 +31,188 @@ import { editorModules } from '../../utils/quillSettings';
 import { EditorContainer } from '../../styles/EditorContainer';
 import 'highlight.js/styles/stackoverflow-light.css';
 
-// TODO: 테스트용 더미 데이터 연결후 지워야함
-import { qArticle, aArticle, qdetail } from './dummy';
+import { getDetail, postAnswer, getMemberInfo } from '../../api/api';
 
-//TODO: postAnswer로 answerpost 보내야함
-import { postAnswer } from '../../api/api';
+import { useRecoilState } from 'recoil';
+import tokenState from '../../_state/tokenState';
+import memberIdState from '../../_state/memberIdState';
+import isLoginState from '../../_state/isLoginState';
+import Loading from '../../components/Loading/Loading';
 
 const QuestionDetail = () => {
-  //TODO: 질문 작성자 아이디와 비교해서 해당 글을 수정할 수 있는지 여부 체크 필요
-  const [editable, setEditable] = useState(true);
-  const [data, setData] = useState(qArticle);
-  const [answer, setAnswer] = useState('');
-  const [vote, setVote] = useState(0);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [token, setToken] = useRecoilState(tokenState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState();
+
+  const [data, setData] = useState({});
+  const [memeber, setMember] = useState({});
+  const [answerList, setAnswerList] = useState([]);
+  const [questionMember, setQuestionMember] = useState();
+  const [myVoteStatus, setmyVoteStatus] = useState('');
+
+  //html answer 컨텐츠
+  const [answerContent, setAnswerContent] = useState('');
+  const [isAnswerFit, setIsAnswerFit] = useState(true);
+
+  const postBtnRef = useRef();
   const editorRef = useRef();
-  const questionRef = useRef();
   const sanitizer = dompurify.sanitize;
+  const location = useLocation();
+  const { id } = useParams();
+
+  useEffect(() => {
+    setIsLoading(true);
+    getDetail(`${location.pathname}`)
+      .then((res) => {
+        setmyVoteStatus(res.data.questionVote.voteStatus[memberId]);
+        setData(res.data);
+        setMember(res.data.member);
+        setAnswerList(res.data.answerList);
+        setQuestionMember(res.data.member.memberId);
+      })
+      .then((res) => {
+        if (memberId) {
+          getMemberInfo(memberId).then((res) => {
+            setUserInfo(res.data.data);
+          });
+        }
+        setIsLoading(false);
+      });
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const description = editorRef.current.editor.root.innerHTML;
-    console.log(description);
-    // postAnswer();
+    if (!isLogin) {
+      alert('로그인 이후에 이용하실 수 있습니다🫠');
+    } else {
+      const postBody = JSON.stringify({
+        memberId: memberId,
+        questionId: id,
+        nickname: userInfo.nickname,
+        content: answerContent,
+      });
+      postAnswer(postBody, token)
+        .then((res) => {
+          setAnswerList([...answerList, res.data]);
+          document.querySelector('.ql-editor').innerHTML = sanitizer('');
+        })
+        .then((res) => {
+          setIsAnswerFit(true);
+        })
+        .catch((error) => alert(`답변 작성에 실패하였습니다!🥲`));
+    }
+  };
+
+  const onChange = (html, text) => {
+    setAnswerContent(html);
+    if (text.length > 20) {
+      postBtnRef.current.disabled = false;
+      setIsAnswerFit(true);
+    } else {
+      postBtnRef.current.disabled = true;
+      setIsAnswerFit(false);
+    }
   };
 
   return (
     <>
       <LayoutContainer>
         <DetailPageContainer>
-          <PageTitle title={qdetail.title} button="Ask Question"></PageTitle>
-          <Stamps>
-            <ul>
-              <li>
-                Asked <strong>{displayCreatedAt(qdetail.createdAt)}</strong>
-              </li>
-              <li>
-                Modified <strong>{displayCreatedAt(qdetail.modifiedAt)}</strong>
-              </li>
-              <li>
-                Viewed <strong>3 times</strong>
-              </li>
-            </ul>
-          </Stamps>
-          <main>
-            <DetailContents>
-              <QuestionContainer>
-                <VoteBtns
-                  votes={qdetail.questionVote}
-                  questionId={qdetail.questionId}
-                ></VoteBtns>
-                <article>
-                  <div className="ql-snow">
-                    <QlViewer
-                      ref={questionRef}
-                      dangerouslySetInnerHTML={{ __html: sanitizer(data) }}
-                    />
-                  </div>
-                  <QaFooter
-                    type="question"
-                    createAt={displayCreatedAt(qdetail.createdAt)}
-                    modifiedAt={displayCreatedAt(qdetail.modifiedAt)}
-                    name={qdetail.member.nickname}
-                    editable={editable}
-                    avatar={qdetail.member.img}
-                    itemId={qdetail.questionId}
-                  ></QaFooter>
-                </article>
-              </QuestionContainer>
-              {qdetail.answerList.map((a) => {
-                return (
-                  <AnswerItem
-                    key={a.answerId}
-                    answer={a}
-                    editable={editable}
-                  ></AnswerItem>
-                );
-              })}
-              <form action="submit" onSubmit={onSubmit}>
-                <EditorContainer>
-                  <AnswerTitle>Your Answer</AnswerTitle>
-                  <ReactQuill
-                    theme="snow"
-                    modules={editorModules}
-                    ref={editorRef}
-                    onChange={(content, delta, source, editor) =>
-                      setAnswer(editor.getHTML())
-                    }
-                  />
-                </EditorContainer>
-                <PostAnswerBtn>Post Your Answer</PostAnswerBtn>
-              </form>
-            </DetailContents>
-            <Aside>
-              <Rside></Rside>
-            </Aside>
-          </main>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <PageTitle title={data.title} button="Ask Question"></PageTitle>
+              <Stamps>
+                <ul>
+                  <li>
+                    Asked <strong>{displayCreatedAt(data.createdAt)}</strong>
+                  </li>
+                  <li>
+                    Modified{' '}
+                    <strong>{displayCreatedAt(data.modifiedAt)}</strong>
+                  </li>
+                  <li>
+                    Viewed <strong>{data.views}</strong>
+                  </li>
+                </ul>
+              </Stamps>
+              <main>
+                <DetailContents>
+                  <QuestionContainer>
+                    <VoteBtns
+                      votes={
+                        data.questionVote?.voteCount === undefined
+                          ? 0
+                          : data.questionVote.voteCount
+                      }
+                      questionId={data.questionId}
+                      isLogin={isLogin}
+                      myVoteStatus={myVoteStatus}
+                    ></VoteBtns>
+                    <article>
+                      <div className="ql-snow">
+                        <QlViewer
+                          dangerouslySetInnerHTML={{
+                            __html: sanitizer(data.content),
+                          }}
+                        />
+                      </div>
+                      <TagContainer>
+                        {data.tags
+                          ? data.tags.map((el, idx) => {
+                              return <Tag key={idx}>{el}</Tag>;
+                            })
+                          : ''}
+                      </TagContainer>
+                      <QaFooter
+                        type="question"
+                        createAt={displayCreatedAt(data.createdAt)}
+                        modifiedAt={displayCreatedAt(data.modifiedAt)}
+                        name={memeber.nickname}
+                        editable={questionMember === memberId}
+                        avatar={memeber.img}
+                        itemId={data.questionId}
+                        token={token}
+                      ></QaFooter>
+                    </article>
+                  </QuestionContainer>
+                  {answerList.map((a) => {
+                    return (
+                      <AnswerItem
+                        key={a.answerId}
+                        answer={a}
+                        editable={a.memberId === memberId}
+                        token={token}
+                      ></AnswerItem>
+                    );
+                  })}
+                  <form action="submit" onSubmit={onSubmit}>
+                    <AnswerTitle>Your Answer</AnswerTitle>
+                    <EditorContainer className={isAnswerFit ? '' : 'error'}>
+                      <ReactQuill
+                        theme="snow"
+                        ref={editorRef}
+                        modules={editorModules}
+                        onChange={(content, delta, source, editor) =>
+                          onChange(editor.getHTML(), editor.getText())
+                        }
+                      />
+                    </EditorContainer>
+                    <small>Mimimum 20 characters</small>
+                    <PostAnswerBtn ref={postBtnRef} disabled>
+                      Post Your Answer
+                    </PostAnswerBtn>
+                  </form>
+                </DetailContents>
+                <Aside>
+                  <Rside></Rside>
+                </Aside>
+              </main>
+            </>
+          )}
         </DetailPageContainer>
       </LayoutContainer>
     </>

@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { TagBlock, DeleteBtn } from './style';
 
 const Tag = ({ tag, tags, setTags }) => {

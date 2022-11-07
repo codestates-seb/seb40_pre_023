@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Section, PageLocation, PageSize } from './style';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import { getQuestions } from '../../api/api';
 
-const PaginationGroup = () => {
-  const [pageNum, setPageNum] = useState(1);
-  const [pageSize, setPageSize] = useState('15');
-
-  const handlePage = (page) => setPageNum(page);
+const PaginationGroup = ({ page, size, setPage, setSize, totalPage }) => {
+  const handlePage = (page) => setPage(page);
 
   const handlePaginationClick = (e) => {
     const paginationBtn = e.target.closest('.MuiButtonBase-root');
@@ -20,8 +16,7 @@ const PaginationGroup = () => {
         const regex = /[^0-9]/g;
         const result = nowPage.ariaLabel.replace(regex, '');
         const pageNumber = parseInt(result);
-
-        setPageNum(pageNumber);
+        setPage(pageNumber);
       }
     }
   };
@@ -30,29 +25,21 @@ const PaginationGroup = () => {
     window.addEventListener('click', handlePaginationClick);
   }, []);
 
-  useEffect(() => {
-    getQuestions(pageNum, pageSize).then((res) => {
-      //TODO: 현재 임시로 pageNum과 pageSize를 응답받도록 설정해 놓음 추후, 페이지에 해당하는 데이터 받아야함
-      console.log(res);
-    });
-  }, [pageNum, pageSize]);
-
   const handleChangePageSize = (event) => {
-    setPageSize(event.target.value);
-    setPageNum(1);
+    setSize(event.target.value);
+    setPage(1);
   };
 
   return (
     <Section>
       <PageLocation>
         <Stack spacing={2}>
-          {/* TODO: count에 전체 페이지 수 넣어야 함 */}
           <Pagination
-            count={10}
+            count={totalPage}
             variant="outlined"
             shape="rounded"
             onChange={(event, value) => handlePage(value)}
-            page={pageNum}
+            page={page}
           />
         </Stack>
       </PageLocation>
@@ -64,8 +51,8 @@ const PaginationGroup = () => {
               id="15"
               name="page-size"
               value="15"
-              checked={pageSize === '15'}
               onChange={handleChangePageSize}
+              checked={size === '15'}
             />
             <label htmlFor="15">15</label>
           </p>
@@ -76,6 +63,7 @@ const PaginationGroup = () => {
               name="page-size"
               value="30"
               onChange={handleChangePageSize}
+              checked={size === '30'}
             />
             <label htmlFor="30">30</label>
           </p>
@@ -86,6 +74,7 @@ const PaginationGroup = () => {
               name="page-size"
               value="50"
               onChange={handleChangePageSize}
+              checked={size === '50'}
             />
             <label htmlFor="50">50</label>
           </p>

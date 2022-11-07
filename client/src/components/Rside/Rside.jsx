@@ -1,37 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
 import {
   Container,
-  Sidebar,
   Sidebaryellow,
-  ButtonsContainer,
   IconContainer,
-  RowBox,
-  RowBox2,
-  Boxcontainer,
+  CollectiveItem,
   TextBox,
   CollectButton,
+  ChatIcon,
+  LogoIcon,
+  NumberBadge,
+  SidebarCollective,
+  CollectiveNameGroup,
 } from './style';
 
-export const SideIcons1 = styled.div`
-  background: url(./favicons.png) 0 -6120px;
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
-export const SideIcons2 = styled.div`
-  background: url(./favicons.png) 0 -6156px;
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
-
 const Rside = () => {
-  const sideIcon = (
+  const penIcon = (
     <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14">
       <path d="m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z"></path>
     </svg>
@@ -100,88 +82,96 @@ const Rside = () => {
 
   return (
     <Container>
+      <Sidebaryellow>
+        <header>The Overflow Blog</header>
+        <ul>
+          <li>
+            {penIcon}Goodbye Webpack, hello Turbopack! The big news from today’s
+            Next.JS conference
+          </li>
+          <li>
+            {penIcon}CEO update: Breaking down barriers to unlock innovation
+          </li>
+        </ul>
+        <header>Featured on Meta</header>
+        <ul>
+          <li>
+            <ChatIcon />
+            <span>The 2022 Community-a-thon has begun!</span>
+          </li>
+          <li>
+            <ChatIcon />
+            Mobile app infrastructure being decommissioned
+          </li>
+          <li>
+            <LogoIcon />
+            Staging Ground Workflow: Canned Comments
+          </li>
+          <li>
+            <LogoIcon />
+            The Ask Wizard has graduated
+          </li>
+        </ul>
+        <header>Hot Meta Posts</header>
+        <ul>
+          <li>
+            <NumberBadge>11</NumberBadge>
+            "Opinion based" link should go to the "Don't Ask" page
+          </li>
+          <li>
+            <NumberBadge>5</NumberBadge>
+            Where should we direct new users who post comments as answers?
+          </li>
+        </ul>
+      </Sidebaryellow>
       <div>
-        <Sidebaryellow>
-          <header>The Overflow Blog</header>
-          <ul>
-            <li>
-              {sideIcon}Goodbye Webpack, hello Turbopack! The big news from
-              today’s Next.JS conference
-            </li>
-            <li>
-              {sideIcon}CEO update: Breaking down barriers to unlock innovation
-            </li>
-          </ul>
-          <header>Featured on Meta</header>
-          <ul>
-            <li>
-              <SideIcons1 />
-              The 2022 Community-a-thon has begun!
-            </li>
-            <li>
-              <SideIcons1 />
-              Mobile app infrastructure being decommissioned
-            </li>
-            <li>
-              <SideIcons2 />
-              Staging Ground Workflow: Canned Comments
-            </li>
-            <li>
-              <SideIcons2 />
-              The Ask Wizard has graduated
-            </li>
-          </ul>
-        </Sidebaryellow>
-      </div>
-      <div>
-        <Sidebar>
+        <SidebarCollective>
           <header>Collectives</header>
-          <Boxcontainer>
-            <RowBox>
-              <RowBox2>
-                <IconContainer>{googleIcon}</IconContainer>
-                <div>Google Cloud</div>
-              </RowBox2>
-              <ButtonsContainer>
-                <CollectButton>Join</CollectButton>
-              </ButtonsContainer>
-            </RowBox>
+          <CollectiveItem>
+            <div>
+              <IconContainer>{googleIcon}</IconContainer>
+              <CollectiveNameGroup>
+                <p>Google Cloud</p>
+                <small>31k Members</small>
+              </CollectiveNameGroup>
+              <CollectButton>Join</CollectButton>
+            </div>
             <TextBox>
               Google Cloud provides organizations with leading infrastructure,
               platform capabilities
             </TextBox>
-          </Boxcontainer>
-          <div>
-            <RowBox>
-              <RowBox2>
-                <IconContainer>{intelIcon}</IconContainer>
-                <div>Intel</div>
-              </RowBox2>
-              <ButtonsContainer>
-                <CollectButton>Join</CollectButton>
-              </ButtonsContainer>
-            </RowBox>
+          </CollectiveItem>
+
+          <CollectiveItem>
+            <div>
+              <IconContainer>{intelIcon}</IconContainer>
+              <CollectiveNameGroup>
+                <p>Intel</p>
+                <small>8k Members</small>
+              </CollectiveNameGroup>
+              <CollectButton>Join</CollectButton>
+            </div>
             <TextBox>
               A space for developers to collaborate on Intel software tools,
               libraries, and resources. Share
             </TextBox>
-          </div>
-          <div>
-            <RowBox>
-              <RowBox2>
-                <IconContainer>{wso2Icon}</IconContainer>
-                <div>WSO2</div>
-              </RowBox2>
-              <ButtonsContainer>
-                <CollectButton>Join</CollectButton>
-              </ButtonsContainer>
-            </RowBox>
+          </CollectiveItem>
+
+          <CollectiveItem>
+            <div>
+              <IconContainer>{wso2Icon}</IconContainer>
+              <CollectiveNameGroup>
+                <p>WSO2</p>
+                <small>2k Members</small>
+              </CollectiveNameGroup>
+              <CollectButton>Join</CollectButton>
+            </div>
             <TextBox>
               WSO2 solutions give enterprises the flexibility to deploy
               applications and services on
             </TextBox>
-          </div>
-        </Sidebar>
+          </CollectiveItem>
+        </SidebarCollective>
       </div>
     </Container>
   );

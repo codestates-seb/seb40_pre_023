@@ -1,7 +1,14 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { InputDiv, Icon, Contents } from './style';
 
 const NotFound = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/404');
+  }, []);
+
   return (
     <InputDiv>
       <div>

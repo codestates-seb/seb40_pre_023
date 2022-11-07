@@ -12,10 +12,22 @@ import {
 } from './style';
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 
-const MyProfile = () => {
+const MyProfile = ({ user }) => {
   const [isAbout, setIsAbout] = useState(false);
   const [isPost, setIsPost] = useState(false);
+
+  useEffect(() => {
+    if (user.data.about && user.data.questionList) {
+      setIsAbout(true);
+      setIsPost(true);
+    } else if (!user.data.about && user.data.questionList) {
+      setIsPost(true);
+    } else if (user.data.about && !user.data.questionList) {
+      setIsAbout(true);
+    }
+  }, []);
   return (
     <Container>
       <LContent>
@@ -35,12 +47,16 @@ const MyProfile = () => {
             </StatTop>
             <StatBottom>
               <StatDiv>
-                <StatNum>0</StatNum>
+                <StatNum>
+                  {user.data.answerCount ? user.data.answerCount : 0}
+                </StatNum>
                 <StatMsg>answers</StatMsg>
               </StatDiv>
 
               <StatDiv>
-                <StatNum>0</StatNum>
+                <StatNum>
+                  {user.data.questionList ? user.data.questionList.length : 0}
+                </StatNum>
                 <StatMsg>questions</StatMsg>
               </StatDiv>
             </StatBottom>
@@ -52,7 +68,7 @@ const MyProfile = () => {
           <div className="title">About</div>
           <div className="about-content">
             {isAbout ? (
-              '자기 소개가 있어요'
+              <div>{user.data.about}</div>
             ) : (
               <>
                 <div className="about-txt">
@@ -71,7 +87,22 @@ const MyProfile = () => {
           <div className="title">Posts</div>
           <div className="posts-content">
             {isPost ? (
-              '작성한 게시물이 있어요'
+              user.data.questionList.map((question, idx) => {
+                return (
+                  <div className="post-item" key={idx}>
+                    <div className="post-idx">{idx + 1} .</div>
+                    <div className="post-title">
+                      <Link
+                        className="post-link"
+                        to={`/questions/${question.questionId}`}
+                      >
+                        {question.title}
+                      </Link>
+                    </div>
+                    <div className="post-date">{question.createdAt}</div>
+                  </div>
+                );
+              })
             ) : (
               <>
                 <svg

@@ -4,8 +4,9 @@ export const QList = styled.div`
   width: 100%;
 `;
 
-export const QRightDetail = styled.div``;
-
+export const QRightDetail = styled.div`
+  width: 100%;
+`;
 export const QDetail = styled.div`
   padding: 16px;
   box-sizing: border-box;
@@ -54,7 +55,7 @@ export const QUser = styled.div`
 
 export const QTitle = styled.h2`
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: keep-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -80,7 +81,7 @@ export const QTitle = styled.h2`
 
 export const QContent = styled.p`
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: keep-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -116,6 +117,7 @@ export const Time = styled.p`
 
 export const QInfo = styled.div`
   display: flex;
+  flex-shrink: 0;
   width: 10em;
   align-items: center;
   justify-content: right;
@@ -135,22 +137,23 @@ export const Nickname = styled.p`
 `;
 export const QTagList = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
   box-sizing: border-box;
   margin-top: 0.4em;
   margin-bottom: auto;
 `;
 export const QTag = styled.div`
-  box-sizing: border-box;
+  max-width: 85px;
   padding: 0.4em;
-  margin-right: 0.4em;
-  display: flex;
-  text-align: center;
-  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
   color: #0f6c9a;
   background-color: #e2ecf4;
   font-size: 13px;
   border-radius: 5px;
-  height: 23px;
   cursor: pointer;
   &:hover {
     background-color: #d0e3f1;

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import LayoutContainer from '../../components/LayoutContainer/LayoutContainer';
 import { useNavigate } from 'react-router';
 //에디터 필요모듈
@@ -26,18 +26,24 @@ import {
   TagsInputGroup,
 } from './style';
 import Tag from '../../components/Tag/Tag';
+import { postQuestion } from '../../api/api';
+
+import { useRecoilState } from 'recoil';
+import tokenState from '../../_state/tokenState';
 
 const QuestionWrite = () => {
   const navigate = useNavigate();
-  // post 요청으로 보낼 값 에선 introduce + expand -> content로 보내야 함
+  const [token, setToken] = useRecoilState(tokenState);
   const [body, setBody] = useState({
     title: '',
-    introduce: '',
+    intro: '',
     expand: '',
+    introText: '',
+    expandText: '',
     tags: [],
   });
 
-  // 이전 입력 통과시 클릭 활성화 관리
+  // 이 배열에 타입이 입력되면 그 스텝이 오픈됨
   const [opened, setOpened] = useState(['title']);
 
   //tag 키값 변수
@@ -52,14 +58,37 @@ const QuestionWrite = () => {
   const [introError, setIntroError] = useState(false);
   const [expandError, setExpandError] = useState(false);
 
+  //버튼의 활성화 비활성화를 제어하기 위해 필요
   const titleNextRef = useRef();
   const introNextRef = useRef();
   const expandNextRef = useRef();
   const postRef = useRef();
-  const tagInputRef = useRef();
 
-  //설명 박스 등장을 제어함
-  const onFocusHandler = useCallback((e) => {
+  //태그 포커스, 적합성 테스트에 필요
+  const tagInputRef = useRef();
+  const tagOutBox = useRef();
+  const tagMinimumRef = useRef();
+  const tagMaximumRef = useRef();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const postBody = JSON.stringify({
+      title: body.title,
+      content: `${body.intro}<p><br></p>${body.expand}`,
+      text: `${body.introText}\n${body.expandText}`,
+      tags: [...body.tags],
+    });
+
+    postQuestion(postBody, token)
+      .then((res) => {
+        navigate('/', { replace: true });
+      })
+      .catch((error) => alert(`글 작성에 실패하였습니다!🥲`));
+  };
+
+  // 설명 박스 등장을 제어함
+  const onHelperHandler = useCallback((e) => {
     if (document.activeElement.closest('.helperUnit')) {
       if (document.querySelector('.helperUnit.active')) {
         document.querySelector('.helperUnit.active').classList.remove('active');
@@ -68,71 +97,35 @@ const QuestionWrite = () => {
     }
   }, []);
 
-  //title => intro로 넘어가기
-  const openIntroduce = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOpened([...opened, 'introduce']);
-      e.target.classList.add('remove');
-    },
-    [opened]
-  );
+  // next 버튼 누를시 다음 step 활성화 시키기
+  const openNext = (e, next) => {
+    e.preventDefault();
+    setOpened([...opened, next]);
+    e.target.classList.add('remove');
+  };
 
-  //intro => expand로 넘어가기
-  const openExpand = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOpened([...opened, 'expand']);
-      e.target.classList.add('remove');
-    },
-    [opened]
-  );
-
-  //expand=> tags로 넘어가기
-  const openTags = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOpened([...opened, 'tags']);
-      e.target.classList.add('remove');
-    },
-    [opened]
-  );
-
-  //tags => post 버튼 활성화 시키기
-  const openPost = useCallback(
-    (e) => {
-      e.preventDefault();
-      setOpened([...opened, 'post']);
-      e.target.classList.add('remove');
-    },
-    [opened]
-  );
-
-  const onTagFocused = useCallback((e) => {
+  // 태그 박스에 포커스 효과 제어
+  const onTagFocused = (e) => {
     e.target.closest('label').classList.add('focused');
-  }, []);
-
-  const onTagFocusedOut = useCallback((e) => {
+  };
+  const onTagFocusedOut = (e) => {
     e.target.closest('label').classList.remove('focused');
-  }, []);
+  };
 
   useEffect(() => {
-    window.addEventListener('click', onFocusHandler);
-    titleNextRef.current.addEventListener('click', openIntroduce);
-    introNextRef.current.addEventListener('click', openExpand);
-    expandNextRef.current.addEventListener('click', openTags);
+    window.addEventListener('click', onHelperHandler);
+    titleNextRef.current.addEventListener('click', (e) => {
+      openNext(e, 'introduce');
+    });
+    introNextRef.current.addEventListener('click', (e) => {
+      openNext(e, 'expand');
+    });
+    expandNextRef.current.addEventListener('click', (e) => {
+      openNext(e, 'tags');
+    });
     tagInputRef.current.addEventListener('focus', onTagFocused);
     tagInputRef.current.addEventListener('focusout', onTagFocusedOut);
-  }, [
-    opened,
-    onFocusHandler,
-    openIntroduce,
-    openExpand,
-    openTags,
-    openPost,
-    onTagFocused,
-    onTagFocusedOut,
-  ]);
+  }, [opened]);
 
   useEffect(() => {
     if (tags.length > 0) {
@@ -140,6 +133,16 @@ const QuestionWrite = () => {
     } else {
       postRef.current.disabled = true;
     }
+
+    // 추가 삭제를 위해 객체로 관리하던 tags를 배열로 변경
+    const tagNameArr = tags.map((obj) => {
+      return obj.name;
+    });
+
+    setBody({
+      ...body,
+      tags: [...tagNameArr],
+    });
   }, [tags]);
 
   //title 인풋 변화 인식
@@ -156,8 +159,13 @@ const QuestionWrite = () => {
   };
 
   //introduce 에디터 변화 인식(intro, expand)
-  const onChangeIntro = (description, currentType) => {
-    let isFit = description.length > 20;
+  const onChangeIntro = (htmlStr, text, currentType) => {
+    setBody({
+      ...body,
+      [currentType]: htmlStr,
+      [`${currentType}Text`]: text,
+    });
+    let isFit = text.length > 20;
     let nextBtn;
     let errorSetter;
 
@@ -189,6 +197,35 @@ const QuestionWrite = () => {
       }
     }
   };
+
+  const onTagChange = () => {
+    if (tags.length < 1) {
+      tagOutBox.current.classList.add('error');
+      tagMinimumRef.current.classList.add('on');
+    } else if (tags.length === 5) {
+      tagOutBox.current.classList.add('error');
+      tagMaximumRef.current.classList.add('on');
+    } else {
+      if (tagOutBox.current.classList.contains('error')) {
+        tagOutBox.current.classList.remove('error');
+      }
+      if (tagMinimumRef.current.classList.contains('on')) {
+        tagMinimumRef.current.classList.remove('on');
+      }
+      if (tagMaximumRef.current.classList.contains('on')) {
+        tagMaximumRef.current.classList.remove('on');
+      }
+    }
+  };
+
+  useEffect(() => {
+    onTagChange();
+  }, [tags]);
+
+  useEffect(() => {
+    tagOutBox.current.classList.remove('error');
+    tagMinimumRef.current.classList.remove('on');
+  }, []);
 
   const onDiscard = () => {
     navigate(0);
@@ -227,7 +264,7 @@ const QuestionWrite = () => {
                   <li>Review your question and post it to the site.</li>
                 </ul>
               </Notice>
-              <form>
+              <form onSubmit={onSubmit}>
                 <InputGroup
                   className={
                     opened.indexOf('title') !== -1
@@ -310,7 +347,11 @@ const QuestionWrite = () => {
                         theme="snow"
                         modules={editorModules}
                         onChange={(content, delta, source, editor) =>
-                          onChangeIntro(editor.getHTML(), 'intro')
+                          onChangeIntro(
+                            editor.getHTML(),
+                            editor.getText(),
+                            'intro'
+                          )
                         }
                       />
                     </EditorContainer>
@@ -369,7 +410,11 @@ const QuestionWrite = () => {
                         theme="snow"
                         modules={editorModules}
                         onChange={(content, delta, source, editor) =>
-                          onChangeIntro(editor.getHTML(), 'expand')
+                          onChangeIntro(
+                            editor.getHTML(),
+                            editor.getText(),
+                            'expand'
+                          )
                         }
                       />
                     </EditorContainer>
@@ -420,7 +465,7 @@ const QuestionWrite = () => {
                       Add up to 5 tags to describe what your question is about.
                       Start typing to see suggestions. Minimum 1 tag.
                     </p>
-                    <TagsInputGroup htmlFor="tag-input">
+                    <TagsInputGroup htmlFor="tag-input" ref={tagOutBox}>
                       {tags.map((t) => {
                         return (
                           <Tag
@@ -439,11 +484,13 @@ const QuestionWrite = () => {
                         ref={tagInputRef}
                         onChange={(e) => {
                           setTag(e.target.value);
+                          onTagChange(e);
                         }}
                         onKeyPress={onKeyPress}
                       ></input>
                     </TagsInputGroup>
-                    <small>Minimum 1 tag.</small>
+                    <small ref={tagMinimumRef}>Minimum 1 tag.</small>
+                    <small ref={tagMaximumRef}>Maximum 5 tag.</small>
                   </InputSec>
                 </InputGroup>
                 <div>

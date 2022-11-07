@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Container,
   Categories,
@@ -13,18 +13,18 @@ const Footer = () => {
   const location = useLocation();
   const [needFooter, setNeedFooter] = useState(true);
 
+  const ignorePaths = [
+    '/account/login',
+    '/account/logout',
+    '/account/register',
+    '/ask',
+    '/account',
+    '/404',
+  ];
+
   useEffect(() => {
-    if (
-      location.pathname === '/' ||
-      location.pathname.indexOf('questions') !== -1 ||
-      location.pathname.indexOf('answers') !== -1 ||
-      location.pathname.indexOf('mypage') !== -1
-    ) {
-      setNeedFooter(true);
-    } else {
-      setNeedFooter(false);
-    }
-  }, [location, needFooter]);
+    setNeedFooter(!ignorePaths.includes(location.pathname));
+  }, [location]);
 
   return (
     <Container className={needFooter ? '' : 'remove'}>

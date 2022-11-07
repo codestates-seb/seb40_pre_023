@@ -159,6 +159,7 @@ export const InputText = styled.input`
   padding: 8px 9px;
   border: 1px solid hsl(210, 8%, 75%);
   border-radius: 2px;
+  font-size: 14px;
 
   &:focus-visible {
     border: none;
@@ -293,7 +294,6 @@ export const DiscardBtn = styled.p`
   }
 `;
 
-// TODO: 정리필요(현재 태그 오류 스타일 적용안되고 있음)
 export const TagsInputGroup = styled.label`
   display: flex;
   align-items: center;
@@ -319,7 +319,7 @@ export const TagsInputGroup = styled.label`
     }
   }
 
-  & + small {
+  & ~ small {
     margin-top: 6px;
     display: none;
     font-size: 12px;
@@ -329,7 +329,7 @@ export const TagsInputGroup = styled.label`
   &.error {
     border-color: #de4f54;
 
-    & + small {
+    & ~ small.on {
       display: block;
     }
   }
@@ -342,6 +342,7 @@ export const TagsInputGroup = styled.label`
     padding-left: 0;
     border: none;
     min-width: 250px;
+    font-size: 13px;
 
     &:focus-visible {
       outline: none;
