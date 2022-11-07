@@ -6,7 +6,7 @@
 
 ## 🚀 Visit Website
 
-[배포링크](http://pre-project-023.s3-website.ap-northeast-2.amazonaws.com/1/15)
+[배포링크]()
 
 <br/>
 
@@ -133,7 +133,12 @@ BE|[김아리](https://github.com/lielocks), [박민우](https://github.com/paqu
 
 ### back
 
-* 
+* JWT 토큰으로 회원 인증 및 권한 부여 
+* ERD Diagram으로 테이블 설계 및 연관관계 매핑
+* 질문리스트 조회 및 검색 기능에 페이지네이션 적용
+* Api 응답데이터 구현
+* 질문 생성 수정 및 삭제, 답변 생성 수정 및 삭제, 질문 답변 투표기능
+* 태그 키워드 검색 기능 구현
 
 <br/>
 
@@ -152,5 +157,5 @@ BE|[김아리](https://github.com/lielocks), [박민우](https://github.com/paqu
 category|skills
 :---:|:---:
 Frontend| HTML, CSS, JavaScript, React, Styled Component, Recoil
-Backend| 
+Backend| Java, Spring Boot, H2, My SQL, Spring Security, Spring Data Jpa
 DevOps| AWS EC2, AWS RDS, AWS S3
