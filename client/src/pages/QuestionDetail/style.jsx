@@ -24,7 +24,7 @@ export const QuestionContainer = styled.div`
   border-bottom: 1px solid #e3e6e8;
 
   > article {
-    width: 100%;
+    width: calc(100% - 55px);
     @media screen and (min-width: 1100px) {
       width: calc(100% - 36px);
     }

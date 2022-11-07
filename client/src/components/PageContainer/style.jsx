@@ -16,7 +16,7 @@ export const Container = styled.div`
   > main {
     width: 100%;
     @media screen and (min-width: 981px) {
-      padding-right: 16px;
+      width: calc(100% - 314px);
     }
   }
 `;

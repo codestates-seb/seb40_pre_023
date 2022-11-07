@@ -55,7 +55,7 @@ export const QUser = styled.div`
 
 export const QTitle = styled.h2`
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: keep-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -81,7 +81,7 @@ export const QTitle = styled.h2`
 
 export const QContent = styled.p`
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: keep-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
