@@ -94,7 +94,7 @@ const MyProfile = ({ user }) => {
                     <div className="post-title">
                       <Link
                         className="post-link"
-                        to={`/question/${question.questionId}`}
+                        to={`/questions/${question.questionId}`}
                       >
                         {question.title}
                       </Link>

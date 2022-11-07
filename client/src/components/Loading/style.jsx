@@ -5,6 +5,7 @@ export const Container = styled.div`
   padding-top: 2em;
   justify-content: center;
   align-items: center;
+  height: 45em;
   .lds-ring {
     display: inline-block;
     position: relative;
