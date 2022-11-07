@@ -605,8 +605,7 @@ export const AvatarBlock = styled.p`
   width: 32px;
   height: 32px;
   border-radius: 3px;
-  background-image: ${(props) =>
-    props.img ? `url(${props.img})` : `url(${DefaultAvatar})`};
+  background-image: ${`url(${DefaultAvatar})`};
 `;
 
 export const Lshape = styled.div`

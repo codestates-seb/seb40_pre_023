@@ -15,7 +15,7 @@ export const Header = styled.header`
 `;
 
 export const TitleArea = styled.p`
-  word-break: keep-all;
+  word-break: break-all;
   word-wrap: break-word;
   display: inline-block;
   font-size: 24px;

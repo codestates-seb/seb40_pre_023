@@ -177,8 +177,13 @@ export const patchAnswer = async (answerId, body, token) => {
   return response;
 };
 
-export const getMemberInfo = async (memberId) => {
-  const response = axios.get(`${URL}/members/${memberId}`);
+export const getMemberInfo = async (memberId, token) => {
+  const response = axios.get(`${URL}/members/user/${memberId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${token}`,
+    },
+  });
   return response;
 };
 

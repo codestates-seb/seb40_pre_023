@@ -26,6 +26,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import isLoginState from '../../_state/isLoginState';
 import memberIdState from '../../_state/memberIdState';
+import tokenState from '../../_state/tokenState';
 import { getMemberInfo } from '../../api/api';
 
 const Header = ({ isSidebar }) => {
@@ -42,6 +43,7 @@ const Header = ({ isSidebar }) => {
 
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [memberId, setMemberId] = useRecoilState(memberIdState);
+  const [token, setToken] = useRecoilState(tokenState);
   const [userInfo, setUserInfo] = useState();
 
   const ignorePaths = [
@@ -69,7 +71,7 @@ const Header = ({ isSidebar }) => {
 
   useEffect(() => {
     if (isLogin) {
-      getMemberInfo(memberId).then((res) => {
+      getMemberInfo(memberId, token).then((res) => {
         setUserInfo(res.data.data);
       });
     }
@@ -273,8 +275,12 @@ const Header = ({ isSidebar }) => {
                       <MenuRows>
                         <Row>
                           <div>
-                            <AvatarBlock img={userInfo.img}></AvatarBlock>
-                            <p>{userInfo.nickname}</p>
+                            <AvatarBlock></AvatarBlock>
+                            <p>
+                              {userInfo.nickname
+                                ? userInfo.nickname
+                                : undefined}
+                            </p>
                           </div>
                           <div>
                             <span>
