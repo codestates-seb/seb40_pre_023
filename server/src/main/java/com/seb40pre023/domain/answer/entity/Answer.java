@@ -42,7 +42,7 @@ public class Answer extends BaseTime {
     private Question question;
 
 
-    @OneToMany(mappedBy = "answer", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "answer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<AnswerVote> answerVoteList = new ArrayList<>();
 
     public enum AnswerStatus {
